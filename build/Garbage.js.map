@@ -1,1 +1,0 @@
-{"version":3,"file":"Garbage.js","sourceRoot":"","sources":["../src/Garbage.ts"],"names":[],"mappings":"AAAA,OAAO,aAAa,MAAM,oBAAoB,CAAC;AAE/C,MAAM,CAAC,OAAO,OAAO,OAAQ,SAAQ,aAAa;IAOhD,YAAmB,IAAY,EAAE,IAAY;QAC3C,KAAK,CAAC,2BAA2B,EAAE,IAAI,GAAG,EAAE,EAAE,IAAI,GAAG,EAAE,EAAE,CAAC,CAAC,CAAC;IAC9D,CAAC;CACF"}
