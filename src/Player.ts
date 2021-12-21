@@ -12,7 +12,7 @@ export default class Player extends GameItem {
   /**
    *
    * @param maxX the max value of the X position
-   * @param maxY the max value of the X position
+   * @param maxY the max value of the Y position
    */
   public constructor(maxX: number, maxY: number) {
     super('./assets/img/character_robot_walk0.png', maxX - 76, maxY - 92);

@@ -3,10 +3,13 @@ import Scene from './Scene.js';
 import Player from './Player.js';
 import GameOver from './GameOver.js';
 import LevelUp from './LevelUp.js';
+import House from './House.js';
 
 export default class Level extends Scene {
   // Player
   private player: Player;
+
+  private house: House;
   /**
    * Creates a new instance of this class
    *
@@ -15,6 +18,7 @@ export default class Level extends Scene {
   public constructor(game: Game) {
     super(game);
 
+    this.house = new House(this.game.canvas.width, this.game.canvas.height);
     // Create player
     this.player = new Player(this.game.canvas.width, this.game.canvas.height);
   }
@@ -50,6 +54,9 @@ export default class Level extends Scene {
    *   current scene, just return `null`
    */
   public update(): Scene {
+    if (this.player.isCleaning()) {
+      this.interact();
+    }
 
     // Move to level clear screen
     if (this.hasWon()) {
@@ -71,5 +78,17 @@ export default class Level extends Scene {
     // Clear the screen
     this.game.ctx.clearRect(0, 0, this.game.canvas.width, this.game.canvas.height);
     this.player.draw(this.game.ctx);
+    this.house.draw(this.game.ctx);
   }
+
+  private interact() {
+    // create a new array with garbage item that are still on the screen
+    // (filter the clicked garbage item out of the array garbage items)
+    if (this.player.collidesWith(this.house)) {
+      console.log('INTERACTION :)')
+      return false;
+    }
+    return true;
+  }
+
 }
