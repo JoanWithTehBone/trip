@@ -8,6 +8,9 @@ export default class GameItem {
         this.xPos = maxX;
         this.yPos = maxY;
     }
+    draw(ctx) {
+        ctx.drawImage(this.img, this.xPos, this.yPos);
+    }
     getImageHeight() {
         return this.img.height;
     }
@@ -19,9 +22,6 @@ export default class GameItem {
     }
     getYPos() {
         return this.yPos;
-    }
-    draw(ctx) {
-        ctx.drawImage(this.img, this.xPos, this.yPos);
     }
 }
 //# sourceMappingURL=GameItem.js.map

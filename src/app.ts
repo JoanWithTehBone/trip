@@ -6,8 +6,3 @@ const init = () => new Game(document.getElementById('canvas') as HTMLCanvasEleme
 
 // Add EventListener to load the game whenever the browser is ready
 window.addEventListener('load', init);
-
-
-/**
- * THIS IS JONAHS BRANCH BB
- */
