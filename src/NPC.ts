@@ -6,7 +6,7 @@ export default abstract class NPC extends GameItem {
   protected completed: boolean;
 
   public constructor(imageSrc: string, maxX: number, maxY: number) {
-    super(imageSrc, maxX, maxY) 
+    super(imageSrc, maxX, maxY);
   }
 
   public abstract questCompleted(): boolean;

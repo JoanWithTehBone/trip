@@ -19,6 +19,7 @@ export default class Level extends Scene {
   private blackSmith: BlackSmith;
 
   private hunter: Hunter;
+
   /**
    * Creates a new instance of this class
    *
@@ -110,11 +111,10 @@ export default class Level extends Scene {
     // Show HP
     const hp = `HP: ${this.game.getUser().getHP()}`;
     this.game.writeTextToCanvas(hp, 36, 120, 100);
-    
+
     this.player.draw(this.game.ctx);
     this.baker.draw(this.game.ctx);
     this.blackSmith.draw(this.game.ctx);
     this.hunter.draw(this.game.ctx);
-
   }
 }

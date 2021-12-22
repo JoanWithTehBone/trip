@@ -61,5 +61,4 @@ export default class DialogueBox extends Scene {
   public render(): void {
     throw new Error('Method not implemented.');
   }
-
 }

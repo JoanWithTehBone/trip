@@ -5,14 +5,12 @@ export default class UserData {
 
   private level: number;
 
-  // Variables for the player stats: 
+  // Variables for the player stats:
   private hp: number;
 
   private atk: number;
 
-  private def: number; 
-
-
+  private def: number;
 
   /**
    * Creates a new instance of this class
@@ -85,7 +83,7 @@ export default class UserData {
    *
    * @returns the hp
    */
-   public getHP(): number {
+  public getHP(): number {
     return this.hp;
   }
 
@@ -121,10 +119,9 @@ export default class UserData {
    *
    * @returns the def
    */
-   public getDEF(): number {
+  public getDEF(): number {
     return this.def;
   }
-
 
   /**
    * setDEF

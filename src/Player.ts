@@ -20,10 +20,13 @@ export default class Player extends GameItem {
   private keyboard: KeyListener;
 
   /**
-   * Initilize Player
+   * Initialize Player
+   *
+   * @param xPos xPosition of the player
+   * @param yPos yPostition of the player
    */
-  public constructor() {
-    super('./assets/img/character_robot_walk0.png', 720, 700);
+  public constructor(xPos: number, yPos: number) {
+    super('./assets/img/character_robot_walk0.png', xPos, yPos);
     this.xVel = 3;
     this.yVel = 3;
     this.keyboard = new KeyListener();
@@ -100,7 +103,7 @@ export default class Player extends GameItem {
       && this.yPos + this.img.height > other.getYPos();
   }
 
-  public interactWithBaker() {
+  public interactWithBaker(): boolean {
     // create a new array with garbage item that are still on the screen
     // (filter the clicked garbage item out of the array garbage items)
     if (this.collidesWith(this.baker)) {
@@ -110,25 +113,26 @@ export default class Player extends GameItem {
     return true;
   }
 
-  public interactWithBlackSmith() {
+  public interactWithBlackSmith(): boolean {
     // create a new array with garbage item that are still on the screen
     // (filter the clicked garbage item out of the array garbage items)
     if (this.collidesWith(this.blackSmith)) {
-      console.log('INTERACTION WITH THE BLACKSMITH:)')
+      console.log('INTERACTION WITH THE BLACKSMITH:)');
       return false;
     }
     return true;
   }
 
-  public interactWithHunter() {
+  public interactWithHunter(): boolean {
     // create a new array with garbage item that are still on the screen
     // (filter the clicked garbage item out of the array garbage items)
     if (this.collidesWith(this.hunter)) {
-      console.log('INTERACTION WITH THE HUNTER:)')
+      console.log('INTERACTION WITH THE HUNTER:)');
       return false;
     }
     return true;
   }
+
   /**
    * Increases the speed
    *
