@@ -83,10 +83,10 @@ export default class Player extends GameItem {
    * @returns true if this object collides with the specified other object
    */
   public collidesWith(other: GameItem): boolean {
-    return this.xPos < other.getXPos() + other.getImageWidth() + 10
-    && this.xPos + this.img.width + 10 > other.getXPos()
-    && this.yPos < other.getYPos() + other.getImageHeight() + 10
-    && this.yPos + this.img.height + 10 > other.getYPos();
+    return this.xPos < other.getXPos() + other.getImageWidth()
+    && this.xPos + this.img.width > other.getXPos()
+    && this.yPos < other.getYPos() + other.getImageHeight()
+    && this.yPos + this.img.height > other.getYPos();
   }
 
   /**
