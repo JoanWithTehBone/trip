@@ -1,24 +1,35 @@
 import GameItem from './GameItem.js';
 import KeyListener from './KeyListener.js';
+import Hunter from './Hunter.js';
+import BlackSmith from './BlackSmith.js';
+import Baker from './Baker.js';
+import NPC from './NPC.js';
 
 export default class Player extends GameItem {
   private xVel: number;
 
   private yVel: number;
 
+  private baker: Baker;
+
+  private blackSmith: BlackSmith;
+
+  private hunter: Hunter;
+
   // KeyboardListener so the player can move
   private keyboard: KeyListener;
 
   /**
-   *
-   * @param maxX the max value of the X position
-   * @param maxY the max value of the X position
+   * Initilize Player
    */
-  public constructor(maxX: number, maxY: number) {
-    super('./assets/img/character_robot_walk0.png', maxX - 76, maxY - 92);
+  public constructor() {
+    super('./assets/img/character_robot_walk0.png', 720, 700);
     this.xVel = 3;
     this.yVel = 3;
     this.keyboard = new KeyListener();
+    this.baker = new Baker();
+    this.blackSmith = new BlackSmith();
+    this.hunter = new Hunter();
   }
 
   /**
@@ -82,19 +93,48 @@ export default class Player extends GameItem {
    * @param other the other GameItem
    * @returns true if this object collides with the specified other object
    */
-  public collidesWith(other: GameItem): boolean {
+  public collidesWith(other: NPC): boolean {
     return this.xPos < other.getXPos() + other.getImageWidth()
-    && this.xPos + this.img.width > other.getXPos()
-    && this.yPos < other.getYPos() + other.getImageHeight()
-    && this.yPos + this.img.height > other.getYPos();
+      && this.xPos + this.img.width > other.getXPos()
+      && this.yPos < other.getYPos() + other.getImageHeight()
+      && this.yPos + this.img.height > other.getYPos();
   }
 
+  public interactWithBaker() {
+    // create a new array with garbage item that are still on the screen
+    // (filter the clicked garbage item out of the array garbage items)
+    if (this.collidesWith(this.baker)) {
+      console.log('INTERACTION WITH THE BAKER:)')
+      return false;
+    }
+    return true;
+  }
+
+  public interactWithBlackSmith() {
+    // create a new array with garbage item that are still on the screen
+    // (filter the clicked garbage item out of the array garbage items)
+    if (this.collidesWith(this.blackSmith)) {
+      console.log('INTERACTION WITH THE BLACKSMITH:)')
+      return false;
+    }
+    return true;
+  }
+
+  public interactWithHunter() {
+    // create a new array with garbage item that are still on the screen
+    // (filter the clicked garbage item out of the array garbage items)
+    if (this.collidesWith(this.hunter)) {
+      console.log('INTERACTION WITH THE HUNTER:)')
+      return false;
+    }
+    return true;
+  }
   /**
    * Increases the speed
    *
    * @param size the amount of speed to add
    */
-  increaseSpeed(size: number): void {
+  public increaseSpeed(size: number): void {
     this.xVel += size;
     this.yVel += size;
   }
