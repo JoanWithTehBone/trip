@@ -7,10 +7,12 @@ import BlackSmith from './BlackSmith.js';
 import Hunter from './Hunter.js';
 export default class Level extends Scene {
     player;
+    dialogueBox;
     baker;
     blackSmith;
     hunter;
-    constructor(game) {
+
+  constructor(game) {
         super(game);
         this.baker = new Baker();
         this.blackSmith = new BlackSmith();
@@ -44,6 +46,7 @@ export default class Level extends Scene {
     }
     render() {
         this.game.ctx.clearRect(0, 0, this.game.canvas.width, this.game.canvas.height);
+        this.game.ctx.fillRect(this.game.canvas.width / 2 - 250, (this.game.canvas.height / 5) * 3.5, 500, 200);
         const score = `Score: ${this.game.getUser().getScore()}`;
         this.game.writeTextToCanvas(score, 36, 120, 50);
         const hp = `HP: ${this.game.getUser().getHP()}`;
