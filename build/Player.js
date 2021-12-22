@@ -11,7 +11,7 @@ export default class Player extends GameItem {
     hunter;
     keyboard;
     constructor() {
-        super('./assets/img/character_robot_walk0.png', 720, 700);
+        super('./assets/img/player.png', 720, 700);
         this.xVel = 3;
         this.yVel = 3;
         this.keyboard = new KeyListener();

@@ -23,7 +23,7 @@ export default class Player extends GameItem {
    * Initilize Player
    */
   public constructor() {
-    super('./assets/img/character_robot_walk0.png', 720, 700);
+    super('./assets/img/player.png', 720, 700);
     this.xVel = 3;
     this.yVel = 3;
     this.keyboard = new KeyListener();
@@ -100,7 +100,7 @@ export default class Player extends GameItem {
       && this.yPos + this.img.height > other.getYPos();
   }
 
-  public interactWithBaker() {
+  public interactWithBaker() : boolean{
     // create a new array with garbage item that are still on the screen
     // (filter the clicked garbage item out of the array garbage items)
     if (this.collidesWith(this.baker)) {
@@ -110,7 +110,7 @@ export default class Player extends GameItem {
     return true;
   }
 
-  public interactWithBlackSmith() {
+  public interactWithBlackSmith() : boolean {
     // create a new array with garbage item that are still on the screen
     // (filter the clicked garbage item out of the array garbage items)
     if (this.collidesWith(this.blackSmith)) {
@@ -120,7 +120,7 @@ export default class Player extends GameItem {
     return true;
   }
 
-  public interactWithHunter() {
+  public interactWithHunter() : boolean {
     // create a new array with garbage item that are still on the screen
     // (filter the clicked garbage item out of the array garbage items)
     if (this.collidesWith(this.hunter)) {
