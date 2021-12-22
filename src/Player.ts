@@ -84,7 +84,7 @@ export default class Player extends GameItem {
    *
    * @returns true if the player is cleaning up
    */
-  public isCleaning(): boolean {
+   public isCleaning(): boolean {
     return this.keyboard.isKeyDown(KeyListener.KEY_SPACE);
   }
 
@@ -129,6 +129,7 @@ export default class Player extends GameItem {
     }
     return true;
   }
+
 
   /**
    * Increases the speed

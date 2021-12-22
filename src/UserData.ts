@@ -13,6 +13,7 @@ export default class UserData {
   private def: number; 
 
 
+
   /**
    * Creates a new instance of this class
    */
@@ -78,7 +79,7 @@ export default class UserData {
   public increaseLevel(): void {
     this.level += 1;
   }
-  
+
   /**
    * gethp
    *
@@ -87,7 +88,7 @@ export default class UserData {
    public getHP(): number {
     return this.hp;
   }
-  
+
   /**
    * sethp
    *
@@ -96,7 +97,7 @@ export default class UserData {
   public setHP(hp: number): void {
     this.hp = hp;
   }
-  
+
   /**
    * getATK
    *
@@ -105,7 +106,7 @@ export default class UserData {
   public getATK(): number {
     return this.atk;
   }
-  
+
   /**
    * setATK
    *
@@ -114,7 +115,7 @@ export default class UserData {
   public setATK(atk: number): void {
     this.atk = atk;
   }
-  
+
   /**
    * getDEF
    *
@@ -123,7 +124,8 @@ export default class UserData {
    public getDEF(): number {
     return this.def;
   }
-  
+
+
   /**
    * setDEF
    *
