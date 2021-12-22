@@ -96,6 +96,9 @@ export default class Level extends Scene {
     // Show score
     const score = `Score: ${this.game.getUser().getScore()}`;
     this.game.writeTextToCanvas(score, 36, 120, 50);
+    // Show HP
+    const hp = `HP: ${this.game.getUser().getHP()}`;
+    this.game.writeTextToCanvas(hp, 36, 120, 100);
 
     this.player.draw(this.game.ctx);
     this.baker.draw(this.game.ctx);
