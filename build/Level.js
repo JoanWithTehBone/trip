@@ -11,13 +11,14 @@ export default class Level extends Scene {
     baker;
     blackSmith;
     hunter;
-
-  constructor(game) {
+    keyboard;
+    constructor(game) {
         super(game);
         this.baker = new Baker();
         this.blackSmith = new BlackSmith();
-        this.hunter = new Hunter();
-        this.player = new Player();
+        this.hunter = new Hunter(game);
+        this.player = new Player(game.canvas.width / 2, game.canvas.height / 2, game);
+        this.keyboard = this.player.getKeys();
     }
     hasWon() {
         const user = this.game.getUser();
@@ -27,13 +28,10 @@ export default class Level extends Scene {
         this.player.move(this.game.canvas);
     }
     update() {
-        if (this.player.isCleaning()) {
-            this.player.interactWithBaker();
-        }
-        if (this.player.isCleaning()) {
-            this.player.interactWithBlackSmith();
-        }
-        if (this.player.isCleaning()) {
+        this.keyboard.onFrameStart();
+        this.player.interactWithBaker();
+        this.player.interactWithBlackSmith();
+        if (this.player.isPressing()) {
             this.player.interactWithHunter();
         }
         if (this.hasWon()) {
@@ -47,6 +45,13 @@ export default class Level extends Scene {
     render() {
         this.game.ctx.clearRect(0, 0, this.game.canvas.width, this.game.canvas.height);
         this.game.ctx.fillRect(this.game.canvas.width / 2 - 250, (this.game.canvas.height / 5) * 3.5, 500, 200);
+        this.player.draw(this.game.ctx);
+        this.baker.draw(this.game.ctx);
+        this.blackSmith.draw(this.game.ctx);
+        this.hunter.draw(this.game.ctx);
+        this.interact();
+    }
+    interact() {
         const score = `Score: ${this.game.getUser().getScore()}`;
         this.game.writeTextToCanvas(score, 36, 120, 50);
         const hp = `HP: ${this.game.getUser().getHP()}`;

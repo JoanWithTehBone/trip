@@ -114,19 +114,54 @@ export default class KeyListener {
    * the array and the boolean is the state of that key (`true` means that
    * the key is down).
    */
-  private keyCodeStates: boolean[] = new Array<boolean>();
+  private keyCodeStates : boolean[] = new Array<boolean>();
+
+  /**
+   * Array that holds a boolean for all the keycodes that are released in the
+   * previous frame.
+   */
+  private keyCodeTyped : boolean[] = new Array<boolean>();
+
+  /**
+   * Array that holds the state af the keys in the previous frame. This is
+   * used to fill the `kyeCodeTyped` array at each frame.
+   */
+  private previousState: boolean[] = new Array<boolean>();
 
   /**
    * Constructs a new KeyListener.
    */
   constructor() {
     // Register the arrow methods as listeners to keyevents
-    // There is a third event ('keypress'), but we do not need to use it
     window.addEventListener('keydown', (ev: KeyboardEvent) => {
       this.keyCodeStates[ev.keyCode] = true;
     });
     window.addEventListener('keyup', (ev: KeyboardEvent) => {
       this.keyCodeStates[ev.keyCode] = false;
+    });
+    window.addEventListener('keypress', (ev: KeyboardEvent) => {
+      this.keyCodeStates[ev.keyCode] = true;
+    });
+  }
+
+  /**
+   * Set the keyCodeTyped array for the coming frame.
+   *
+   * IMPORTANT: In order to make `keyCodeTyped` work, this method MUST be
+   * called at the start of each frame
+   */
+  public onFrameStart(): void {
+  // Start with a clean array
+    this.keyCodeTyped = new Array<boolean>();
+    // Check which keys are released in the previous frame.
+    this.keyCodeStates.forEach((val, key) => {
+    // Check if state is changed
+      if (this.previousState[key] !== val && !this.keyCodeStates[key]) {
+      // Set the keyCodeTyped value for that key
+        this.keyCodeTyped[key] = true;
+        // Remember this state for the next frame
+        this.previousState[key] = val;
+      }
     });
   }
 
@@ -139,5 +174,18 @@ export default class KeyListener {
    */
   public isKeyDown(keyCode: number): boolean {
     return this.keyCodeStates[keyCode] === true;
+  }
+
+  /**
+   * Returns `true` if and only if the last known state of the keyboard
+   * reflects that the specified key is released in somewhere during the
+   * previous frame.
+   *
+   * @param keyCode the keyCode to check
+   * @returns `true` when the specified key is released in the
+   * previous frame.
+   */
+  public isKeyTyped(keyCode: number) : boolean {
+    return this.keyCodeTyped[keyCode] === true;
   }
 }

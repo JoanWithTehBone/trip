@@ -7,6 +7,7 @@ import DialogueBox from './DialogueBox.js';
 import Baker from './Baker.js';
 import BlackSmith from './BlackSmith.js';
 import Hunter from './Hunter.js';
+import KeyListener from './KeyListener.js';
 
 export default class Level extends Scene {
   // Player
@@ -20,6 +21,8 @@ export default class Level extends Scene {
 
   private hunter: Hunter;
 
+  private keyboard: KeyListener;
+
   /**
    * Creates a new instance of this class
    *
@@ -30,9 +33,10 @@ export default class Level extends Scene {
 
     this.baker = new Baker();
     this.blackSmith = new BlackSmith();
-    this.hunter = new Hunter();
+    this.hunter = new Hunter(game);
     // Create player
-    this.player = new Player();
+    this.player = new Player(game.canvas.width / 2, game.canvas.height / 2, game);
+    this.keyboard = this.player.getKeys();
   }
 
   private hasWon(): boolean {
@@ -63,15 +67,14 @@ export default class Level extends Scene {
    *   current scene, just return `null`
    */
   public update(): Scene {
-    if (this.player.isCleaning()) {
-      this.player.interactWithBaker();
-    }
+    // this.player.onFrameStartListener();
+    this.keyboard.onFrameStart();
 
-    if (this.player.isCleaning()) {
-      this.player.interactWithBlackSmith();
-    }
+    this.player.interactWithBaker();
 
-    if (this.player.isCleaning()) {
+    this.player.interactWithBlackSmith();
+
+    if (this.player.isPressing()) {
       this.player.interactWithHunter();
     }
 
@@ -99,6 +102,11 @@ export default class Level extends Scene {
     this.game.ctx.fillRect(this.game.canvas.width / 2 - 250, (this.game.canvas.height / 5) * 3.5,
       500, 200);
     this.player.draw(this.game.ctx);
+    this.baker.draw(this.game.ctx);
+    this.blackSmith.draw(this.game.ctx);
+    this.hunter.draw(this.game.ctx);
+
+    this.interact();
   }
 
   private interact() {

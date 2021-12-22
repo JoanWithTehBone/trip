@@ -10,14 +10,14 @@ export default class Player extends GameItem {
     blackSmith;
     hunter;
     keyboard;
-    constructor() {
-        super('./assets/img/character_robot_walk0.png', 720, 700);
+    constructor(xPos, yPos, game) {
+        super('./assets/img/character_robot_walk0.png', xPos, yPos);
         this.xVel = 3;
         this.yVel = 3;
         this.keyboard = new KeyListener();
         this.baker = new Baker();
         this.blackSmith = new BlackSmith();
-        this.hunter = new Hunter();
+        this.hunter = new Hunter(game);
     }
     move(canvas) {
         const minX = 0;
@@ -49,14 +49,23 @@ export default class Player extends GameItem {
             }
         }
     }
-    isCleaning() {
-        return this.keyboard.isKeyDown(KeyListener.KEY_SPACE);
+    onFrameStartListener() {
+        this.keyboard.onFrameStart();
+    }
+    getKeys() {
+        return this.keyboard;
+    }
+    isPressing() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_SPACE);
+    }
+    isContinuing() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_C);
     }
     collidesWith(other) {
-        return this.xPos < other.getXPos() + other.getImageWidth() + 10
-            && this.xPos + this.img.width + 10 > other.getXPos()
-            && this.yPos < other.getYPos() + other.getImageHeight() + 10
-            && this.yPos + this.img.height + 10 > other.getYPos();
+        return this.xPos < other.getXPos() + other.getImageWidth()
+            && this.xPos + this.img.width > other.getXPos()
+            && this.yPos < other.getYPos() + other.getImageHeight()
+            && this.yPos + this.img.height > other.getYPos();
     }
     interactWithBaker() {
         if (this.collidesWith(this.baker)) {
@@ -75,6 +84,9 @@ export default class Player extends GameItem {
     interactWithHunter() {
         if (this.collidesWith(this.hunter)) {
             console.log('INTERACTION WITH THE HUNTER:)');
+            if (this.isContinuing()) {
+                this.hunter.talkToPlayer();
+            }
             return false;
         }
         return true;

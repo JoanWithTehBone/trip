@@ -4,6 +4,7 @@ import Hunter from './Hunter.js';
 import BlackSmith from './BlackSmith.js';
 import Baker from './Baker.js';
 import NPC from './NPC.js';
+import Game from './Game.js';
 
 export default class Player extends GameItem {
   private xVel: number;
@@ -22,17 +23,18 @@ export default class Player extends GameItem {
   /**
    * Initialize Player
    *
+   * @param game Game
    * @param xPos xPosition of the player
    * @param yPos yPostition of the player
    */
-  public constructor(xPos: number, yPos: number) {
+  public constructor(xPos: number, yPos: number, game: Game) {
     super('./assets/img/character_robot_walk0.png', xPos, yPos);
     this.xVel = 3;
     this.yVel = 3;
     this.keyboard = new KeyListener();
     this.baker = new Baker();
     this.blackSmith = new BlackSmith();
-    this.hunter = new Hunter();
+    this.hunter = new Hunter(game);
   }
 
   /**
@@ -83,12 +85,28 @@ export default class Player extends GameItem {
     }
   }
 
+  // public onFrameStartListener() {
+  //   this.keyboard.onFrameStart();
+  // }
+
+  public getKeys(): KeyListener {
+    return this.keyboard;
+  }
+
   /**
    *
-   * @returns true if the player is cleaning up
+   * @returns true if the player is pressing space
    */
-  public isCleaning(): boolean {
-    return this.keyboard.isKeyDown(KeyListener.KEY_SPACE);
+  public isPressing(): boolean {
+    return this.keyboard.isKeyTyped(KeyListener.KEY_SPACE);
+  }
+
+  /**
+   *
+   * @returns true if the player is continuing up
+   */
+  public isContinuing(): boolean {
+    return this.keyboard.isKeyTyped(KeyListener.KEY_C);
   }
 
   /**
@@ -107,7 +125,7 @@ export default class Player extends GameItem {
     // create a new array with garbage item that are still on the screen
     // (filter the clicked garbage item out of the array garbage items)
     if (this.collidesWith(this.baker)) {
-      console.log('INTERACTION WITH THE BAKER:)')
+      console.log('INTERACTION WITH THE BAKER:)');
       return false;
     }
     return true;
@@ -128,6 +146,9 @@ export default class Player extends GameItem {
     // (filter the clicked garbage item out of the array garbage items)
     if (this.collidesWith(this.hunter)) {
       console.log('INTERACTION WITH THE HUNTER:)');
+      if (this.isContinuing()) {
+        this.hunter.talkToPlayer();
+      }
       return false;
     }
     return true;

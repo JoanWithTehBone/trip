@@ -47,6 +47,8 @@ export default class KeyListener {
     static KEY_Y = 89;
     static KEY_Z = 90;
     keyCodeStates = new Array();
+    keyCodeTyped = new Array();
+    previousState = new Array();
     constructor() {
         window.addEventListener('keydown', (ev) => {
             this.keyCodeStates[ev.keyCode] = true;
@@ -54,9 +56,24 @@ export default class KeyListener {
         window.addEventListener('keyup', (ev) => {
             this.keyCodeStates[ev.keyCode] = false;
         });
+        window.addEventListener('keypress', (ev) => {
+            this.keyCodeStates[ev.keyCode] = true;
+        });
+    }
+    onFrameStart() {
+        this.keyCodeTyped = new Array();
+        this.keyCodeStates.forEach((val, key) => {
+            if (this.previousState[key] !== val && !this.keyCodeStates[key]) {
+                this.keyCodeTyped[key] = true;
+                this.previousState[key] = val;
+            }
+        });
     }
     isKeyDown(keyCode) {
         return this.keyCodeStates[keyCode] === true;
+    }
+    isKeyTyped(keyCode) {
+        return this.keyCodeTyped[keyCode] === true;
     }
 }
 //# sourceMappingURL=KeyListener.js.map
