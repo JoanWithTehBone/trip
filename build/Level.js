@@ -6,6 +6,7 @@ import House from './House.js';
 export default class Level extends Scene {
     player;
     house;
+    dialogueBox;
     constructor(game) {
         super(game);
         this.house = new House(this.game.canvas.width, this.game.canvas.height);
@@ -32,8 +33,7 @@ export default class Level extends Scene {
     }
     render() {
         this.game.ctx.clearRect(0, 0, this.game.canvas.width, this.game.canvas.height);
-        const score = `Score: ${this.game.getUser().getScore()}`;
-        this.game.writeTextToCanvas(score, 36, 120, 50);
+        this.game.ctx.fillRect(this.game.canvas.width / 2 - 250, (this.game.canvas.height / 5) * 3.5, 500, 200);
         this.player.draw(this.game.ctx);
         this.house.draw(this.game.ctx);
     }

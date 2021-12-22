@@ -84,9 +84,9 @@ export default class Player extends GameItem {
    */
   public collidesWith(other: GameItem): boolean {
     return this.xPos < other.getXPos() + other.getImageWidth() + 10
-    && this.xPos + this.img.width  + 10> other.getXPos()
+    && this.xPos + this.img.width + 10 > other.getXPos()
     && this.yPos < other.getYPos() + other.getImageHeight() + 10
-    && this.yPos + this.img.height  + 10> other.getYPos();
+    && this.yPos + this.img.height + 10 > other.getYPos();
   }
 
   /**

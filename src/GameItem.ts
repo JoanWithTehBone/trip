@@ -21,6 +21,15 @@ export default abstract class GameItem {
   }
 
   /**
+   * draw
+   *
+   * @param ctx the rendering context to draw on
+   */
+   public draw(ctx: CanvasRenderingContext2D): void {
+    ctx.drawImage(this.img, this.xPos, this.yPos);
+  }
+
+  /**
    * getImageHeight
    *
    * @returns the current height of the image.
@@ -54,14 +63,5 @@ export default abstract class GameItem {
    */
   public getYPos(): number {
     return this.yPos;
-  }
-
-  /**
-   * draw
-   *
-   * @param ctx the rendering context to draw on
-   */
-  public draw(ctx: CanvasRenderingContext2D): void {
-    ctx.drawImage(this.img, this.xPos, this.yPos);
   }
 }
