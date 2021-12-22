@@ -2,14 +2,20 @@ import Scene from './Scene.js';
 import Player from './Player.js';
 import GameOver from './GameOver.js';
 import LevelUp from './LevelUp.js';
-import House from './House.js';
+import Baker from './Baker.js';
+import BlackSmith from './BlackSmith.js';
+import Hunter from './Hunter.js';
 export default class Level extends Scene {
     player;
-    house;
+    baker;
+    blackSmith;
+    hunter;
     constructor(game) {
         super(game);
-        this.house = new House(this.game.canvas.width, this.game.canvas.height);
-        this.player = new Player(this.game.canvas.width, this.game.canvas.height);
+        this.baker = new Baker();
+        this.blackSmith = new BlackSmith();
+        this.hunter = new Hunter();
+        this.player = new Player();
     }
     hasWon() {
         const user = this.game.getUser();
@@ -20,7 +26,13 @@ export default class Level extends Scene {
     }
     update() {
         if (this.player.isCleaning()) {
-            this.interact();
+            this.player.interactWithBaker();
+        }
+        if (this.player.isCleaning()) {
+            this.player.interactWithBlackSmith();
+        }
+        if (this.player.isCleaning()) {
+            this.player.interactWithHunter();
         }
         if (this.hasWon()) {
             return new LevelUp(this.game);
@@ -37,14 +49,9 @@ export default class Level extends Scene {
         const hp = `HP: ${this.game.getUser().getHP()}`;
         this.game.writeTextToCanvas(hp, 36, 120, 100);
         this.player.draw(this.game.ctx);
-        this.house.draw(this.game.ctx);
-    }
-    interact() {
-        if (this.player.collidesWith(this.house)) {
-            console.log('INTERACTION :)');
-            return false;
-        }
-        return true;
+        this.baker.draw(this.game.ctx);
+        this.blackSmith.draw(this.game.ctx);
+        this.hunter.draw(this.game.ctx);
     }
 }
 //# sourceMappingURL=Level.js.map

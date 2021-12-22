@@ -12,6 +12,8 @@ export default class UserData {
 
   private def: number; 
 
+
+
   /**
    * Creates a new instance of this class
    */
@@ -122,6 +124,7 @@ export default class UserData {
    public getDEF(): number {
     return this.def;
   }
+
 
   /**
    * setDEF

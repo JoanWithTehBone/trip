@@ -1,3 +1,4 @@
+import Baker from './Baker.js';
 import Game from './Game.js';
 
 export default abstract class GameItem {
@@ -16,10 +17,10 @@ export default abstract class GameItem {
    */
   public constructor(imageSrc: string, maxX: number, maxY: number) {
     this.img = Game.loadNewImage(imageSrc);
-    this.xPos = Game.randomNumber(0, maxX);
-    this.yPos = Game.randomNumber(0, maxY);
+    this.xPos = maxX;
+    this.yPos = maxY;
   }
-
+  
   /**
    * getImageHeight
    *
