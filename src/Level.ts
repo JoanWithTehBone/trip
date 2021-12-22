@@ -3,17 +3,22 @@ import Scene from './Scene.js';
 import Player from './Player.js';
 import GameOver from './GameOver.js';
 import LevelUp from './LevelUp.js';
-import House from './House.js';
 import DialogueBox from './DialogueBox.js';
+import Baker from './Baker.js';
+import BlackSmith from './BlackSmith.js';
+import Hunter from './Hunter.js';
 
 export default class Level extends Scene {
   // Player
   private player: Player;
 
-  private house: House;
-
   private dialogueBox: DialogueBox;
 
+  private baker: Baker;
+
+  private blackSmith: BlackSmith;
+
+  private hunter: Hunter;
   /**
    * Creates a new instance of this class
    *
@@ -21,9 +26,12 @@ export default class Level extends Scene {
    */
   public constructor(game: Game) {
     super(game);
-    this.house = new House(this.game.canvas.width, this.game.canvas.height);
+
+    this.baker = new Baker();
+    this.blackSmith = new BlackSmith();
+    this.hunter = new Hunter();
     // Create player
-    this.player = new Player(this.game.canvas.width, this.game.canvas.height);
+    this.player = new Player();
   }
 
   private hasWon(): boolean {
@@ -55,7 +63,15 @@ export default class Level extends Scene {
    */
   public update(): Scene {
     if (this.player.isCleaning()) {
-      this.interact();
+      this.player.interactWithBaker();
+    }
+
+    if (this.player.isCleaning()) {
+      this.player.interactWithBlackSmith();
+    }
+
+    if (this.player.isCleaning()) {
+      this.player.interactWithHunter();
     }
 
     // Move to level clear screen
@@ -77,20 +93,28 @@ export default class Level extends Scene {
   public render(): void {
     // Clear the screen
     this.game.ctx.clearRect(0, 0, this.game.canvas.width, this.game.canvas.height);
+
     // Drawing a white rectangle on the canvas background
     this.game.ctx.fillRect(this.game.canvas.width / 2 - 250, (this.game.canvas.height / 5) * 3.5,
       500, 200);
     this.player.draw(this.game.ctx);
-    this.house.draw(this.game.ctx);
   }
 
   private interact() {
     // create a new array with garbage item that are still on the screen
     // (filter the clicked garbage item out of the array garbage items)
-    if (this.player.collidesWith(this.house)) {
-      console.log('INTERACTION :)');
-      return false;
-    }
-    return true;
+
+    const score = `Score: ${this.game.getUser().getScore()}`;
+    this.game.writeTextToCanvas(score, 36, 120, 50);
+
+    // Show HP
+    const hp = `HP: ${this.game.getUser().getHP()}`;
+    this.game.writeTextToCanvas(hp, 36, 120, 100);
+    
+    this.player.draw(this.game.ctx);
+    this.baker.draw(this.game.ctx);
+    this.blackSmith.draw(this.game.ctx);
+    this.hunter.draw(this.game.ctx);
+
   }
 }

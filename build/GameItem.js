@@ -5,8 +5,8 @@ export default class GameItem {
     yPos;
     constructor(imageSrc, maxX, maxY) {
         this.img = Game.loadNewImage(imageSrc);
-        this.xPos = Game.randomNumber(0, maxX);
-        this.yPos = Game.randomNumber(0, maxY);
+        this.xPos = maxX;
+        this.yPos = maxY;
     }
     draw(ctx) {
         ctx.drawImage(this.img, this.xPos, this.yPos);
