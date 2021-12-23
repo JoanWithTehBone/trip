@@ -25,7 +25,9 @@ export default class Player extends GameItem {
     yPos: number,
     dialogueBox: DialogueBox,
   ) {
-    super('./assets/img/character_robot_walk0.png', xPos, yPos);
+    super('./assets/img/player.png', xPos, yPos);
+
+
     this.xVel = 3;
     this.yVel = 3;
     this.keyboard = new KeyListener();
@@ -122,6 +124,7 @@ export default class Player extends GameItem {
       && this.yPos + this.img.height > other.getYPos();
   }
 
+
   // public interactWithBaker(): boolean {
   //   // create a new array with garbage item that are still on the screen
   //   // (filter the clicked garbage item out of the array garbage items)
@@ -173,6 +176,8 @@ export default class Player extends GameItem {
     });
     return collides;
   }
+
+
 
   /**
    * Increases the speed
