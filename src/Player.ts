@@ -5,6 +5,7 @@ import BlackSmith from './BlackSmith.js';
 import Baker from './Baker.js';
 import NPC from './NPC.js';
 import Game from './Game.js';
+import DialogueBox from './DialogueBox.js';
 
 export default class Player extends GameItem {
   private xVel: number;
@@ -17,24 +18,38 @@ export default class Player extends GameItem {
 
   private hunter: Hunter;
 
+  private dialogueBox: DialogueBox;
+
   // KeyboardListener so the player can move
   private keyboard: KeyListener;
 
   /**
    * Initialize Player
    *
-   * @param game Game
    * @param xPos xPosition of the player
    * @param yPos yPostition of the player
+   * @param hunter hunter
+   * @param baker baker
+   * @param blacksmith blacksmith
+   * @param dialogueBox BOX
    */
-  public constructor(xPos: number, yPos: number, game: Game) {
+  public constructor(
+    xPos: number,
+    yPos: number,
+    hunter: Hunter,
+    baker: Baker,
+    blacksmith: BlackSmith,
+    dialogueBox: DialogueBox,
+  ) {
     super('./assets/img/character_robot_walk0.png', xPos, yPos);
     this.xVel = 3;
     this.yVel = 3;
     this.keyboard = new KeyListener();
-    this.baker = new Baker();
-    this.blackSmith = new BlackSmith();
-    this.hunter = new Hunter(game);
+
+    this.baker = baker;
+    this.blackSmith = blacksmith;
+    this.hunter = hunter;
+    this.dialogueBox = dialogueBox;
   }
 
   /**
@@ -146,8 +161,14 @@ export default class Player extends GameItem {
     // (filter the clicked garbage item out of the array garbage items)
     if (this.collidesWith(this.hunter)) {
       console.log('INTERACTION WITH THE HUNTER:)');
-      if (this.isContinuing()) {
-        this.hunter.talkToPlayer();
+      if (this.hunter.getProgression() + 1 >= this.hunter.getDialogue().length) {
+        this.hunter.talkToPlayer(3, this.dialogueBox);
+      } else if (this.hunter.questCompleted()) {
+        this.hunter.talkToPlayer(2, this.dialogueBox);
+        this.hunter.setProgression(this.hunter.getProgression() + 1);
+      } else if (this.hunter.getProgression() < 2) {
+        this.hunter.talkToPlayer(this.hunter.getProgression(), this.dialogueBox);
+        this.hunter.setProgression(this.hunter.getProgression() + 1);
       }
       return false;
     }

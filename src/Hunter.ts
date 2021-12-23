@@ -5,29 +5,30 @@ import GameLoop from './GameLoop.js';
 import Player from './Player.js';
 
 export default class Hunter extends NPC {
-  private dialogue: string[];
-
-  private dialogueBox: DialogueBox;
-
   private dialogueIndex: number;
 
   private gameloop: GameLoop;
 
   private player: Player;
 
+  private dialogueBox: DialogueBox;
+
+  private game: Game;
+
   public constructor(game: Game) {
     super('./assets/img/hunter.jpeg', 1100, 700);
+    // Progression of the dialogue
+    this.progression = 0;
+    this.game = game;
     this.name = 'Hunter';
-    this.completed = false;
+    this.completed = true;
     this.dialogue = [];
-    this.dialogueIndex = 0;
     this.dialogueFactory();
-    this.dialogueBox = new DialogueBox(
-      game,
-      (game.canvas.width / 2 - 250),
-      (game.canvas.height / 5) * 3.5,
-      this.dialogue,
-    );
+  }
+
+  public dialogueFactory(): void {
+    this.dialogue.push('Hey there, I am mister hunter.', 'Do you know that hunters hunt?', 'I bet you didnt.', 'A hunter must hunt, now go.');
+    console.log(this.dialogue);
   }
 
   /**
@@ -36,26 +37,33 @@ export default class Hunter extends NPC {
    * @returns If quest is completed
    */
   public questCompleted(): boolean {
+    if (this.progression === 2 && this.completed) {
+      return true;
+    }
     return false;
   }
 
-  public dialogueFactory(): void {
-    this.dialogue.push('Hey there, I am mister hunter.', 'Do you know that hunters hunt?', 'I bet you didnt.', 'A hunter must hunt, now go.');
-    console.log(this.dialogue);
-  }
-
-  public talkToPlayer(): void {
-    if (this.dialogueIndex === 0) {
-      console.log(this.dialogue[0]);
-      this.dialogueIndex += 1;
-    } else if (this.dialogueIndex === 1) {
+  public talkToPlayer(dialogueIndex: number, dialogueBox: DialogueBox): void {
+    if (dialogueIndex === 0) {
+      console.log(dialogueBox.getDisplay());
+      if (dialogueBox.getDisplay()) {
+        dialogueBox.setCurrentDialogue(0);
+      }
+    } else if (dialogueIndex === 1) {
       console.log(this.dialogue[1]);
-      this.dialogueIndex += 1;
-    } else if (this.dialogueIndex === 2) {
+      if (dialogueBox.getDisplay()) {
+        dialogueBox.setCurrentDialogue(1);
+      }
+    } else if (dialogueIndex === 2) {
       console.log(this.dialogue[2]);
-      this.dialogueIndex += 1;
+      if (dialogueBox.getDisplay()) {
+        dialogueBox.setCurrentDialogue(2);
+      }
     } else {
       console.log(this.dialogue[3]);
+      if (dialogueBox.getDisplay()) {
+        dialogueBox.setCurrentDialogue(3);
+      }
     }
   }
 

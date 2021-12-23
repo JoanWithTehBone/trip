@@ -55,16 +55,15 @@ export default class KeyListener {
         });
         window.addEventListener('keyup', (ev) => {
             this.keyCodeStates[ev.keyCode] = false;
+            this.keyCodeTyped[ev.keyCode] = true;
         });
         window.addEventListener('keypress', (ev) => {
             this.keyCodeStates[ev.keyCode] = true;
         });
     }
     onFrameStart() {
-        this.keyCodeTyped = new Array();
         this.keyCodeStates.forEach((val, key) => {
             if (this.previousState[key] !== val && !this.keyCodeStates[key]) {
-                this.keyCodeTyped[key] = true;
                 this.previousState[key] = val;
             }
         });
@@ -73,7 +72,11 @@ export default class KeyListener {
         return this.keyCodeStates[keyCode] === true;
     }
     isKeyTyped(keyCode) {
-        return this.keyCodeTyped[keyCode] === true;
+        if (this.keyCodeTyped[keyCode]) {
+            this.keyCodeTyped[keyCode] = false;
+            return true;
+        }
+        return false;
     }
 }
 //# sourceMappingURL=KeyListener.js.map

@@ -124,7 +124,7 @@ export default class KeyListener {
 
   /**
    * Array that holds the state af the keys in the previous frame. This is
-   * used to fill the `kyeCodeTyped` array at each frame.
+   * used to fill the `keyCodeTyped` array at each frame.
    */
   private previousState: boolean[] = new Array<boolean>();
 
@@ -138,6 +138,7 @@ export default class KeyListener {
     });
     window.addEventListener('keyup', (ev: KeyboardEvent) => {
       this.keyCodeStates[ev.keyCode] = false;
+      this.keyCodeTyped[ev.keyCode] = true;
     });
     window.addEventListener('keypress', (ev: KeyboardEvent) => {
       this.keyCodeStates[ev.keyCode] = true;
@@ -152,13 +153,13 @@ export default class KeyListener {
    */
   public onFrameStart(): void {
   // Start with a clean array
-    this.keyCodeTyped = new Array<boolean>();
+    // this.keyCodeTyped = new Array<boolean>();
     // Check which keys are released in the previous frame.
     this.keyCodeStates.forEach((val, key) => {
     // Check if state is changed
       if (this.previousState[key] !== val && !this.keyCodeStates[key]) {
       // Set the keyCodeTyped value for that key
-        this.keyCodeTyped[key] = true;
+        // this.keyCodeTyped[key] = true;
         // Remember this state for the next frame
         this.previousState[key] = val;
       }
@@ -186,6 +187,12 @@ export default class KeyListener {
    * previous frame.
    */
   public isKeyTyped(keyCode: number) : boolean {
-    return this.keyCodeTyped[keyCode] === true;
+    if (this.keyCodeTyped[keyCode]) {
+      this.keyCodeTyped[keyCode] = false;
+      // this.previousState[keyCode] = null;
+      return true;
+    }
+    return false;
+    // return this.keyCodeTyped[keyCode] === true;
   }
 }

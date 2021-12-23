@@ -1,23 +1,22 @@
 import GameItem from './GameItem.js';
 import KeyListener from './KeyListener.js';
-import Hunter from './Hunter.js';
-import BlackSmith from './BlackSmith.js';
-import Baker from './Baker.js';
 export default class Player extends GameItem {
     xVel;
     yVel;
     baker;
     blackSmith;
     hunter;
+    dialogueBox;
     keyboard;
-    constructor(xPos, yPos, game) {
+    constructor(xPos, yPos, hunter, baker, blacksmith, dialogueBox) {
         super('./assets/img/character_robot_walk0.png', xPos, yPos);
         this.xVel = 3;
         this.yVel = 3;
         this.keyboard = new KeyListener();
-        this.baker = new Baker();
-        this.blackSmith = new BlackSmith();
-        this.hunter = new Hunter(game);
+        this.baker = baker;
+        this.blackSmith = blacksmith;
+        this.hunter = hunter;
+        this.dialogueBox = dialogueBox;
     }
     move(canvas) {
         const minX = 0;
@@ -48,9 +47,6 @@ export default class Player extends GameItem {
                 this.yPos = maxY;
             }
         }
-    }
-    onFrameStartListener() {
-        this.keyboard.onFrameStart();
     }
     getKeys() {
         return this.keyboard;
@@ -84,8 +80,16 @@ export default class Player extends GameItem {
     interactWithHunter() {
         if (this.collidesWith(this.hunter)) {
             console.log('INTERACTION WITH THE HUNTER:)');
-            if (this.isContinuing()) {
-                this.hunter.talkToPlayer();
+            if (this.hunter.getProgression() + 1 >= this.hunter.getDialogue().length) {
+                this.hunter.talkToPlayer(3, this.dialogueBox);
+            }
+            else if (this.hunter.questCompleted()) {
+                this.hunter.talkToPlayer(2, this.dialogueBox);
+                this.hunter.setProgression(this.hunter.getProgression() + 1);
+            }
+            else if (this.hunter.getProgression() < 2) {
+                this.hunter.talkToPlayer(this.hunter.getProgression(), this.dialogueBox);
+                this.hunter.setProgression(this.hunter.getProgression() + 1);
             }
             return false;
         }

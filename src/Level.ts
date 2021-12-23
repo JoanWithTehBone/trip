@@ -23,6 +23,13 @@ export default class Level extends Scene {
 
   private keyboard: KeyListener;
 
+  // Progression Values for each Character
+  private hunterProgression: number;
+
+  private blacksmithProgression: number;
+
+  private bakerProgression: number;
+
   /**
    * Creates a new instance of this class
    *
@@ -30,13 +37,32 @@ export default class Level extends Scene {
    */
   public constructor(game: Game) {
     super(game);
-
+    // Create Characters
     this.baker = new Baker();
     this.blackSmith = new BlackSmith();
     this.hunter = new Hunter(game);
+
+    this.dialogueBox = new DialogueBox(
+      this.game,
+      this.game.canvas.width / 2 - 350,
+      (this.game.canvas.height / 5) * 3.5,
+      this.hunter,
+    );
+
     // Create player
-    this.player = new Player(game.canvas.width / 2, game.canvas.height / 2, game);
+    this.player = new Player(
+      game.canvas.width / 2,
+      game.canvas.height / 2,
+      this.hunter,
+      this.baker,
+      this.blackSmith,
+      this.dialogueBox,
+    );
     this.keyboard = this.player.getKeys();
+    // Create Progression Values
+    this.hunterProgression = 0;
+    this.blacksmithProgression = 0;
+    this.bakerProgression = 0;
   }
 
   private hasWon(): boolean {
@@ -75,7 +101,12 @@ export default class Level extends Scene {
     this.player.interactWithBlackSmith();
 
     if (this.player.isPressing()) {
+      this.dialogueBox.setDisplay(true);
       this.player.interactWithHunter();
+    }
+
+    if (this.player.isContinuing()) {
+      this.dialogueBox.setDisplay(false);
     }
 
     // Move to level clear screen
@@ -98,31 +129,22 @@ export default class Level extends Scene {
     // Clear the screen
     this.game.ctx.clearRect(0, 0, this.game.canvas.width, this.game.canvas.height);
 
-    // Drawing a white rectangle on the canvas background
-    this.game.ctx.fillRect(this.game.canvas.width / 2 - 250, (this.game.canvas.height / 5) * 3.5,
-      500, 200);
     this.player.draw(this.game.ctx);
     this.baker.draw(this.game.ctx);
     this.blackSmith.draw(this.game.ctx);
     this.hunter.draw(this.game.ctx);
 
+    this.dialogueBox.drawBox(this.game.ctx);
+
     this.interact();
   }
 
   private interact() {
-    // create a new array with garbage item that are still on the screen
-    // (filter the clicked garbage item out of the array garbage items)
-
     const score = `Score: ${this.game.getUser().getScore()}`;
     this.game.writeTextToCanvas(score, 36, 120, 50);
 
     // Show HP
     const hp = `HP: ${this.game.getUser().getHP()}`;
     this.game.writeTextToCanvas(hp, 36, 120, 100);
-
-    this.player.draw(this.game.ctx);
-    this.baker.draw(this.game.ctx);
-    this.blackSmith.draw(this.game.ctx);
-    this.hunter.draw(this.game.ctx);
   }
 }
