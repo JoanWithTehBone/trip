@@ -40,7 +40,6 @@ export default class Level extends Scene {
         this.player.interactWithBaker();
         this.player.interactWithBlackSmith();
         if (this.player.isPressing()) {
-            this.dialogueBox.setDisplay(true);
             this.player.interactWithHunter();
         }
         if (this.player.isContinuing()) {

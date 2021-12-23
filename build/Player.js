@@ -79,6 +79,7 @@ export default class Player extends GameItem {
     }
     interactWithHunter() {
         if (this.collidesWith(this.hunter)) {
+            this.dialogueBox.setDisplay(true);
             console.log('INTERACTION WITH THE HUNTER:)');
             if (this.hunter.getProgression() + 1 >= this.hunter.getDialogue().length) {
                 this.hunter.talkToPlayer(3, this.dialogueBox);

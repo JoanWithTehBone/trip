@@ -160,6 +160,7 @@ export default class Player extends GameItem {
     // create a new array with garbage item that are still on the screen
     // (filter the clicked garbage item out of the array garbage items)
     if (this.collidesWith(this.hunter)) {
+      this.dialogueBox.setDisplay(true);
       console.log('INTERACTION WITH THE HUNTER:)');
       if (this.hunter.getProgression() + 1 >= this.hunter.getDialogue().length) {
         this.hunter.talkToPlayer(3, this.dialogueBox);
