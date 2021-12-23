@@ -1,13 +1,50 @@
-import Scene from './Scene.js';
-export default class DialogueBox extends Scene {
-    processInput() {
-        throw new Error('Method not implemented.');
+import GameItem from './GameItem.js';
+export default class DialogueBox extends GameItem {
+    display;
+    currentDialogue;
+    xPosition;
+    yPosition;
+    textXPos;
+    textYPos;
+    dialogueList;
+    game;
+    constructor(game, xPos, yPos) {
+        super('', xPos, yPos);
+        this.display = false;
+        this.xPosition = xPos;
+        this.yPosition = yPos;
+        this.textXPos = xPos + 250;
+        this.textYPos = yPos + 75;
+        console.log(this.dialogueList);
+        this.game = game;
     }
-    update(elapsed) {
-        throw new Error('Method not implemented.');
+    drawBox(ctx) {
+        if (this.display) {
+            ctx.clearRect(this.xPosition, this.yPosition, 700, 200);
+            ctx.fillRect(this.xPosition, this.yPosition, 700, 200);
+            this.writeTextToBox(this.currentDialogue);
+        }
     }
-    render() {
-        this.game.ctx.clearRect(this.game.canvas.height, this.game.canvas.width / 2, (this.game.canvas.width / 3) * 2, this.game.canvas.height / 4);
+    writeTextToBox(currentDialogue) {
+        this.game.writeTextToCanvas(this.dialogueList[currentDialogue], 32, this.textXPos, this.textYPos, 'center', 'black');
+    }
+    setDisplay(active) {
+        this.display = active;
+    }
+    getDisplay() {
+        return this.display;
+    }
+    getTextXPos() {
+        return this.textXPos;
+    }
+    getTextYPos() {
+        return this.textYPos;
+    }
+    setCurrentDialogue(currentDialogue) {
+        this.currentDialogue = currentDialogue;
+    }
+    setDialogueList(list) {
+        this.dialogueList = list;
     }
 }
 //# sourceMappingURL=DialogueBox.js.map

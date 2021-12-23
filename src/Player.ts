@@ -1,35 +1,38 @@
 import GameItem from './GameItem.js';
 import KeyListener from './KeyListener.js';
-import Hunter from './Hunter.js';
-import BlackSmith from './BlackSmith.js';
-import Baker from './Baker.js';
 import NPC from './NPC.js';
+import DialogueBox from './DialogueBox.js';
 
 export default class Player extends GameItem {
   private xVel: number;
 
   private yVel: number;
 
-  private baker: Baker;
-
-  private blackSmith: BlackSmith;
-
-  private hunter: Hunter;
+  private dialogueBox: DialogueBox;
 
   // KeyboardListener so the player can move
   private keyboard: KeyListener;
 
   /**
-   * Initilize Player
+   * Initialize Player
+   *
+   * @param xPos xPosition of the player
+   * @param yPos yPostition of the player
+   * @param dialogueBox BOX
    */
-  public constructor() {
-    super('./assets/img/character_robot_walk0.png', 720, 700);
+  public constructor(
+    xPos: number,
+    yPos: number,
+    dialogueBox: DialogueBox,
+  ) {
+    super('./assets/img/player.png', xPos, yPos);
+
+
     this.xVel = 3;
     this.yVel = 3;
     this.keyboard = new KeyListener();
-    this.baker = new Baker();
-    this.blackSmith = new BlackSmith();
-    this.hunter = new Hunter();
+
+    this.dialogueBox = dialogueBox;
   }
 
   /**
@@ -80,12 +83,33 @@ export default class Player extends GameItem {
     }
   }
 
+  // public onFrameStartListener() {
+  //   this.keyboard.onFrameStart();
+  // }
+
+  /**
+   * Method to declare keypresses without insantiating a new keyboard
+   *
+   * @returns the keys being pressed
+   */
+  public getKeys(): KeyListener {
+    return this.keyboard;
+  }
+
   /**
    *
-   * @returns true if the player is cleaning up
+   * @returns true if the player is pressing space
    */
-  public isCleaning(): boolean {
-    return this.keyboard.isKeyDown(KeyListener.KEY_SPACE);
+  public isPressing(): boolean {
+    return this.keyboard.isKeyTyped(KeyListener.KEY_SPACE);
+  }
+
+  /**
+   *
+   * @returns true if the player is continuing up
+   */
+  public isContinuing(): boolean {
+    return this.keyboard.isKeyTyped(KeyListener.KEY_C);
   }
 
   /**
@@ -100,35 +124,61 @@ export default class Player extends GameItem {
       && this.yPos + this.img.height > other.getYPos();
   }
 
-  public interactWithBaker() {
-    // create a new array with garbage item that are still on the screen
-    // (filter the clicked garbage item out of the array garbage items)
-    if (this.collidesWith(this.baker)) {
-      console.log('INTERACTION WITH THE BAKER:)')
-      return false;
-    }
-    return true;
+
+  // public interactWithBaker(): boolean {
+  //   // create a new array with garbage item that are still on the screen
+  //   // (filter the clicked garbage item out of the array garbage items)
+  //   if (this.collidesWith(this.baker)) {
+  //     console.log('INTERACTION WITH THE BAKER:)');
+  //     return false;
+  //   }
+  //   return true;
+  // }
+
+  // public interactWithBlackSmith(): boolean {
+  //   // create a new array with garbage item that are still on the screen
+  //   // (filter the clicked garbage item out of the array garbage items)
+  //   if (this.collidesWith(this.blackSmith)) {
+  //     console.log('INTERACTION WITH THE BLACKSMITH:)');
+  //     return false;
+  //   }
+  //   return true;
+  // }
+
+  /**
+   * Method that checks if the player collides and interacts with a NPC.
+   *
+   * Also calculates which NPC is applicable for drawing the textBox to the screen
+   *
+   * @param npcs the character in the game that need to be collided with
+   * @returns if the character is interacting with an NPC
+   */
+  public interactWith(npcs: NPC[]): boolean {
+    let collides: boolean = true;
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    npcs.forEach((element) => {
+      // create a new array with garbage item that are still on the screen
+      // (filter the clicked garbage item out of the array garbage items)
+      if (this.collidesWith(element)) {
+        this.dialogueBox.setDisplay(true);
+        console.log('INTERACTION WITH THE npc:)');
+        if (element.getProgression() + 1 >= element.getDialogue().length) {
+          element.talkToPlayer(3, this.dialogueBox);
+        } else if (element.questCompleted()) {
+          element.talkToPlayer(2, this.dialogueBox);
+          element.setProgression(element.getProgression() + 1);
+        } else if (element.getProgression() < 2) {
+          element.talkToPlayer(element.getProgression(), this.dialogueBox);
+          element.setProgression(element.getProgression() + 1);
+        }
+        collides = false;
+      }
+    });
+    return collides;
   }
 
-  public interactWithBlackSmith() {
-    // create a new array with garbage item that are still on the screen
-    // (filter the clicked garbage item out of the array garbage items)
-    if (this.collidesWith(this.blackSmith)) {
-      console.log('INTERACTION WITH THE BLACKSMITH:)')
-      return false;
-    }
-    return true;
-  }
 
-  public interactWithHunter() {
-    // create a new array with garbage item that are still on the screen
-    // (filter the clicked garbage item out of the array garbage items)
-    if (this.collidesWith(this.hunter)) {
-      console.log('INTERACTION WITH THE HUNTER:)')
-      return false;
-    }
-    return true;
-  }
+
   /**
    * Increases the speed
    *

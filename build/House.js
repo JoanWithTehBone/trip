@@ -1,5 +1,5 @@
 import GameItem from './GameItem.js';
-export default class Bakker extends GameItem {
+export default class House extends GameItem {
     constructor(maxX, maxY) {
         super('./assets/img/egg.png', maxX, maxY);
     }
