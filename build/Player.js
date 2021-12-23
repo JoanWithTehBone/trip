@@ -5,7 +5,6 @@ export default class Player extends GameItem {
     yVel;
     dialogueBox;
     keyboard;
-
     constructor(xPos, yPos, dialogueBox) {
         super('./assets/img/player.png', xPos, yPos);
         this.xVel = 3;
@@ -46,10 +45,8 @@ export default class Player extends GameItem {
     getKeys() {
         return this.keyboard;
     }
-
     isPressing() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_SPACE);
-
     }
     isContinuing() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_C);
