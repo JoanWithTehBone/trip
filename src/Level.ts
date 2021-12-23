@@ -8,6 +8,7 @@ import Baker from './Baker.js';
 import BlackSmith from './BlackSmith.js';
 import Hunter from './Hunter.js';
 import KeyListener from './KeyListener.js';
+import NPC from './NPC.js';
 
 export default class Level extends Scene {
   // Player
@@ -15,12 +16,16 @@ export default class Level extends Scene {
 
   private dialogueBox: DialogueBox;
 
+  // NPCS
   private baker: Baker;
 
-  private blackSmith: BlackSmith;
+  private blacksmith: BlackSmith;
 
   private hunter: Hunter;
 
+  private npcs: NPC[];
+
+  // Keyboard
   private keyboard: KeyListener;
 
   // Progression Values for each Character
@@ -39,23 +44,24 @@ export default class Level extends Scene {
     super(game);
     // Create Characters
     this.baker = new Baker();
-    this.blackSmith = new BlackSmith();
-    this.hunter = new Hunter(game);
+    this.blacksmith = new BlackSmith();
+    this.hunter = new Hunter();
 
+    // Create DialogueBox
     this.dialogueBox = new DialogueBox(
       this.game,
       this.game.canvas.width / 2 - 350,
       (this.game.canvas.height / 5) * 3.5,
-      this.hunter,
     );
+
+    // Create a new array of NPCS to pass on
+    this.npcs = [];
+    this.npcs.push(this.baker, this.blacksmith, this.hunter);
 
     // Create player
     this.player = new Player(
       game.canvas.width / 2,
       game.canvas.height / 2,
-      this.hunter,
-      this.baker,
-      this.blackSmith,
       this.dialogueBox,
     );
     this.keyboard = this.player.getKeys();
@@ -96,12 +102,8 @@ export default class Level extends Scene {
     // this.player.onFrameStartListener();
     this.keyboard.onFrameStart();
 
-    this.player.interactWithBaker();
-
-    this.player.interactWithBlackSmith();
-
     if (this.player.isPressing()) {
-      this.player.interactWithHunter();
+      this.player.interactWith(this.npcs);
     }
 
     if (this.player.isContinuing()) {
@@ -130,7 +132,7 @@ export default class Level extends Scene {
 
     this.player.draw(this.game.ctx);
     this.baker.draw(this.game.ctx);
-    this.blackSmith.draw(this.game.ctx);
+    this.blacksmith.draw(this.game.ctx);
     this.hunter.draw(this.game.ctx);
 
     this.dialogueBox.drawBox(this.game.ctx);

@@ -1,8 +1,5 @@
 import Game from './Game.js';
 import GameItem from './GameItem.js';
-import KeyListener from './KeyListener.js';
-import Player from './Player.js';
-import NPC from './NPC.js';
 
 export default class DialogueBox extends GameItem {
   private display: boolean;
@@ -17,19 +14,9 @@ export default class DialogueBox extends GameItem {
 
   private textYPos: number;
 
-  private width: number;
-
-  private height: number;
-
   private dialogueList: string[];
 
-  private keyboard: KeyListener;
-
-  private player: Player;
-
   private game: Game;
-
-  private npc: NPC;
 
   /**
    * Constructing the dialogue box
@@ -37,10 +24,8 @@ export default class DialogueBox extends GameItem {
    * @param game the game
    * @param xPos the x position
    * @param yPos the y position
-   * @param npc nice
-   * @param dialogue yep
    */
-  constructor(game: Game, xPos: number, yPos: number, npc: NPC) {
+  constructor(game: Game, xPos: number, yPos: number) {
     super('', xPos, yPos);
     this.display = false;
     // Positioning
@@ -48,16 +33,22 @@ export default class DialogueBox extends GameItem {
     this.yPosition = yPos;
     this.textXPos = xPos + 250;
     this.textYPos = yPos + 75;
-    this.width = (game.canvas.width / 5) * 3;
-    this.height = (game.canvas.height / 5);
-    this.dialogueList = npc.getDialogue();
     console.log(this.dialogueList);
 
     this.game = game;
-    this.keyboard = new KeyListener();
-    this.npc = npc;
   }
 
+  /**
+   * Method to draw the whole Box to the screen.
+   *
+   * TODO => Create an custom version of the textbox:
+   *  - Add which NPC is talking
+   *  - Add Image to the left
+   *  - Change dimensions on the text to center it better
+   *  - Add continue prompt to show how to continue.
+   *
+   * @param ctx CanvasRenderingContext
+   */
   public drawBox(ctx: CanvasRenderingContext2D): void {
     if (this.display) {
       ctx.clearRect(this.xPosition, this.yPosition, 700, 200);
@@ -68,6 +59,11 @@ export default class DialogueBox extends GameItem {
     }
   }
 
+  /**
+   * Method to write the text in the box to the screen
+   *
+   * @param currentDialogue the current integer of dialogue -> currentindex
+   */
   public writeTextToBox(currentDialogue: number): void {
     this.game.writeTextToCanvas(this.dialogueList[currentDialogue], 32, this.textXPos, this.textYPos, 'center', 'black');
   }
@@ -81,19 +77,48 @@ export default class DialogueBox extends GameItem {
     this.display = active;
   }
 
+  /**
+   * Get display state
+   *
+   * @returns the display value [true or false]
+   */
   public getDisplay(): boolean {
     return this.display;
   }
 
+  /**
+   * Gets the xPosition of the text inside of the textbox
+   *
+   * @returns xPosition of the text inside of the textbox
+   */
   public getTextXPos(): number {
     return this.textXPos;
   }
 
+  /**
+   * Gets the yPosition of the text inside of the textbox
+   *
+   * @returns yPosition of the text inside of the textbox
+   */
   public getTextYPos(): number {
     return this.textYPos;
   }
 
+  /**
+   * Sets the current integer of the dialogue index
+   *
+   * @param currentDialogue the current integer of dialogue -> currentindex
+   */
   public setCurrentDialogue(currentDialogue: number): void {
     this.currentDialogue = currentDialogue;
+  }
+
+  /**
+   * Sets the dialogue of the current character
+   *
+   * @param list the current list of dialogue
+   */
+  public setDialogueList(list: string[]): void {
+    this.dialogueList = list;
   }
 }

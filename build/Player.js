@@ -3,19 +3,13 @@ import KeyListener from './KeyListener.js';
 export default class Player extends GameItem {
     xVel;
     yVel;
-    baker;
-    blackSmith;
-    hunter;
     dialogueBox;
     keyboard;
-    constructor(xPos, yPos, hunter, baker, blacksmith, dialogueBox) {
+    constructor(xPos, yPos, dialogueBox) {
         super('./assets/img/character_robot_walk0.png', xPos, yPos);
         this.xVel = 3;
         this.yVel = 3;
         this.keyboard = new KeyListener();
-        this.baker = baker;
-        this.blackSmith = blacksmith;
-        this.hunter = hunter;
         this.dialogueBox = dialogueBox;
     }
     move(canvas) {
@@ -63,38 +57,27 @@ export default class Player extends GameItem {
             && this.yPos < other.getYPos() + other.getImageHeight()
             && this.yPos + this.img.height > other.getYPos();
     }
-    interactWithBaker() {
-        if (this.collidesWith(this.baker)) {
-            console.log('INTERACTION WITH THE BAKER:)');
-            return false;
-        }
-        return true;
-    }
-    interactWithBlackSmith() {
-        if (this.collidesWith(this.blackSmith)) {
-            console.log('INTERACTION WITH THE BLACKSMITH:)');
-            return false;
-        }
-        return true;
-    }
-    interactWithHunter() {
-        if (this.collidesWith(this.hunter)) {
-            this.dialogueBox.setDisplay(true);
-            console.log('INTERACTION WITH THE HUNTER:)');
-            if (this.hunter.getProgression() + 1 >= this.hunter.getDialogue().length) {
-                this.hunter.talkToPlayer(3, this.dialogueBox);
+    interactWith(npcs) {
+        let collides = true;
+        npcs.forEach((element) => {
+            if (this.collidesWith(element)) {
+                this.dialogueBox.setDisplay(true);
+                console.log('INTERACTION WITH THE npc:)');
+                if (element.getProgression() + 1 >= element.getDialogue().length) {
+                    element.talkToPlayer(3, this.dialogueBox);
+                }
+                else if (element.questCompleted()) {
+                    element.talkToPlayer(2, this.dialogueBox);
+                    element.setProgression(element.getProgression() + 1);
+                }
+                else if (element.getProgression() < 2) {
+                    element.talkToPlayer(element.getProgression(), this.dialogueBox);
+                    element.setProgression(element.getProgression() + 1);
+                }
+                collides = false;
             }
-            else if (this.hunter.questCompleted()) {
-                this.hunter.talkToPlayer(2, this.dialogueBox);
-                this.hunter.setProgression(this.hunter.getProgression() + 1);
-            }
-            else if (this.hunter.getProgression() < 2) {
-                this.hunter.talkToPlayer(this.hunter.getProgression(), this.dialogueBox);
-                this.hunter.setProgression(this.hunter.getProgression() + 1);
-            }
-            return false;
-        }
-        return true;
+        });
+        return collides;
     }
     increaseSpeed(size) {
         this.xVel += size;

@@ -1,5 +1,4 @@
 import GameItem from './GameItem.js';
-import KeyListener from './KeyListener.js';
 export default class DialogueBox extends GameItem {
     display;
     currentDialogue;
@@ -7,27 +6,17 @@ export default class DialogueBox extends GameItem {
     yPosition;
     textXPos;
     textYPos;
-    width;
-    height;
     dialogueList;
-    keyboard;
-    player;
     game;
-    npc;
-    constructor(game, xPos, yPos, npc) {
+    constructor(game, xPos, yPos) {
         super('', xPos, yPos);
         this.display = false;
         this.xPosition = xPos;
         this.yPosition = yPos;
         this.textXPos = xPos + 250;
         this.textYPos = yPos + 75;
-        this.width = (game.canvas.width / 5) * 3;
-        this.height = (game.canvas.height / 5);
-        this.dialogueList = npc.getDialogue();
         console.log(this.dialogueList);
         this.game = game;
-        this.keyboard = new KeyListener();
-        this.npc = npc;
     }
     drawBox(ctx) {
         if (this.display) {
@@ -53,6 +42,9 @@ export default class DialogueBox extends GameItem {
     }
     setCurrentDialogue(currentDialogue) {
         this.currentDialogue = currentDialogue;
+    }
+    setDialogueList(list) {
+        this.dialogueList = list;
     }
 }
 //# sourceMappingURL=DialogueBox.js.map
