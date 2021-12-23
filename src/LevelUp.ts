@@ -2,7 +2,6 @@ import Game from './Game.js';
 import KeyListener from './KeyListener.js';
 import Level from './Level.js';
 import Scene from './Scene.js';
-import Start from './Start.js';
 
 export default class LevelUp extends Scene {
   private shouldStart: boolean;
@@ -59,9 +58,9 @@ export default class LevelUp extends Scene {
     this.game.ctx.clearRect(0, 0, this.game.canvas.width, this.game.canvas.height);
     // Show score
     const centerX = this.game.canvas.width / 2;
-    const line1 = `Level ${this.game.getUser().getLevel()} Clear`
+    const line1 = `Level ${this.game.getUser().getLevel()} Clear`;
     this.game.writeTextToCanvas(line1, 128, centerX, 250, 'center', 'red');
-    const msg = `${this.game.getUser().getName()} score: ${this.game.getUser().getScore()}`
+    const msg = `${this.game.getUser().getName()} score: ${this.game.getUser().getScore()}`;
     this.game.writeTextToCanvas(msg, 48, centerX, 450, 'center', 'yellow');
     this.game.writeTextToCanvas("Type 'p' to proceed to the next level", 48, centerX,
       550, 'center', 'white');

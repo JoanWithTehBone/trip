@@ -1,4 +1,3 @@
-import Baker from './Baker.js';
 import Game from './Game.js';
 
 export default abstract class GameItem {
@@ -20,13 +19,13 @@ export default abstract class GameItem {
     this.xPos = maxX;
     this.yPos = maxY;
   }
-  
+
   /**
    * draw
    *
    * @param ctx the rendering context to draw on
    */
-   public draw(ctx: CanvasRenderingContext2D): void {
+  public draw(ctx: CanvasRenderingContext2D): void {
     ctx.drawImage(this.img, this.xPos, this.yPos);
   }
 

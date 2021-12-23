@@ -47,16 +47,36 @@ export default class KeyListener {
     static KEY_Y = 89;
     static KEY_Z = 90;
     keyCodeStates = new Array();
+    keyCodeTyped = new Array();
+    previousState = new Array();
     constructor() {
         window.addEventListener('keydown', (ev) => {
             this.keyCodeStates[ev.keyCode] = true;
         });
         window.addEventListener('keyup', (ev) => {
             this.keyCodeStates[ev.keyCode] = false;
+            this.keyCodeTyped[ev.keyCode] = true;
+        });
+        window.addEventListener('keypress', (ev) => {
+            this.keyCodeStates[ev.keyCode] = true;
+        });
+    }
+    onFrameStart() {
+        this.keyCodeStates.forEach((val, key) => {
+            if (this.previousState[key] !== val && !this.keyCodeStates[key]) {
+                this.previousState[key] = val;
+            }
         });
     }
     isKeyDown(keyCode) {
         return this.keyCodeStates[keyCode] === true;
+    }
+    isKeyTyped(keyCode) {
+        if (this.keyCodeTyped[keyCode]) {
+            this.keyCodeTyped[keyCode] = false;
+            return true;
+        }
+        return false;
     }
 }
 //# sourceMappingURL=KeyListener.js.map
