@@ -1,23 +1,17 @@
 import GameItem from './GameItem.js';
 import KeyListener from './KeyListener.js';
-import Hunter from './Hunter.js';
-import BlackSmith from './BlackSmith.js';
-import Baker from './Baker.js';
 export default class Player extends GameItem {
     xVel;
     yVel;
-    baker;
-    blackSmith;
-    hunter;
+    dialogueBox;
     keyboard;
-    constructor() {
-        super('./assets/img/player.png', 720, 700);
+
+    constructor(xPos, yPos, dialogueBox) {
+        super('./assets/img/player.png', xPos, yPos);
         this.xVel = 3;
         this.yVel = 3;
         this.keyboard = new KeyListener();
-        this.baker = new Baker();
-        this.blackSmith = new BlackSmith();
-        this.hunter = new Hunter();
+        this.dialogueBox = dialogueBox;
     }
     move(canvas) {
         const minX = 0;
@@ -49,8 +43,16 @@ export default class Player extends GameItem {
             }
         }
     }
-    isCleaning() {
-        return this.keyboard.isKeyDown(KeyListener.KEY_SPACE);
+    getKeys() {
+        return this.keyboard;
+    }
+
+    isPressing() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_SPACE);
+
+    }
+    isContinuing() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_C);
     }
     collidesWith(other) {
         return this.xPos < other.getXPos() + other.getImageWidth()
@@ -58,26 +60,27 @@ export default class Player extends GameItem {
             && this.yPos < other.getYPos() + other.getImageHeight()
             && this.yPos + this.img.height > other.getYPos();
     }
-    interactWithBaker() {
-        if (this.collidesWith(this.baker)) {
-            console.log('INTERACTION WITH THE BAKER:)');
-            return false;
-        }
-        return true;
-    }
-    interactWithBlackSmith() {
-        if (this.collidesWith(this.blackSmith)) {
-            console.log('INTERACTION WITH THE BLACKSMITH:)');
-            return false;
-        }
-        return true;
-    }
-    interactWithHunter() {
-        if (this.collidesWith(this.hunter)) {
-            console.log('INTERACTION WITH THE HUNTER:)');
-            return false;
-        }
-        return true;
+    interactWith(npcs) {
+        let collides = true;
+        npcs.forEach((element) => {
+            if (this.collidesWith(element)) {
+                this.dialogueBox.setDisplay(true);
+                console.log('INTERACTION WITH THE npc:)');
+                if (element.getProgression() + 1 >= element.getDialogue().length) {
+                    element.talkToPlayer(3, this.dialogueBox);
+                }
+                else if (element.questCompleted()) {
+                    element.talkToPlayer(2, this.dialogueBox);
+                    element.setProgression(element.getProgression() + 1);
+                }
+                else if (element.getProgression() < 2) {
+                    element.talkToPlayer(element.getProgression(), this.dialogueBox);
+                    element.setProgression(element.getProgression() + 1);
+                }
+                collides = false;
+            }
+        });
+        return collides;
     }
     increaseSpeed(size) {
         this.xVel += size;

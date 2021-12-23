@@ -1,21 +1,22 @@
 import Game from './Game.js';
-import KeyListener from './KeyListener.js';
-import Scene from './Scene.js';
+import GameItem from './GameItem.js';
 
-export default class DialogueBox extends Scene {
+export default class DialogueBox extends GameItem {
   private display: boolean;
+
+  private currentDialogue: number;
 
   private xPosition: number;
 
   private yPosition: number;
 
-  private width: number;
+  private textXPos: number;
 
-  private height: number;
+  private textYPos: number;
 
   private dialogueList: string[];
 
-  private keyboard: KeyListener;
+  private game: Game;
 
   /**
    * Constructing the dialogue box
@@ -23,43 +24,101 @@ export default class DialogueBox extends Scene {
    * @param game the game
    * @param xPos the x position
    * @param yPos the y position
-   * @param dialogue the dialogye array
    */
-  constructor(game: Game, xPos: number, yPos: number, dialogue: string[]) {
-    super(game);
+  constructor(game: Game, xPos: number, yPos: number) {
+    super('', xPos, yPos);
     this.display = false;
+    // Positioning
     this.xPosition = xPos;
     this.yPosition = yPos;
-    this.width = (this.game.canvas.width / 5) * 3;
-    this.height = (this.game.canvas.height / 5);
-    this.dialogueList = dialogue;
+    this.textXPos = xPos + 250;
+    this.textYPos = yPos + 75;
+    console.log(this.dialogueList);
 
-    this.keyboard = new KeyListener();
+    this.game = game;
   }
 
   /**
-   * Transition between dialogue scenes
+   * Method to draw the whole Box to the screen.
+   *
+   * TODO => Create an custom version of the textbox:
+   *  - Add which NPC is talking
+   *  - Add Image to the left
+   *  - Change dimensions on the text to center it better
+   *  - Add continue prompt to show how to continue.
+   *
+   * @param ctx CanvasRenderingContext
    */
-  public processInput(): void {
-    if (this.keyboard.isKeyDown(KeyListener.KEY_C)) {
-      console.log('Moving on');
+  public drawBox(ctx: CanvasRenderingContext2D): void {
+    if (this.display) {
+      ctx.clearRect(this.xPosition, this.yPosition, 700, 200);
+      // Drawing a white rectangle on the canvas background
+      ctx.fillRect(this.xPosition, this.yPosition, 700, 200);
+      // console.log(this.npc.getProgression());
+      this.writeTextToBox(this.currentDialogue);
     }
   }
 
   /**
-   * words
+   * Method to write the text in the box to the screen
    *
-   * @param elapsed the frames elapsed
+   * @param currentDialogue the current integer of dialogue -> currentindex
    */
-  public update(elapsed: number): Scene {
-    throw new Error('Method not implemented.');
+  public writeTextToBox(currentDialogue: number): void {
+    this.game.writeTextToCanvas(this.dialogueList[currentDialogue], 32, this.textXPos, this.textYPos, 'center', 'black');
   }
 
   /**
-   * words
+   * Sets the display to be shown or not to be shown
+   *
+   * @param active Sets the new state of displaying
    */
-  public render(): void {
-    throw new Error('Method not implemented.');
+  public setDisplay(active: boolean): void {
+    this.display = active;
   }
 
+  /**
+   * Get display state
+   *
+   * @returns the display value [true or false]
+   */
+  public getDisplay(): boolean {
+    return this.display;
+  }
+
+  /**
+   * Gets the xPosition of the text inside of the textbox
+   *
+   * @returns xPosition of the text inside of the textbox
+   */
+  public getTextXPos(): number {
+    return this.textXPos;
+  }
+
+  /**
+   * Gets the yPosition of the text inside of the textbox
+   *
+   * @returns yPosition of the text inside of the textbox
+   */
+  public getTextYPos(): number {
+    return this.textYPos;
+  }
+
+  /**
+   * Sets the current integer of the dialogue index
+   *
+   * @param currentDialogue the current integer of dialogue -> currentindex
+   */
+  public setCurrentDialogue(currentDialogue: number): void {
+    this.currentDialogue = currentDialogue;
+  }
+
+  /**
+   * Sets the dialogue of the current character
+   *
+   * @param list the current list of dialogue
+   */
+  public setDialogueList(list: string[]): void {
+    this.dialogueList = list;
+  }
 }
