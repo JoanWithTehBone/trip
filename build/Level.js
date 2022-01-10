@@ -2,14 +2,34 @@ import Scene from './Scene.js';
 import Player from './Player.js';
 import GameOver from './GameOver.js';
 import LevelUp from './LevelUp.js';
-import House from './House.js';
+import DialogueBox from './DialogueBox.js';
+import Baker from './Baker.js';
+import BlackSmith from './BlackSmith.js';
+import Hunter from './Hunter.js';
 export default class Level extends Scene {
     player;
-    house;
+    dialogueBox;
+    baker;
+    blacksmith;
+    hunter;
+    npcs;
+    keyboard;
+    hunterProgression;
+    blacksmithProgression;
+    bakerProgression;
     constructor(game) {
         super(game);
-        this.house = new House(this.game.canvas.width, this.game.canvas.height);
-        this.player = new Player(this.game.canvas.width, this.game.canvas.height);
+        this.baker = new Baker();
+        this.blacksmith = new BlackSmith();
+        this.hunter = new Hunter();
+        this.dialogueBox = new DialogueBox(this.game, this.game.canvas.width / 2 - 350, (this.game.canvas.height / 5) * 3.5);
+        this.npcs = [];
+        this.npcs.push(this.baker, this.blacksmith, this.hunter);
+        this.player = new Player(game.canvas.width / 2, game.canvas.height / 2, this.dialogueBox);
+        this.keyboard = this.player.getKeys();
+        this.hunterProgression = 0;
+        this.blacksmithProgression = 0;
+        this.bakerProgression = 0;
     }
     hasWon() {
         const user = this.game.getUser();
@@ -19,8 +39,12 @@ export default class Level extends Scene {
         this.player.move(this.game.canvas);
     }
     update() {
-        if (this.player.isCleaning()) {
-            this.interact();
+        this.keyboard.onFrameStart();
+        if (this.player.isPressing()) {
+            this.player.interactWith(this.npcs);
+        }
+        if (this.player.isContinuing()) {
+            this.dialogueBox.setDisplay(false);
         }
         if (this.hasWon()) {
             return new LevelUp(this.game);
@@ -32,17 +56,18 @@ export default class Level extends Scene {
     }
     render() {
         this.game.ctx.clearRect(0, 0, this.game.canvas.width, this.game.canvas.height);
-        const score = `Score: ${this.game.getUser().getScore()}`;
-        this.game.writeTextToCanvas(score, 36, 120, 50);
         this.player.draw(this.game.ctx);
-        this.house.draw(this.game.ctx);
+        this.baker.draw(this.game.ctx);
+        this.blacksmith.draw(this.game.ctx);
+        this.hunter.draw(this.game.ctx);
+        this.dialogueBox.drawBox(this.game.ctx);
+        this.interact();
     }
     interact() {
-        if (this.player.collidesWith(this.house)) {
-            console.log('INTERACTION :)');
-            return false;
-        }
-        return true;
+        const score = `Score: ${this.game.getUser().getScore()}`;
+        this.game.writeTextToCanvas(score, 36, 120, 50);
+        const hp = `HP: ${this.game.getUser().getHP()}`;
+        this.game.writeTextToCanvas(hp, 36, 120, 100);
     }
 }
 //# sourceMappingURL=Level.js.map

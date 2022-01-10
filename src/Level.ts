@@ -3,13 +3,38 @@ import Scene from './Scene.js';
 import Player from './Player.js';
 import GameOver from './GameOver.js';
 import LevelUp from './LevelUp.js';
-import House from './House.js';
+import DialogueBox from './DialogueBox.js';
+import Baker from './Baker.js';
+import BlackSmith from './BlackSmith.js';
+import Hunter from './Hunter.js';
+import KeyListener from './KeyListener.js';
+import NPC from './NPC.js';
 
 export default class Level extends Scene {
   // Player
   private player: Player;
 
-  private house: House;
+  private dialogueBox: DialogueBox;
+
+  // NPCS
+  private baker: Baker;
+
+  private blacksmith: BlackSmith;
+
+  private hunter: Hunter;
+
+  private npcs: NPC[];
+
+  // Keyboard
+  private keyboard: KeyListener;
+
+  // Progression Values for each Character
+  private hunterProgression: number;
+
+  private blacksmithProgression: number;
+
+  private bakerProgression: number;
+
   /**
    * Creates a new instance of this class
    *
@@ -17,12 +42,34 @@ export default class Level extends Scene {
    */
   public constructor(game: Game) {
     super(game);
+    // Create Characters
+    this.baker = new Baker();
+    this.blacksmith = new BlackSmith();
+    this.hunter = new Hunter();
 
-    this.house = new House(this.game.canvas.width, this.game.canvas.height);
+    // Create DialogueBox
+    this.dialogueBox = new DialogueBox(
+      this.game,
+      this.game.canvas.width / 2 - 350,
+      (this.game.canvas.height / 5) * 3.5,
+    );
+
+    // Create a new array of NPCS to pass on
+    this.npcs = [];
+    this.npcs.push(this.baker, this.blacksmith, this.hunter);
+
     // Create player
-    this.player = new Player(this.game.canvas.width, this.game.canvas.height);
+    this.player = new Player(
+      game.canvas.width / 2,
+      game.canvas.height / 2,
+      this.dialogueBox,
+    );
+    this.keyboard = this.player.getKeys();
+    // Create Progression Values
+    this.hunterProgression = 0;
+    this.blacksmithProgression = 0;
+    this.bakerProgression = 0;
   }
-
 
   private hasWon(): boolean {
     const user = this.game.getUser();
@@ -47,15 +94,20 @@ export default class Level extends Scene {
    * In other words, by returning a Scene object, you can set the next scene to
    * animate.
    *
-   * @param elapsed the time in ms that has been elapsed since the previous
-   *   call
    * @returns a new `Scene` object if the game should start animating that scene
    *   on the next animation frame. If the game should just continue with the
    *   current scene, just return `null`
    */
   public update(): Scene {
-    if (this.player.isCleaning()) {
-      this.interact();
+    // this.player.onFrameStartListener();
+    this.keyboard.onFrameStart();
+
+    if (this.player.isPressing()) {
+      this.player.interactWith(this.npcs);
+    }
+
+    if (this.player.isContinuing()) {
+      this.dialogueBox.setDisplay(false);
     }
 
     // Move to level clear screen
@@ -77,22 +129,23 @@ export default class Level extends Scene {
   public render(): void {
     // Clear the screen
     this.game.ctx.clearRect(0, 0, this.game.canvas.width, this.game.canvas.height);
-    // Show score
-    const score = `Score: ${this.game.getUser().getScore()}`;
-    this.game.writeTextToCanvas(score, 36, 120, 50);
 
     this.player.draw(this.game.ctx);
-    this.house.draw(this.game.ctx);
+    this.baker.draw(this.game.ctx);
+    this.blacksmith.draw(this.game.ctx);
+    this.hunter.draw(this.game.ctx);
+
+    this.dialogueBox.drawBox(this.game.ctx);
+
+    this.interact();
   }
 
   private interact() {
-    // create a new array with garbage item that are still on the screen
-    // (filter the clicked garbage item out of the array garbage items)
-    if (this.player.collidesWith(this.house)) {
-      console.log('INTERACTION :)')
-      return false;
-    }
-    return true;
-  }
+    const score = `Score: ${this.game.getUser().getScore()}`;
+    this.game.writeTextToCanvas(score, 36, 120, 50);
 
+    // Show HP
+    const hp = `HP: ${this.game.getUser().getHP()}`;
+    this.game.writeTextToCanvas(hp, 36, 120, 100);
+  }
 }
