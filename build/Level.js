@@ -6,9 +6,11 @@ import DialogueBox from './DialogueBox.js';
 import Baker from './Baker.js';
 import BlackSmith from './BlackSmith.js';
 import Hunter from './Hunter.js';
+import QuestBox from './QuestBox.js';
 export default class Level extends Scene {
     player;
     dialogueBox;
+    questBox;
     baker;
     blacksmith;
     hunter;
@@ -23,9 +25,10 @@ export default class Level extends Scene {
         this.blacksmith = new BlackSmith();
         this.hunter = new Hunter();
         this.dialogueBox = new DialogueBox(this.game, this.game.canvas.width / 2 - 350, (this.game.canvas.height / 5) * 3.5);
+        this.questBox = new QuestBox(this.game, this.game.canvas.width / 2 - 350, (this.game.canvas.height / 5) * 3.5);
         this.npcs = [];
         this.npcs.push(this.baker, this.blacksmith, this.hunter);
-        this.player = new Player(game.canvas.width / 2, game.canvas.height / 2, this.dialogueBox);
+        this.player = new Player(game.canvas.width / 2, game.canvas.height / 2, this.dialogueBox, this.questBox);
         this.keyboard = this.player.getKeys();
         this.hunterProgression = 0;
         this.blacksmithProgression = 0;

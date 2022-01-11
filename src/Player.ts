@@ -2,6 +2,7 @@ import GameItem from './GameItem.js';
 import KeyListener from './KeyListener.js';
 import NPC from './NPC.js';
 import DialogueBox from './DialogueBox.js';
+import QuestBox from './QuestBox.js';
 
 export default class Player extends GameItem {
   private xVel: number;
@@ -10,7 +11,7 @@ export default class Player extends GameItem {
 
   private dialogueBox: DialogueBox;
 
-  private bakerQuest: Baker;
+  private questBox: QuestBox;
 
   // KeyboardListener so the player can move
   private keyboard: KeyListener;
@@ -26,6 +27,7 @@ export default class Player extends GameItem {
     xPos: number,
     yPos: number,
     dialogueBox: DialogueBox,
+    questBox: QuestBox
   ) {
     super('./assets/img/player.png', xPos, yPos);
     this.xVel = 3;
@@ -33,6 +35,7 @@ export default class Player extends GameItem {
     this.keyboard = new KeyListener();
 
     this.dialogueBox = dialogueBox;
+    this.questBox = questBox;
   }
 
   /**
@@ -185,16 +188,25 @@ export default class Player extends GameItem {
   }
 
   public questWith(npcs: NPC[]): boolean {
+    let collides: boolean = true;
     if (this.isQuesting) {
-      let collides: boolean = true;
       npcs.forEach((element) => {
         if (this.collidesWith(element)) {
-          this.questline.setDisplay(true);
+          this.questBox.setDisplay(true);
           console.log('quest WITH THE npc:)');
+          if (element.getProgression() + 1 >= element.getQuest().length) {
+            element.questingToPlayer(3, this.questBox);
+          } else if (element.questCompleted()) {
+            element.questingToPlayer(2, this.questBox);
+            element.setProgression(element.getProgression() + 1);
+          } else if (element.getProgression() < 2) {
+            element.questingToPlayer(element.getProgression(), this.questBox);
+            element.setProgression(element.getProgression() + 1);
+          }
           collides = false;
         }
       });
-      return true;
+      return collides;
     }
     return false;
   }

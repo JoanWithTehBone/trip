@@ -29,6 +29,6 @@ export default class Baker extends NPC {
   // }
 
   public questFactory(): void {
-    this.questline.push('questbaker', 'qqq');
+    this.questline.push('questbaker', 'qqq', 'qqqqqqq', 'qqqqqqqqqqqq');
   }
 }

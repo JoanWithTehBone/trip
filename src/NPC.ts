@@ -1,5 +1,6 @@
 import DialogueBox from './DialogueBox.js';
 import GameItem from './GameItem.js';
+import QuestBox from './QuestBox.js';
 
 export default abstract class NPC extends GameItem {
   protected name: string;
@@ -9,6 +10,8 @@ export default abstract class NPC extends GameItem {
   protected progression: number;
 
   protected dialogue: string[];
+
+  protected questDialogue: string[];
 
   protected quest: boolean;
 
@@ -58,6 +61,31 @@ export default abstract class NPC extends GameItem {
     }
   }
 
+  public questingToPlayer(questIndex: number, questBox: QuestBox): void {
+    questBox.setQuestList(this.dialogue);
+    if (questIndex === 0) {
+      console.log(questBox.getDisplay());
+      if (questBox.getDisplay()) {
+        questBox.setCurrentDialogue(0);
+      }
+    } else if (questIndex === 1) {
+      console.log(this.dialogue[1]);
+      if (questBox.getDisplay()) {
+        questBox.setCurrentDialogue(1);
+      }
+    } else if (questIndex === 2) {
+      console.log(this.dialogue[2]);
+      if (questBox.getDisplay()) {
+        questBox.setCurrentDialogue(2);
+      }
+    } else {
+      console.log(this.dialogue[3]);
+      if (questBox.getDisplay()) {
+        questBox.setCurrentDialogue(3);
+      }
+    }
+  }
+
   /**
    * Checks if the Hunter Quest is completed
    *
@@ -97,5 +125,12 @@ export default abstract class NPC extends GameItem {
     return this.dialogue;
   }
 
-
+  /**
+ * Gets the progression of the NPC
+ *
+ * @returns Progression of the child
+ */
+  public getQuest(): string[] {
+    return this.questDialogue;
+  }
 }
