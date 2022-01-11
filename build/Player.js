@@ -4,8 +4,8 @@ export default class Player extends GameItem {
     xVel;
     yVel;
     dialogueBox;
+    bakerQuestBox;
     keyboard;
-
     constructor(xPos, yPos, dialogueBox) {
         super('./assets/img/player.png', xPos, yPos);
         this.xVel = 3;
@@ -46,13 +46,14 @@ export default class Player extends GameItem {
     getKeys() {
         return this.keyboard;
     }
-
     isPressing() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_SPACE);
-
     }
     isContinuing() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_C);
+    }
+    isQuesting() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_Q);
     }
     collidesWith(other) {
         return this.xPos < other.getXPos() + other.getImageWidth()
@@ -77,6 +78,17 @@ export default class Player extends GameItem {
                     element.talkToPlayer(element.getProgression(), this.dialogueBox);
                     element.setProgression(element.getProgression() + 1);
                 }
+                collides = false;
+            }
+        });
+        return collides;
+    }
+    questWith(npcs) {
+        let collides = true;
+        npcs.forEach((element) => {
+            if (this.collidesWith(element)) {
+                this.bakerQuestBox.setDisplay(true);
+                console.log('quest WITH THE npc:)');
                 collides = false;
             }
         });

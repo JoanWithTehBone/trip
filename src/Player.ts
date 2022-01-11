@@ -2,6 +2,7 @@ import GameItem from './GameItem.js';
 import KeyListener from './KeyListener.js';
 import NPC from './NPC.js';
 import DialogueBox from './DialogueBox.js';
+import BakerQuestBox from './BakerQuestBox.js';
 
 export default class Player extends GameItem {
   private xVel: number;
@@ -9,6 +10,8 @@ export default class Player extends GameItem {
   private yVel: number;
 
   private dialogueBox: DialogueBox;
+
+  private bakerQuestBox: BakerQuestBox;
 
   // KeyboardListener so the player can move
   private keyboard: KeyListener;
@@ -26,8 +29,6 @@ export default class Player extends GameItem {
     dialogueBox: DialogueBox,
   ) {
     super('./assets/img/player.png', xPos, yPos);
-
-
     this.xVel = 3;
     this.yVel = 3;
     this.keyboard = new KeyListener();
@@ -113,6 +114,14 @@ export default class Player extends GameItem {
   }
 
   /**
+ *
+ * @returns true if the player is continuing up
+ */
+  public isQuesting(): boolean {
+    return this.keyboard.isKeyTyped(KeyListener.KEY_Q);
+  }
+
+  /**
    *
    * @param other the other GameItem
    * @returns true if this object collides with the specified other object
@@ -123,7 +132,6 @@ export default class Player extends GameItem {
       && this.yPos < other.getYPos() + other.getImageHeight()
       && this.yPos + this.img.height > other.getYPos();
   }
-
 
   // public interactWithBaker(): boolean {
   //   // create a new array with garbage item that are still on the screen
@@ -177,7 +185,17 @@ export default class Player extends GameItem {
     return collides;
   }
 
-
+  public questWith(npcs: NPC[]): boolean {
+    let collides: boolean = true;
+    npcs.forEach((element) => {
+      if (this.collidesWith(element)) {
+        this.bakerQuestBox.setDisplay(true);
+        console.log('quest WITH THE npc:)');
+        collides = false;
+      }
+    });
+    return collides;
+  }
 
   /**
    * Increases the speed
