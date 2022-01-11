@@ -2,7 +2,6 @@ import GameItem from './GameItem.js';
 import KeyListener from './KeyListener.js';
 import NPC from './NPC.js';
 import DialogueBox from './DialogueBox.js';
-import BakerQuestBox from './BakerQuestBox.js';
 
 export default class Player extends GameItem {
   private xVel: number;
@@ -11,7 +10,7 @@ export default class Player extends GameItem {
 
   private dialogueBox: DialogueBox;
 
-  private bakerQuestBox: BakerQuestBox;
+  private bakerQuest: Baker;
 
   // KeyboardListener so the player can move
   private keyboard: KeyListener;
@@ -186,15 +185,18 @@ export default class Player extends GameItem {
   }
 
   public questWith(npcs: NPC[]): boolean {
-    let collides: boolean = true;
-    npcs.forEach((element) => {
-      if (this.collidesWith(element)) {
-        this.bakerQuestBox.setDisplay(true);
-        console.log('quest WITH THE npc:)');
-        collides = false;
-      }
-    });
-    return collides;
+    if (this.isQuesting) {
+      let collides: boolean = true;
+      npcs.forEach((element) => {
+        if (this.collidesWith(element)) {
+          this.questline.setDisplay(true);
+          console.log('quest WITH THE npc:)');
+          collides = false;
+        }
+      });
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -206,4 +208,5 @@ export default class Player extends GameItem {
     this.xVel += size;
     this.yVel += size;
   }
+
 }

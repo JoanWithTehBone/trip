@@ -10,6 +10,8 @@ export default abstract class NPC extends GameItem {
 
   protected dialogue: string[];
 
+  protected quest: boolean;
+
   /**
    * Constructor of the NPC abstract class
    *
@@ -94,4 +96,6 @@ export default abstract class NPC extends GameItem {
   public getDialogue(): string[] {
     return this.dialogue;
   }
+
+
 }

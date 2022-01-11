@@ -84,15 +84,18 @@ export default class Player extends GameItem {
         return collides;
     }
     questWith(npcs) {
-        let collides = true;
-        npcs.forEach((element) => {
-            if (this.collidesWith(element)) {
-                this.bakerQuestBox.setDisplay(true);
-                console.log('quest WITH THE npc:)');
-                collides = false;
-            }
-        });
-        return collides;
+        if (this.isQuesting) {
+            let collides = true;
+            npcs.forEach((element) => {
+                if (this.collidesWith(element)) {
+                    this.bakerQuestBox.setDisplay(true);
+                    console.log('quest WITH THE npc:)');
+                    collides = false;
+                }
+            });
+            return true;
+        }
+        return false;
     }
     increaseSpeed(size) {
         this.xVel += size;

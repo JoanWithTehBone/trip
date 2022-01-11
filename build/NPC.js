@@ -4,6 +4,7 @@ export default class NPC extends GameItem {
     completed;
     progression;
     dialogue;
+    quest;
     constructor(imageSrc, maxX, maxY) {
         super(imageSrc, maxX, maxY);
     }

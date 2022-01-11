@@ -1,6 +1,8 @@
 import NPC from './NPC.js';
 
 export default class Baker extends NPC {
+  protected questline: string[];
+
   /**
    * Constructor for the baker class
    */
@@ -11,6 +13,7 @@ export default class Baker extends NPC {
     this.completed = true;
     this.dialogue = [];
     this.dialogueFactory();
+    this.questFactory();
   }
 
   /**
@@ -24,4 +27,8 @@ export default class Baker extends NPC {
   // public giveReward(): void {
 
   // }
+
+  public questFactory(): void {
+    this.questline.push('questbaker', 'qqq');
+  }
 }

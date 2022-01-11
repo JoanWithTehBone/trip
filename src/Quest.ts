@@ -1,6 +1,15 @@
+//  export default class Quest {
+//   protected quests: string[] = ['quest'];
 
-export default class Quest {
+//   protected completedQuests: number[] = [];
 
-protected quests: string[] = ['quest'];
+//   public iterateQuest():boolean {
+//     this.completedQuests.forEach(quest => {
+//       if (quest === ){
 
-}
+//       } else if {
+
+//       }
+//     });
+//   }
+// }
