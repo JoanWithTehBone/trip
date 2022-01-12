@@ -9,7 +9,7 @@ export default class GameItem {
         this.yPos = maxY;
     }
     draw(ctx) {
-        ctx.drawImage(this.img, this.xPos, this.yPos);
+        ctx.drawImage(this.img, 0, 0, 64, 50, this.xPos, this.yPos, 40, 32);
     }
     getImageHeight() {
         return this.img.height;
