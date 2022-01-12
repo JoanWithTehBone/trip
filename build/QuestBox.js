@@ -13,19 +13,19 @@ export default class DialogueBox extends GameItem {
         this.display = false;
         this.xPosition = xPos;
         this.yPosition = yPos;
-        this.textXPos = xPos + 250;
-        this.textYPos = yPos + 75;
+        this.textXPos = xPos + 20;
+        this.textYPos = yPos + 35;
         this.game = game;
     }
     drawBox(ctx) {
         if (this.display) {
-            ctx.clearRect(this.xPosition, this.yPosition, 700, 200);
-            ctx.fillRect(this.xPosition, this.yPosition, 700, 200);
+            ctx.clearRect(this.xPosition, this.yPosition, 1000, 550);
+            ctx.fillRect(this.xPosition, this.yPosition, 1000, 550);
             this.writeTextToBox(this.currentDialogue);
         }
     }
     writeTextToBox(currentDialogue) {
-        this.game.writeTextToCanvas(this.questList[currentDialogue], 32, this.textXPos, this.textYPos, 'center', 'black');
+        this.game.writeTextToCanvas(this.questList[currentDialogue], 26, this.textXPos, this.textYPos, 'center', 'black');
     }
     setDisplay(active) {
         this.display = active;

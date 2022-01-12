@@ -10,6 +10,7 @@ import Hunter from './Hunter.js';
 import KeyListener from './KeyListener.js';
 import NPC from './NPC.js';
 import QuestBox from './QuestBox.js';
+import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
 
 export default class Level extends Scene {
   // Player
@@ -18,6 +19,8 @@ export default class Level extends Scene {
   private dialogueBox: DialogueBox;
 
   private questBox: QuestBox;
+
+  private yesorNoQuestPrompt : YesorNoQuestPrompt;
 
   // NPCS
   private baker: Baker;
@@ -53,14 +56,23 @@ export default class Level extends Scene {
     // Create DialogueBox
     this.dialogueBox = new DialogueBox(
       this.game,
-      this.game.canvas.width / 2 - 350,
-      (this.game.canvas.height / 5) * 3.5,
+      this.game.canvas.width / 2 - 600, // xPosition
+      (this.game.canvas.height / 5) * 3.7, // yPosition
     );
 
+    // Create the QuestBox
     this.questBox = new QuestBox(
       this.game,
-      this.game.canvas.width / 2 - 350,
-      (this.game.canvas.height / 5) * 3.5,
+      this.game.canvas.width / 2 - 500, // xPosition
+      (this.game.canvas.height / 8) * 0.5, // yPostition
+    );
+
+    // Create the Yes or no prompt box
+    this.yesorNoQuestPrompt = new YesorNoQuestPrompt(
+      this.game,
+      this.baker,
+      this.game.canvas.width / 2 - 300, // xPosition
+      (this.game.canvas.height / 8) * 3, // yPostition
     );
 
     // Create a new array of NPCS to pass on
@@ -73,6 +85,7 @@ export default class Level extends Scene {
       game.canvas.height / 2,
       this.dialogueBox,
       this.questBox,
+      this.yesorNoQuestPrompt,
     );
     this.keyboard = this.player.getKeys();
     // Create Progression Values
@@ -113,6 +126,7 @@ export default class Level extends Scene {
     this.keyboard.onFrameStart();
 
     if (this.player.isPressing()) {
+      this.questBox.setDisplay(false);
       this.player.interactWith(this.npcs);
     }
 
@@ -120,7 +134,9 @@ export default class Level extends Scene {
       this.dialogueBox.setDisplay(false);
     }
 
-    if (this.player.isQuesting()) {
+    if (this.player.startQuestYes()) {
+      this.dialogueBox.setDisplay(false);
+      this.yesorNoQuestPrompt.setDisplay(false);
       this.player.questWith(this.npcs);
     }
 
@@ -144,14 +160,14 @@ export default class Level extends Scene {
     // Clear the screen
     this.game.ctx.clearRect(0, 0, this.game.canvas.width, this.game.canvas.height);
 
-    this.player.draw(this.game.ctx);
     this.baker.draw(this.game.ctx);
     this.blacksmith.draw(this.game.ctx);
     this.hunter.draw(this.game.ctx);
+    this.player.draw(this.game.ctx);
 
-    this.dialogueBox.drawBox(this.game.ctx);
     this.questBox.drawBox(this.game.ctx);
-
+    this.dialogueBox.drawBox(this.game.ctx);
+    this.yesorNoQuestPrompt.drawBox(this.game.ctx);
     this.interact();
   }
 

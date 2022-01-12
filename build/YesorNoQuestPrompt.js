@@ -1,32 +1,33 @@
 import GameItem from './GameItem.js';
-export default class DialogueBox extends GameItem {
+export default class YesorNoQuestPrompt extends GameItem {
     display;
     currentDialogue;
     xPosition;
     yPosition;
     textXPos;
     textYPos;
-    dialogueList;
     questList;
     game;
-    constructor(game, xPos, yPos) {
+    baker;
+    constructor(game, baker, xPos, yPos) {
         super('', xPos, yPos);
         this.display = false;
         this.xPosition = xPos;
         this.yPosition = yPos;
-        this.textXPos = xPos + 200;
-        this.textYPos = yPos + 45;
+        this.textXPos = xPos + 20;
+        this.textYPos = yPos + 35;
         this.game = game;
+        this.baker = baker;
     }
     drawBox(ctx) {
         if (this.display) {
-            ctx.clearRect(this.xPosition, this.yPosition, 1200, 200);
-            ctx.fillRect(this.xPosition, this.yPosition, 1200, 200);
-            this.writeTextToBox(this.currentDialogue);
+            ctx.clearRect(this.xPosition, this.yPosition, 600, 250);
+            ctx.fillRect(this.xPosition, this.yPosition, 600, 250);
+            this.writeTextToBox();
         }
     }
-    writeTextToBox(currentDialogue) {
-        this.game.writeTextToCanvas(this.dialogueList[currentDialogue], 26, this.textXPos, this.textYPos, 'center', 'black');
+    writeTextToBox() {
+        this.game.writeTextToCanvas(this.baker.getYesorNoText(), 26, this.textXPos, this.textYPos, 'center', 'black');
     }
     setDisplay(active) {
         this.display = active;
@@ -43,11 +44,8 @@ export default class DialogueBox extends GameItem {
     setCurrentDialogue(currentDialogue) {
         this.currentDialogue = currentDialogue;
     }
-    setDialogueList(list) {
-        this.dialogueList = list;
-    }
     setQuestList(list) {
         this.questList = list;
     }
 }
-//# sourceMappingURL=DialogueBox.js.map
+//# sourceMappingURL=YesorNoQuestPrompt.js.map
