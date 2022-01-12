@@ -121,8 +121,16 @@ export default class Player extends GameItem {
    *
    * @returns true if the player is continuing up
    */
-  public isQuesting(): boolean {
-    return this.keyboard.isKeyTyped(KeyListener.KEY_Q);
+  public startQuestYes(): boolean {
+    return this.keyboard.isKeyTyped(KeyListener.KEY_Y);
+  }
+
+  /**
+   *
+   * @returns true if the player is continuing up
+   */
+  public startQuestNo(): boolean {
+    return this.keyboard.isKeyTyped(KeyListener.KEY_N);
   }
 
   /**

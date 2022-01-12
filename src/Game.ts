@@ -58,7 +58,7 @@ export default class Game {
    */
   public writeTextToCanvas(
     text: string,
-    fontSize: number = 20,
+    fontSize: number = 14,
     xCoordinate: number,
     yCoordinate: number,
     alignment: CanvasTextAlign = 'center',

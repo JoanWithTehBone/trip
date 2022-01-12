@@ -53,14 +53,14 @@ export default class Level extends Scene {
     // Create DialogueBox
     this.dialogueBox = new DialogueBox(
       this.game,
-      this.game.canvas.width / 2 - 350,
-      (this.game.canvas.height / 5) * 3.5,
+      this.game.canvas.width / 2 - 600, // xPosition
+      (this.game.canvas.height / 5) * 3.7, // yPosition
     );
 
     this.questBox = new QuestBox(
       this.game,
-      this.game.canvas.width / 2 - 350,
-      (this.game.canvas.height / 5) * 3.5,
+      this.game.canvas.width / 2 - 500, // xPosition
+      (this.game.canvas.height / 8) * 0.5, // yPostition
     );
 
     // Create a new array of NPCS to pass on
@@ -113,6 +113,7 @@ export default class Level extends Scene {
     this.keyboard.onFrameStart();
 
     if (this.player.isPressing()) {
+      this.questBox.setDisplay(false);
       this.player.interactWith(this.npcs);
     }
 
@@ -121,6 +122,7 @@ export default class Level extends Scene {
     }
 
     if (this.player.isQuesting()) {
+      this.dialogueBox.setDisplay(false);
       this.player.questWith(this.npcs);
     }
 
@@ -149,6 +151,7 @@ export default class Level extends Scene {
     this.blacksmith.draw(this.game.ctx);
     this.hunter.draw(this.game.ctx);
 
+    this.questBox.drawBox(this.game.ctx);
     this.dialogueBox.drawBox(this.game.ctx);
 
     this.interact();

@@ -31,8 +31,8 @@ export default class DialogueBox extends GameItem {
     // Positioning
     this.xPosition = xPos;
     this.yPosition = yPos;
-    this.textXPos = xPos + 250;
-    this.textYPos = yPos + 75;
+    this.textXPos = xPos + 20;
+    this.textYPos = yPos + 35;
 
     this.game = game;
   }
@@ -50,9 +50,9 @@ export default class DialogueBox extends GameItem {
    */
   public drawBox(ctx: CanvasRenderingContext2D): void {
     if (this.display) {
-      ctx.clearRect(this.xPosition, this.yPosition, 700, 200);
+      ctx.clearRect(this.xPosition, this.yPosition, 1000, 550);
       // Drawing a white rectangle on the canvas background
-      ctx.fillRect(this.xPosition, this.yPosition, 700, 200);
+      ctx.fillRect(this.xPosition, this.yPosition, 1000, 550);
       // console.log(this.npc.getProgression());
       this.writeTextToBox(this.currentDialogue);
     }
@@ -64,7 +64,7 @@ export default class DialogueBox extends GameItem {
    * @param currentDialogue the current integer of dialogue -> currentindex
    */
   public writeTextToBox(currentDialogue: number): void {
-    this.game.writeTextToCanvas(this.questList[currentDialogue], 32, this.textXPos, this.textYPos, 'center', 'black');
+    this.game.writeTextToCanvas(this.questList[currentDialogue], 26, this.textXPos, this.textYPos, 'center', 'black');
   }
 
   /**

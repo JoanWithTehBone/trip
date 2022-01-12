@@ -24,8 +24,8 @@ export default class Level extends Scene {
         this.baker = new Baker();
         this.blacksmith = new BlackSmith();
         this.hunter = new Hunter();
-        this.dialogueBox = new DialogueBox(this.game, this.game.canvas.width / 2 - 350, (this.game.canvas.height / 5) * 3.5);
-        this.questBox = new QuestBox(this.game, this.game.canvas.width / 2 - 350, (this.game.canvas.height / 5) * 3.5);
+        this.dialogueBox = new DialogueBox(this.game, this.game.canvas.width / 2 - 600, (this.game.canvas.height / 5) * 3.7);
+        this.questBox = new QuestBox(this.game, this.game.canvas.width / 2 - 500, (this.game.canvas.height / 8) * 0.5);
         this.npcs = [];
         this.npcs.push(this.baker, this.blacksmith, this.hunter);
         this.player = new Player(game.canvas.width / 2, game.canvas.height / 2, this.dialogueBox, this.questBox);
@@ -44,12 +44,14 @@ export default class Level extends Scene {
     update() {
         this.keyboard.onFrameStart();
         if (this.player.isPressing()) {
+            this.questBox.setDisplay(false);
             this.player.interactWith(this.npcs);
         }
         if (this.player.isContinuing()) {
             this.dialogueBox.setDisplay(false);
         }
         if (this.player.isQuesting()) {
+            this.dialogueBox.setDisplay(false);
             this.player.questWith(this.npcs);
         }
         if (this.hasWon()) {
@@ -66,6 +68,7 @@ export default class Level extends Scene {
         this.baker.draw(this.game.ctx);
         this.blacksmith.draw(this.game.ctx);
         this.hunter.draw(this.game.ctx);
+        this.questBox.drawBox(this.game.ctx);
         this.dialogueBox.drawBox(this.game.ctx);
         this.interact();
     }
