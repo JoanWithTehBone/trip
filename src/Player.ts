@@ -129,8 +129,40 @@ export default class Player extends GameItem {
    *
    * @returns true if the player is continuing up
    */
-  public startQuestNo(): boolean {
+  public refuseQuestNo(): boolean {
     return this.keyboard.isKeyTyped(KeyListener.KEY_N);
+  }
+
+  /**
+   *
+   * @returns true if the player is continuing up
+   */
+  public answerQuestA(): boolean {
+    return this.keyboard.isKeyTyped(KeyListener.KEY_A);
+  }
+
+  /**
+   *
+   * @returns true if the player is continuing up
+   */
+  public answerQuestB(): boolean {
+    return this.keyboard.isKeyTyped(KeyListener.KEY_B);
+  }
+
+  /**
+   *
+   * @returns true if the player is continuing up
+   */
+  public answerQuestC(): boolean {
+    return this.keyboard.isKeyTyped(KeyListener.KEY_C);
+  }
+
+  /**
+   *
+   * @returns true if the player is continuing up
+   */
+  public answerQuestD(): boolean {
+    return this.keyboard.isKeyTyped(KeyListener.KEY_D);
   }
 
   /**
@@ -185,7 +217,7 @@ export default class Player extends GameItem {
    */
   public questWith(npcs: NPC[]): boolean {
     let collides: boolean = true;
-    if (this.isQuesting) {
+    if (this.startQuestYes) {
       npcs.forEach((element) => {
         if (this.collidesWith(element)) {
           this.questBox.setDisplay(true);

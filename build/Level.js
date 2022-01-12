@@ -50,7 +50,7 @@ export default class Level extends Scene {
         if (this.player.isContinuing()) {
             this.dialogueBox.setDisplay(false);
         }
-        if (this.player.isQuesting()) {
+        if (this.player.startQuestYes()) {
             this.dialogueBox.setDisplay(false);
             this.player.questWith(this.npcs);
         }

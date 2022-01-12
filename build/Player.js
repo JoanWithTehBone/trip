@@ -53,8 +53,23 @@ export default class Player extends GameItem {
     isContinuing() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_C);
     }
-    isQuesting() {
-        return this.keyboard.isKeyTyped(KeyListener.KEY_Q);
+    startQuestYes() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_Y);
+    }
+    refuseQuestNo() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_N);
+    }
+    answerQuestA() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_A);
+    }
+    answerQuestB() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_B);
+    }
+    answerQuestC() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_C);
+    }
+    answerQuestD() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_D);
     }
     collidesWith(other) {
         return this.xPos < other.getXPos() + other.getImageWidth()
@@ -86,7 +101,7 @@ export default class Player extends GameItem {
     }
     questWith(npcs) {
         let collides = true;
-        if (this.isQuesting) {
+        if (this.startQuestYes) {
             npcs.forEach((element) => {
                 if (this.collidesWith(element)) {
                     this.questBox.setDisplay(true);
