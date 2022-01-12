@@ -1,6 +1,4 @@
 export default class UserData {
-  private name: string;
-
   private score: number;
 
   private level: number;
@@ -14,34 +12,25 @@ export default class UserData {
 
   /**
    * Creates a new instance of this class
+   *
+   * @param health the character's health value
+   * @param attack the character's attack value
+   * @param defense the character's defense value
    */
-  public constructor() {
+  public constructor(health: number, attack: number, defense: number) {
+    /**
+     * TODO
+     * If we want to increase the game difficulty we can use 'level' to increase the monster's
+     * stats in Monster.ts file
+     */
     this.level = 1;
+    // TODO Might change to instead count the number of completed quests
     this.score = 0;
-    this.name = 'Player 1';
 
     // Initializing the variables
-    this.hp = 10;
-    this.atk = 1;
-    this.def = 1;
-  }
-
-  /**
-   * getName
-   *
-   * @returns the name
-   */
-  public getName(): string {
-    return this.name;
-  }
-
-  /**
-   * setName
-   *
-   * @param name the name to set
-   */
-  public setName(name: string): void {
-    this.name = name;
+    this.hp = health;
+    this.atk = attack;
+    this.def = defense;
   }
 
   /**

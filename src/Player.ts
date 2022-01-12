@@ -112,6 +112,22 @@ export default class Player extends GameItem {
 
   /**
    *
+   * @returns true if the player is fighting the monster
+   */
+  public isFighting(): boolean {
+    return this.keyboard.isKeyTyped(KeyListener.KEY_F);
+  }
+
+  /**
+   *
+   * @returns true if the player is responding to a dialogue prompt
+   */
+  public isResponding(): boolean {
+    return this.keyboard.isKeyTyped(KeyListener.KEY_Y);
+  }
+
+  /**
+   *
    * @param other the other GameItem
    * @returns true if this object collides with the specified other object
    */
@@ -121,26 +137,6 @@ export default class Player extends GameItem {
       && this.yPos < other.getYPos() + other.getImageHeight()
       && this.yPos + this.img.height > other.getYPos();
   }
-
-  // public interactWithBaker(): boolean {
-  //   // create a new array with garbage item that are still on the screen
-  //   // (filter the clicked garbage item out of the array garbage items)
-  //   if (this.collidesWith(this.baker)) {
-  //     console.log('INTERACTION WITH THE BAKER:)');
-  //     return false;
-  //   }
-  //   return true;
-  // }
-
-  // public interactWithBlackSmith(): boolean {
-  //   // create a new array with garbage item that are still on the screen
-  //   // (filter the clicked garbage item out of the array garbage items)
-  //   if (this.collidesWith(this.blackSmith)) {
-  //     console.log('INTERACTION WITH THE BLACKSMITH:)');
-  //     return false;
-  //   }
-  //   return true;
-  // }
 
   /**
    * Method that checks if the player collides and interacts with a NPC.
@@ -182,5 +178,14 @@ export default class Player extends GameItem {
   public increaseSpeed(size: number): void {
     this.xVel += size;
     this.yVel += size;
+  }
+
+  /**
+   * Get the dialogue box details
+   *
+   * @returns the dialogue box
+   */
+  public getDialogueBox(): DialogueBox {
+    return this.dialogueBox;
   }
 }

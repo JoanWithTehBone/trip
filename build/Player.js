@@ -51,6 +51,12 @@ export default class Player extends GameItem {
     isContinuing() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_C);
     }
+    isFighting() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_F);
+    }
+    isResponding() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_Y);
+    }
     collidesWith(other) {
         return this.xPos < other.getXPos() + other.getImageWidth()
             && this.xPos + this.img.width > other.getXPos()
@@ -82,6 +88,9 @@ export default class Player extends GameItem {
     increaseSpeed(size) {
         this.xVel += size;
         this.yVel += size;
+    }
+    getDialogueBox() {
+        return this.dialogueBox;
     }
 }
 //# sourceMappingURL=Player.js.map

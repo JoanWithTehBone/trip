@@ -2,13 +2,13 @@ import Game from './Game.js';
 import Scene from './Scene.js';
 import Player from './Player.js';
 import GameOver from './GameOver.js';
-import LevelUp from './LevelUp.js';
 import DialogueBox from './DialogueBox.js';
 import Baker from './Baker.js';
 import BlackSmith from './BlackSmith.js';
 import Hunter from './Hunter.js';
 import KeyListener from './KeyListener.js';
 import NPC from './NPC.js';
+import MonsterFight from './MonsterFight.js';
 
 export default class Level extends Scene {
   // Player
@@ -27,13 +27,6 @@ export default class Level extends Scene {
 
   // Keyboard
   private keyboard: KeyListener;
-
-  // Progression Values for each Character
-  private hunterProgression: number;
-
-  private blacksmithProgression: number;
-
-  private bakerProgression: number;
 
   /**
    * Creates a new instance of this class
@@ -65,15 +58,6 @@ export default class Level extends Scene {
       this.dialogueBox,
     );
     this.keyboard = this.player.getKeys();
-    // Create Progression Values
-    this.hunterProgression = 0;
-    this.blacksmithProgression = 0;
-    this.bakerProgression = 0;
-  }
-
-  private hasWon(): boolean {
-    const user = this.game.getUser();
-    return user.getScore() >= user.getLevel() * 10;
   }
 
   /**
@@ -110,13 +94,12 @@ export default class Level extends Scene {
       this.dialogueBox.setDisplay(false);
     }
 
-    // Move to level clear screen
-    if (this.hasWon()) {
-      return new LevelUp(this.game);
+    if (this.player.isFighting()) {
+      return new MonsterFight(this.game, this.player);
     }
 
     // Move to gameover screen
-    if (this.game.getUser().getScore() < 0) {
+    if (this.game.getPlayerStats().getScore() < 0) {
       return new GameOver(this.game);
     }
 
@@ -141,11 +124,11 @@ export default class Level extends Scene {
   }
 
   private interact() {
-    const score = `Score: ${this.game.getUser().getScore()}`;
+    const score = `Score: ${this.game.getPlayerStats().getScore()}`;
     this.game.writeTextToCanvas(score, 36, 120, 50);
 
     // Show HP
-    const hp = `HP: ${this.game.getUser().getHP()}`;
+    const hp = `HP: ${this.game.getPlayerStats().getHP()}`;
     this.game.writeTextToCanvas(hp, 36, 120, 100);
   }
 }

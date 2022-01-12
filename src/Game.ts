@@ -8,7 +8,7 @@ export default class Game {
 
   public readonly ctx: CanvasRenderingContext2D;
 
-  private user: UserData;
+  private playerStats: UserData;
 
   private gameLoop: GameLoop;
 
@@ -35,15 +35,16 @@ export default class Game {
    *
    * @returns the user data
    */
-  public getUser(): UserData {
-    return this.user;
+  public getPlayerStats(): UserData {
+    return this.playerStats;
   }
 
   /**
    * Resets the game to the starting state.
    */
   public reset(): void {
-    this.user = new UserData();
+    // Initialising the player's stats
+    this.playerStats = new UserData(20, 5, 3);
   }
 
   /**
