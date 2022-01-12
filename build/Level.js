@@ -67,6 +67,7 @@ export default class Level extends Scene {
         this.blacksmith.draw(this.game.ctx);
         this.hunter.draw(this.game.ctx);
         this.dialogueBox.drawBox(this.game.ctx);
+        this.questBox.drawBox(this.game.ctx);
         this.interact();
     }
     interact() {
