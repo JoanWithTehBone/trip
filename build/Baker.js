@@ -1,13 +1,12 @@
 import NPC from './NPC.js';
 export default class Baker extends NPC {
-    questline;
     constructor() {
         super('./assets/img/baker.jpeg', 100, 100);
         this.progression = 0;
         this.name = 'Baker';
         this.completed = true;
         this.dialogue = [];
-        this.questline = [];
+        this.questDialogue = [];
         this.dialogueFactory();
         this.questFactory();
     }
@@ -16,7 +15,7 @@ export default class Baker extends NPC {
         console.log(this.dialogue);
     }
     questFactory() {
-        this.questline.push('questbaker', 'qqq', 'qqqqqqq', 'qqqqqqqqqqqq');
+        this.questDialogue.push('questbaker', 'qqq', 'qqqqqqq', 'qqqqqqqqqqqq');
     }
 }
 //# sourceMappingURL=Baker.js.map

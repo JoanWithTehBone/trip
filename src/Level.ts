@@ -121,7 +121,7 @@ export default class Level extends Scene {
     }
 
     if (this.player.isQuesting()) {
-      this.player.interactWith(this.npcs);
+      this.player.questWith(this.npcs);
     }
 
     // Move to level clear screen

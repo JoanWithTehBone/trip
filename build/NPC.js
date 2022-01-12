@@ -37,7 +37,7 @@ export default class NPC extends GameItem {
         }
     }
     questingToPlayer(questIndex, questBox) {
-        questBox.setQuestList(this.dialogue);
+        questBox.setQuestList(this.questDialogue);
         if (questIndex === 0) {
             console.log(questBox.getDisplay());
             if (questBox.getDisplay()) {
@@ -45,19 +45,19 @@ export default class NPC extends GameItem {
             }
         }
         else if (questIndex === 1) {
-            console.log(this.dialogue[1]);
+            console.log(this.questDialogue[1]);
             if (questBox.getDisplay()) {
                 questBox.setCurrentDialogue(1);
             }
         }
         else if (questIndex === 2) {
-            console.log(this.dialogue[2]);
+            console.log(this.questDialogue[2]);
             if (questBox.getDisplay()) {
                 questBox.setCurrentDialogue(2);
             }
         }
         else {
-            console.log(this.dialogue[3]);
+            console.log(this.questDialogue[3]);
             if (questBox.getDisplay()) {
                 questBox.setCurrentDialogue(3);
             }

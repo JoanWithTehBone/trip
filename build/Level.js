@@ -50,7 +50,7 @@ export default class Level extends Scene {
             this.dialogueBox.setDisplay(false);
         }
         if (this.player.isQuesting()) {
-            this.player.interactWith(this.npcs);
+            this.player.questWith(this.npcs);
         }
         if (this.hasWon()) {
             return new LevelUp(this.game);

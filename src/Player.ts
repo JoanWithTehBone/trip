@@ -22,12 +22,13 @@ export default class Player extends GameItem {
    * @param xPos xPosition of the player
    * @param yPos yPostition of the player
    * @param dialogueBox BOX
+   * @param questBox quest box
    */
   public constructor(
     xPos: number,
     yPos: number,
     dialogueBox: DialogueBox,
-    questBox: QuestBox
+    questBox: QuestBox,
   ) {
     super('./assets/img/player.png', xPos, yPos);
     this.xVel = 3;
@@ -135,26 +136,6 @@ export default class Player extends GameItem {
       && this.yPos + this.img.height > other.getYPos();
   }
 
-  // public interactWithBaker(): boolean {
-  //   // create a new array with garbage item that are still on the screen
-  //   // (filter the clicked garbage item out of the array garbage items)
-  //   if (this.collidesWith(this.baker)) {
-  //     console.log('INTERACTION WITH THE BAKER:)');
-  //     return false;
-  //   }
-  //   return true;
-  // }
-
-  // public interactWithBlackSmith(): boolean {
-  //   // create a new array with garbage item that are still on the screen
-  //   // (filter the clicked garbage item out of the array garbage items)
-  //   if (this.collidesWith(this.blackSmith)) {
-  //     console.log('INTERACTION WITH THE BLACKSMITH:)');
-  //     return false;
-  //   }
-  //   return true;
-  // }
-
   /**
    * Method that checks if the player collides and interacts with a NPC.
    *
@@ -220,5 +201,4 @@ export default class Player extends GameItem {
     this.xVel += size;
     this.yVel += size;
   }
-
 }

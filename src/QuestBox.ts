@@ -33,7 +33,6 @@ export default class DialogueBox extends GameItem {
     this.yPosition = yPos;
     this.textXPos = xPos + 250;
     this.textYPos = yPos + 75;
-    console.log(this.questList);
 
     this.game = game;
   }
