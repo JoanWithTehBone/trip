@@ -12,6 +12,7 @@ export default class Baker extends NPC {
     this.name = 'Baker';
     this.completed = true;
     this.dialogue = [];
+    this.questline = [];
     this.dialogueFactory();
     this.questFactory();
   }
