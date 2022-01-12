@@ -20,10 +20,11 @@ export default class MonsterFight extends Scene {
 
   private dialogueBox: DialogueBox;
 
-
   private monsterFightArray: NPC[];
 
-  private monsterNewLocation: number [];
+  private newXPos: number;
+
+  private newYPos: number;
 
   /**
    * Constructor for the Monster Fight scene
@@ -38,14 +39,17 @@ export default class MonsterFight extends Scene {
     this.monster = new Monster(game.canvas);
     this.user = game.getPlayerStats();
 
+    this.newXPos = game.canvas.width / 2;
+    this.newYPos = game.canvas.height / 2;
     // Create DialogueBox
     this.dialogueBox = this.player.getDialogueBox();
+
+    console.log(this.newXPos);
+    console.log(this.newYPos);
 
     // Create a new array of Monster dialogue to pass on
     this.monsterFightArray = [];
     this.monsterFightArray.push(this.monster);
-
-    this.monsterNewLocation = [];
 
     this.keyboard = this.player.getKeys();
   }
@@ -55,10 +59,26 @@ export default class MonsterFight extends Scene {
    */
   public fightWithMonster(): void {
     console.log('In Progress');
+    if (this.player.collidesWith(this.monster)) {
+      this.playerFights();
+      this.monsterFights();
+      this.changeMonsterPos();
+    }
+  }
 
-    this.playerFights();
-    this.monsterFights();
-    this.animateMovement();
+  /**
+   * Changes the position of the monster to fight.
+   */
+  public changeMonsterPos(): void {
+    this.newXPos = Game.randomNumber(
+      (1 + this.monster.getImageWidth()),
+      this.game.canvas.width - this.monster.getImageWidth(),
+    );
+
+    this.newYPos = Game.randomNumber(
+      (1 + this.monster.getImageHeight()),
+      this.game.canvas.height - this.monster.getImageHeight(),
+    );
   }
 
   /**
@@ -94,10 +114,13 @@ export default class MonsterFight extends Scene {
 
   /**
    * Animate the monster movement to the new location
+   *
+   * @param xPos Xposition of the targeted spot
+   * @param yPos Yposition of the targeted spot
    */
-  public animateMovement(): void {
+  public animateMovement(xPos: number, yPos: number): void {
     // Should monster move? Yes
-    this.monster.move(80, 200);
+    this.monster.move(xPos, yPos);
     this.monster.draw(this.game.ctx);
 
     // If at it's new location, stop moving
@@ -195,7 +218,7 @@ export default class MonsterFight extends Scene {
     this.game.ctx.clearRect(0, 0, this.game.canvas.width, this.game.canvas.height);
 
     // this.monster.draw(this.game.ctx);
-    this.animateMovement();
+    this.animateMovement(this.newXPos, this.newYPos);
     this.player.draw(this.game.ctx);
 
     this.dialogueBox.drawBox(this.game.ctx);

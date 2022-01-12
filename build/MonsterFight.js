@@ -10,23 +10,33 @@ export default class MonsterFight extends Scene {
     user;
     dialogueBox;
     monsterFightArray;
-    monsterNewLocation;
+    newXPos;
+    newYPos;
     constructor(game, player) {
         super(game);
         this.player = player;
         this.monster = new Monster(game.canvas);
         this.user = game.getPlayerStats();
+        this.newXPos = game.canvas.width / 2;
+        this.newYPos = game.canvas.height / 2;
         this.dialogueBox = this.player.getDialogueBox();
+        console.log(this.newXPos);
+        console.log(this.newYPos);
         this.monsterFightArray = [];
         this.monsterFightArray.push(this.monster);
-        this.monsterNewLocation = [];
         this.keyboard = this.player.getKeys();
     }
     fightWithMonster() {
         console.log('In Progress');
-        this.playerFights();
-        this.monsterFights();
-        this.animateMovement();
+        if (this.player.collidesWith(this.monster)) {
+            this.playerFights();
+            this.monsterFights();
+            this.changeMonsterPos();
+        }
+    }
+    changeMonsterPos() {
+        this.newXPos = Game.randomNumber((1 + this.monster.getImageWidth()), this.game.canvas.width - this.monster.getImageWidth());
+        this.newYPos = Game.randomNumber((1 + this.monster.getImageHeight()), this.game.canvas.height - this.monster.getImageHeight());
     }
     playerFights() {
         this.monster.getMonsterStats().setHP(this.monster.getMonsterStats().getHP()
@@ -48,8 +58,8 @@ export default class MonsterFight extends Scene {
         this.player.move(this.game.canvas);
         console.log('BATTLE!!!');
     }
-    animateMovement() {
-        this.monster.move(80, 200);
+    animateMovement(xPos, yPos) {
+        this.monster.move(xPos, yPos);
         this.monster.draw(this.game.ctx);
     }
     update() {
@@ -99,7 +109,7 @@ export default class MonsterFight extends Scene {
     }
     render() {
         this.game.ctx.clearRect(0, 0, this.game.canvas.width, this.game.canvas.height);
-        this.animateMovement();
+        this.animateMovement(this.newXPos, this.newYPos);
         this.player.draw(this.game.ctx);
         this.dialogueBox.drawBox(this.game.ctx);
         this.showFightProgress();
