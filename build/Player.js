@@ -4,14 +4,15 @@ export default class Player extends GameItem {
     xVel;
     yVel;
     dialogueBox;
+    questBox;
     keyboard;
-
-    constructor(xPos, yPos, dialogueBox) {
+    constructor(xPos, yPos, dialogueBox, questBox) {
         super('./assets/img/player.png', xPos, yPos);
         this.xVel = 3;
         this.yVel = 3;
         this.keyboard = new KeyListener();
         this.dialogueBox = dialogueBox;
+        this.questBox = questBox;
     }
     move(canvas) {
         const minX = 0;
@@ -46,13 +47,14 @@ export default class Player extends GameItem {
     getKeys() {
         return this.keyboard;
     }
-
     isPressing() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_SPACE);
-
     }
     isContinuing() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_C);
+    }
+    isQuesting() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_Q);
     }
     collidesWith(other) {
         return this.xPos < other.getXPos() + other.getImageWidth()
@@ -81,6 +83,31 @@ export default class Player extends GameItem {
             }
         });
         return collides;
+    }
+    questWith(npcs) {
+        let collides = true;
+        if (this.isQuesting) {
+            npcs.forEach((element) => {
+                if (this.collidesWith(element)) {
+                    this.questBox.setDisplay(true);
+                    console.log('quest WITH THE npc:)');
+                    if (element.getProgression() + 1 >= element.getQuest().length) {
+                        element.questingToPlayer(3, this.questBox);
+                    }
+                    else if (element.questCompleted()) {
+                        element.questingToPlayer(2, this.questBox);
+                        element.setProgression(element.getProgression() + 1);
+                    }
+                    else if (element.getProgression() < 2) {
+                        element.questingToPlayer(element.getProgression(), this.questBox);
+                        element.setProgression(element.getProgression() + 1);
+                    }
+                    collides = false;
+                }
+            });
+            return collides;
+        }
+        return false;
     }
     increaseSpeed(size) {
         this.xVel += size;

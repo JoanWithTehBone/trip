@@ -1,5 +1,5 @@
 import GameItem from './GameItem.js';
-export default class DialogueBox extends GameItem {
+export default class BakerQuestBox extends GameItem {
     display;
     currentDialogue;
     xPosition;
@@ -7,7 +7,6 @@ export default class DialogueBox extends GameItem {
     textXPos;
     textYPos;
     dialogueList;
-    questList;
     game;
     constructor(game, xPos, yPos) {
         super('', xPos, yPos);
@@ -16,6 +15,7 @@ export default class DialogueBox extends GameItem {
         this.yPosition = yPos;
         this.textXPos = xPos + 250;
         this.textYPos = yPos + 75;
+        console.log(this.dialogueList);
         this.game = game;
     }
     drawBox(ctx) {
@@ -46,8 +46,5 @@ export default class DialogueBox extends GameItem {
     setDialogueList(list) {
         this.dialogueList = list;
     }
-    setQuestList(list) {
-        this.questList = list;
-    }
 }
-//# sourceMappingURL=DialogueBox.js.map
+//# sourceMappingURL=BakerQuestBox.js.map
