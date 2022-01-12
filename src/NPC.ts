@@ -15,6 +15,8 @@ export default abstract class NPC extends GameItem {
 
   protected quest: boolean;
 
+  protected yesornooption : string;
+
   /**
    * Constructor of the NPC abstract class
    *
@@ -39,7 +41,7 @@ export default abstract class NPC extends GameItem {
   public talkToPlayer(dialogueIndex: number, dialogueBox: DialogueBox): void {
     dialogueBox.setDialogueList(this.dialogue);
     if (dialogueIndex === 0) {
-      console.log(dialogueBox.getDisplay());
+      console.log(this.dialogue[0]);
       if (dialogueBox.getDisplay()) {
         dialogueBox.setCurrentDialogue(0);
       }
@@ -53,14 +55,29 @@ export default abstract class NPC extends GameItem {
       if (dialogueBox.getDisplay()) {
         dialogueBox.setCurrentDialogue(2);
       }
-    } else {
+    } else if (dialogueIndex === 3) {
       console.log(this.dialogue[3]);
       if (dialogueBox.getDisplay()) {
         dialogueBox.setCurrentDialogue(3);
       }
+    } else if (dialogueIndex === 4) {
+      console.log(this.dialogue[4]);
+      if (dialogueBox.getDisplay()) {
+        dialogueBox.setCurrentDialogue(4);
+      }
+    } else if (dialogueIndex === 5) {
+      console.log(this.dialogue[5]);
+      if (dialogueBox.getDisplay()) {
+        dialogueBox.setCurrentDialogue(5);
+      }
     }
   }
 
+  /**
+   *
+   * @param questIndex index number
+   * @param questBox box
+   */
   public questingToPlayer(questIndex: number, questBox: QuestBox): void {
     questBox.setQuestList(this.questDialogue);
     if (questIndex === 0) {
@@ -92,7 +109,7 @@ export default abstract class NPC extends GameItem {
    * @returns If quest is completed
    */
   public questCompleted(): boolean {
-    if (this.progression === 2 && this.completed) {
+    if (this.completed) {
       return true;
     }
     return false;
@@ -126,10 +143,10 @@ export default abstract class NPC extends GameItem {
   }
 
   /**
- * Gets the progression of the NPC
- *
- * @returns Progression of the child
- */
+   * Gets the progression of the NPC
+   *
+   * @returns Progression of the child
+   */
   public getQuest(): string[] {
     return this.questDialogue;
   }

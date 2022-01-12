@@ -1,3 +1,4 @@
+import Baker from './Baker.js';
 import Game from './Game.js';
 import GameItem from './GameItem.js';
 
@@ -18,14 +19,17 @@ export default class YesorNoQuestPrompt extends GameItem {
 
   private game: Game;
 
+  private baker : Baker;
+
   /**
    * Constructing the dialogue box
    *
    * @param game the game
+   * @param baker baker
    * @param xPos the x position
    * @param yPos the y position
    */
-  constructor(game: Game, xPos: number, yPos: number) {
+  constructor(game: Game, baker: Baker, xPos: number, yPos: number) {
     super('', xPos, yPos);
     this.display = false;
     // Positioning
@@ -35,6 +39,7 @@ export default class YesorNoQuestPrompt extends GameItem {
     this.textYPos = yPos + 35;
 
     this.game = game;
+    this.baker = baker;
   }
 
   /**
@@ -54,17 +59,15 @@ export default class YesorNoQuestPrompt extends GameItem {
       // Drawing a white rectangle on the canvas background
       ctx.fillRect(this.xPosition, this.yPosition, 600, 250);
       // console.log(this.npc.getProgression());
-      this.writeTextToBox(this.currentDialogue);
+      this.writeTextToBox();
     }
   }
 
   /**
    * Method to write the text in the box to the screen
-   *
-   * @param currentDialogue the current integer of dialogue -> currentindex
    */
-  public writeTextToBox(currentDialogue: number): void {
-    this.game.writeTextToCanvas(this.questList[currentDialogue], 26, this.textXPos, this.textYPos, 'center', 'black');
+  public writeTextToBox(): void {
+    this.game.writeTextToCanvas(this.baker.getYesorNoText(), 26, this.textXPos, this.textYPos, 'center', 'black');
   }
 
   /**

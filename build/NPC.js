@@ -6,13 +6,14 @@ export default class NPC extends GameItem {
     dialogue;
     questDialogue;
     quest;
+    yesornooption;
     constructor(imageSrc, maxX, maxY) {
         super(imageSrc, maxX, maxY);
     }
     talkToPlayer(dialogueIndex, dialogueBox) {
         dialogueBox.setDialogueList(this.dialogue);
         if (dialogueIndex === 0) {
-            console.log(dialogueBox.getDisplay());
+            console.log(this.dialogue[0]);
             if (dialogueBox.getDisplay()) {
                 dialogueBox.setCurrentDialogue(0);
             }
@@ -29,10 +30,22 @@ export default class NPC extends GameItem {
                 dialogueBox.setCurrentDialogue(2);
             }
         }
-        else {
+        else if (dialogueIndex === 3) {
             console.log(this.dialogue[3]);
             if (dialogueBox.getDisplay()) {
                 dialogueBox.setCurrentDialogue(3);
+            }
+        }
+        else if (dialogueIndex === 4) {
+            console.log(this.dialogue[4]);
+            if (dialogueBox.getDisplay()) {
+                dialogueBox.setCurrentDialogue(4);
+            }
+        }
+        else if (dialogueIndex === 5) {
+            console.log(this.dialogue[5]);
+            if (dialogueBox.getDisplay()) {
+                dialogueBox.setCurrentDialogue(5);
             }
         }
     }
@@ -64,7 +77,7 @@ export default class NPC extends GameItem {
         }
     }
     questCompleted() {
-        if (this.progression === 2 && this.completed) {
+        if (this.completed) {
             return true;
         }
         return false;

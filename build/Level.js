@@ -7,10 +7,12 @@ import Baker from './Baker.js';
 import BlackSmith from './BlackSmith.js';
 import Hunter from './Hunter.js';
 import QuestBox from './QuestBox.js';
+import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
 export default class Level extends Scene {
     player;
     dialogueBox;
     questBox;
+    yesorNoQuestPrompt;
     baker;
     blacksmith;
     hunter;
@@ -26,9 +28,10 @@ export default class Level extends Scene {
         this.hunter = new Hunter();
         this.dialogueBox = new DialogueBox(this.game, this.game.canvas.width / 2 - 600, (this.game.canvas.height / 5) * 3.7);
         this.questBox = new QuestBox(this.game, this.game.canvas.width / 2 - 500, (this.game.canvas.height / 8) * 0.5);
+        this.yesorNoQuestPrompt = new YesorNoQuestPrompt(this.game, this.baker, this.game.canvas.width / 2 - 300, (this.game.canvas.height / 8) * 3);
         this.npcs = [];
         this.npcs.push(this.baker, this.blacksmith, this.hunter);
-        this.player = new Player(game.canvas.width / 2, game.canvas.height / 2, this.dialogueBox, this.questBox);
+        this.player = new Player(game.canvas.width / 2, game.canvas.height / 2, this.dialogueBox, this.questBox, this.yesorNoQuestPrompt);
         this.keyboard = this.player.getKeys();
         this.hunterProgression = 0;
         this.blacksmithProgression = 0;
@@ -52,6 +55,7 @@ export default class Level extends Scene {
         }
         if (this.player.startQuestYes()) {
             this.dialogueBox.setDisplay(false);
+            this.yesorNoQuestPrompt.setDisplay(false);
             this.player.questWith(this.npcs);
         }
         if (this.hasWon()) {
@@ -64,12 +68,13 @@ export default class Level extends Scene {
     }
     render() {
         this.game.ctx.clearRect(0, 0, this.game.canvas.width, this.game.canvas.height);
-        this.player.draw(this.game.ctx);
         this.baker.draw(this.game.ctx);
         this.blacksmith.draw(this.game.ctx);
         this.hunter.draw(this.game.ctx);
+        this.player.draw(this.game.ctx);
         this.questBox.drawBox(this.game.ctx);
         this.dialogueBox.drawBox(this.game.ctx);
+        this.yesorNoQuestPrompt.drawBox(this.game.ctx);
         this.interact();
     }
     interact() {

@@ -3,6 +3,7 @@ import KeyListener from './KeyListener.js';
 import NPC from './NPC.js';
 import DialogueBox from './DialogueBox.js';
 import QuestBox from './QuestBox.js';
+import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
 
 export default class Player extends GameItem {
   private xVel: number;
@@ -12,6 +13,8 @@ export default class Player extends GameItem {
   private dialogueBox: DialogueBox;
 
   private questBox: QuestBox;
+
+  private yesornoquestprompt : YesorNoQuestPrompt;
 
   // KeyboardListener so the player can move
   private keyboard: KeyListener;
@@ -23,12 +26,14 @@ export default class Player extends GameItem {
    * @param yPos yPostition of the player
    * @param dialogueBox BOX
    * @param questBox quest box
+   * @param yesornoquestprompt prompt for quest
    */
   public constructor(
     xPos: number,
     yPos: number,
     dialogueBox: DialogueBox,
     questBox: QuestBox,
+    yesornoquestprompt : YesorNoQuestPrompt,
   ) {
     super('./assets/img/platerspritesheet.png', xPos, yPos);
 
@@ -38,6 +43,7 @@ export default class Player extends GameItem {
 
     this.dialogueBox = dialogueBox;
     this.questBox = questBox;
+    this.yesornoquestprompt = yesornoquestprompt;
   }
 
   /**
@@ -187,21 +193,35 @@ export default class Player extends GameItem {
    */
   public interactWith(npcs: NPC[]): boolean {
     let collides: boolean = true;
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     npcs.forEach((element) => {
-      // create a new array with garbage item that are still on the screen
-      // (filter the clicked garbage item out of the array garbage items)
       if (this.collidesWith(element)) {
         this.dialogueBox.setDisplay(true);
         console.log('INTERACTION WITH THE npc:)');
-        if (element.getProgression() + 1 >= element.getDialogue().length) {
+        if (element.questCompleted() && element.getProgression() === 4) {
+          this.dialogueBox.setDisplay(false);
+          this.yesornoquestprompt.setDisplay(true);
+          element.setProgression(element.getProgression() + 1);
+          console.log(element.getProgression());
+          // if (this.startQuestYes()) {
+          //   this.questBox.setDisplay(true);
+          //   console.log('closed');
+          // }
+        } else if (element.questCompleted() && element.getProgression() === 3) {
           element.talkToPlayer(3, this.dialogueBox);
-        } else if (element.questCompleted()) {
+          element.setProgression(element.getProgression() + 1);
+          console.log(element.getProgression());
+        } else if (element.questCompleted() && element.getProgression() === 2) {
           element.talkToPlayer(2, this.dialogueBox);
           element.setProgression(element.getProgression() + 1);
-        } else if (element.getProgression() < 2) {
+          console.log(element.getProgression());
+        } else if (element.questCompleted() && element.getProgression() === 1) {
+          element.talkToPlayer(1, this.dialogueBox);
+          element.setProgression(element.getProgression() + 1);
+          console.log(element.getProgression());
+        } else if (element.getProgression() < 1) {
           element.talkToPlayer(element.getProgression(), this.dialogueBox);
           element.setProgression(element.getProgression() + 1);
+          console.log(element.getProgression());
         }
         collides = false;
       }
@@ -222,15 +242,15 @@ export default class Player extends GameItem {
         if (this.collidesWith(element)) {
           this.questBox.setDisplay(true);
           console.log('quest WITH THE npc:)');
-          if (element.getProgression() + 1 >= element.getQuest().length) {
-            element.questingToPlayer(3, this.questBox);
-          } else if (element.questCompleted()) {
-            element.questingToPlayer(2, this.questBox);
-            element.setProgression(element.getProgression() + 1);
-          } else if (element.getProgression() < 2) {
-            element.questingToPlayer(element.getProgression(), this.questBox);
-            element.setProgression(element.getProgression() + 1);
-          }
+          // if (element.getProgression() + 1 >= element.getQuest().length) {
+          element.questingToPlayer(0, this.questBox);
+          // } else if (element.questCompleted()) {
+          //   element.questingToPlayer(2, this.questBox);
+          //   element.setProgression(element.getProgression() + 1);
+          // } else if (element.getProgression() < 2) {
+          //   element.questingToPlayer(element.getProgression(), this.questBox);
+          //   element.setProgression(element.getProgression() + 1);
+          // }
           collides = false;
         }
       });

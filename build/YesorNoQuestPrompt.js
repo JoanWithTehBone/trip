@@ -8,7 +8,8 @@ export default class YesorNoQuestPrompt extends GameItem {
     textYPos;
     questList;
     game;
-    constructor(game, xPos, yPos) {
+    baker;
+    constructor(game, baker, xPos, yPos) {
         super('', xPos, yPos);
         this.display = false;
         this.xPosition = xPos;
@@ -16,16 +17,17 @@ export default class YesorNoQuestPrompt extends GameItem {
         this.textXPos = xPos + 20;
         this.textYPos = yPos + 35;
         this.game = game;
+        this.baker = baker;
     }
     drawBox(ctx) {
         if (this.display) {
             ctx.clearRect(this.xPosition, this.yPosition, 600, 250);
             ctx.fillRect(this.xPosition, this.yPosition, 600, 250);
-            this.writeTextToBox(this.currentDialogue);
+            this.writeTextToBox();
         }
     }
-    writeTextToBox(currentDialogue) {
-        this.game.writeTextToCanvas(this.questList[currentDialogue], 26, this.textXPos, this.textYPos, 'center', 'black');
+    writeTextToBox() {
+        this.game.writeTextToCanvas(this.baker.getYesorNoText(), 26, this.textXPos, this.textYPos, 'center', 'black');
     }
     setDisplay(active) {
         this.display = active;
