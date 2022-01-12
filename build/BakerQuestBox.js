@@ -10,7 +10,7 @@ export default class BakerQuestBox extends GameItem {
     game;
     constructor(game, xPos, yPos) {
         super('', xPos, yPos);
-        this.display = true;
+        this.display = false;
         this.xPosition = xPos;
         this.yPosition = yPos;
         this.textXPos = xPos + 250;
@@ -20,11 +20,31 @@ export default class BakerQuestBox extends GameItem {
     }
     drawBox(ctx) {
         if (this.display) {
-            ctx.fillRect(this.xPosition, this.yPosition, 100, 400);
+            ctx.clearRect(this.xPosition, this.yPosition, 700, 200);
+            ctx.fillRect(this.xPosition, this.yPosition, 700, 200);
+            this.writeTextToBox(this.currentDialogue);
         }
+    }
+    writeTextToBox(currentDialogue) {
+        this.game.writeTextToCanvas(this.dialogueList[currentDialogue], 32, this.textXPos, this.textYPos, 'center', 'black');
     }
     setDisplay(active) {
         this.display = active;
+    }
+    getDisplay() {
+        return this.display;
+    }
+    getTextXPos() {
+        return this.textXPos;
+    }
+    getTextYPos() {
+        return this.textYPos;
+    }
+    setCurrentDialogue(currentDialogue) {
+        this.currentDialogue = currentDialogue;
+    }
+    setDialogueList(list) {
+        this.dialogueList = list;
     }
 }
 //# sourceMappingURL=BakerQuestBox.js.map

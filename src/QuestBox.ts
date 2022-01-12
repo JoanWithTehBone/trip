@@ -14,8 +14,6 @@ export default class DialogueBox extends GameItem {
 
   private textYPos: number;
 
-  private dialogueList: string[];
-
   private questList: string[];
 
   private game: Game;
@@ -66,7 +64,7 @@ export default class DialogueBox extends GameItem {
    * @param currentDialogue the current integer of dialogue -> currentindex
    */
   public writeTextToBox(currentDialogue: number): void {
-    this.game.writeTextToCanvas(this.dialogueList[currentDialogue], 32, this.textXPos, this.textYPos, 'center', 'black');
+    this.game.writeTextToCanvas(this.questList[currentDialogue], 32, this.textXPos, this.textYPos, 'center', 'black');
   }
 
   /**
@@ -116,15 +114,6 @@ export default class DialogueBox extends GameItem {
 
   /**
    * Sets the dialogue of the current character
-   *
-   * @param list the current list of dialogue
-   */
-  public setDialogueList(list: string[]): void {
-    this.dialogueList = list;
-  }
-
-  /**
-   * Sets the qdialogue of the current character
    *
    * @param list the current list of dialogue
    */

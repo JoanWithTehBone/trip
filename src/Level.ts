@@ -9,12 +9,15 @@ import BlackSmith from './BlackSmith.js';
 import Hunter from './Hunter.js';
 import KeyListener from './KeyListener.js';
 import NPC from './NPC.js';
+import QuestBox from './QuestBox.js';
 
 export default class Level extends Scene {
   // Player
   private player: Player;
 
   private dialogueBox: DialogueBox;
+
+  private questBox: QuestBox;
 
   // NPCS
   private baker: Baker;
@@ -54,6 +57,12 @@ export default class Level extends Scene {
       (this.game.canvas.height / 5) * 3.5,
     );
 
+    this.questBox = new QuestBox(
+      this.game,
+      this.game.canvas.width / 2 - 350,
+      (this.game.canvas.height / 5) * 3.5,
+    );
+
     // Create a new array of NPCS to pass on
     this.npcs = [];
     this.npcs.push(this.baker, this.blacksmith, this.hunter);
@@ -63,6 +72,7 @@ export default class Level extends Scene {
       game.canvas.width / 2,
       game.canvas.height / 2,
       this.dialogueBox,
+      this.questBox,
     );
     this.keyboard = this.player.getKeys();
     // Create Progression Values
@@ -108,6 +118,10 @@ export default class Level extends Scene {
 
     if (this.player.isContinuing()) {
       this.dialogueBox.setDisplay(false);
+    }
+
+    if (this.player.isQuesting()) {
+      this.player.questWith(this.npcs);
     }
 
     // Move to level clear screen

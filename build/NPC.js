@@ -4,6 +4,8 @@ export default class NPC extends GameItem {
     completed;
     progression;
     dialogue;
+    questDialogue;
+    quest;
     constructor(imageSrc, maxX, maxY) {
         super(imageSrc, maxX, maxY);
     }
@@ -34,6 +36,33 @@ export default class NPC extends GameItem {
             }
         }
     }
+    questingToPlayer(questIndex, questBox) {
+        questBox.setQuestList(this.questDialogue);
+        if (questIndex === 0) {
+            console.log(questBox.getDisplay());
+            if (questBox.getDisplay()) {
+                questBox.setCurrentDialogue(0);
+            }
+        }
+        else if (questIndex === 1) {
+            console.log(this.questDialogue[1]);
+            if (questBox.getDisplay()) {
+                questBox.setCurrentDialogue(1);
+            }
+        }
+        else if (questIndex === 2) {
+            console.log(this.questDialogue[2]);
+            if (questBox.getDisplay()) {
+                questBox.setCurrentDialogue(2);
+            }
+        }
+        else {
+            console.log(this.questDialogue[3]);
+            if (questBox.getDisplay()) {
+                questBox.setCurrentDialogue(3);
+            }
+        }
+    }
     questCompleted() {
         if (this.progression === 2 && this.completed) {
             return true;
@@ -48,6 +77,9 @@ export default class NPC extends GameItem {
     }
     getDialogue() {
         return this.dialogue;
+    }
+    getQuest() {
+        return this.questDialogue;
     }
 }
 //# sourceMappingURL=NPC.js.map

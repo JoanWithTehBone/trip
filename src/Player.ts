@@ -2,6 +2,7 @@ import GameItem from './GameItem.js';
 import KeyListener from './KeyListener.js';
 import NPC from './NPC.js';
 import DialogueBox from './DialogueBox.js';
+import QuestBox from './QuestBox.js';
 
 export default class Player extends GameItem {
   private xVel: number;
@@ -9,6 +10,8 @@ export default class Player extends GameItem {
   private yVel: number;
 
   private dialogueBox: DialogueBox;
+
+  private questBox: QuestBox;
 
   // KeyboardListener so the player can move
   private keyboard: KeyListener;
@@ -19,11 +22,13 @@ export default class Player extends GameItem {
    * @param xPos xPosition of the player
    * @param yPos yPostition of the player
    * @param dialogueBox BOX
+   * @param questBox quest box
    */
   public constructor(
     xPos: number,
     yPos: number,
     dialogueBox: DialogueBox,
+    questBox: QuestBox,
   ) {
     super('./assets/img/platerspritesheet.png', xPos, yPos);
 
@@ -32,6 +37,7 @@ export default class Player extends GameItem {
     this.keyboard = new KeyListener();
 
     this.dialogueBox = dialogueBox;
+    this.questBox = questBox;
   }
 
   /**
@@ -113,6 +119,14 @@ export default class Player extends GameItem {
 
   /**
    *
+   * @returns true if the player is continuing up
+   */
+  public isQuesting(): boolean {
+    return this.keyboard.isKeyTyped(KeyListener.KEY_Q);
+  }
+
+  /**
+   *
    * @param other the other GameItem
    * @returns true if this object collides with the specified other object
    */
@@ -122,26 +136,6 @@ export default class Player extends GameItem {
       && this.yPos < other.getYPos() + other.getImageHeight()
       && this.yPos + this.img.height > other.getYPos();
   }
-
-  // public interactWithBaker(): boolean {
-  //   // create a new array with garbage item that are still on the screen
-  //   // (filter the clicked garbage item out of the array garbage items)
-  //   if (this.collidesWith(this.baker)) {
-  //     console.log('INTERACTION WITH THE BAKER:)');
-  //     return false;
-  //   }
-  //   return true;
-  // }
-
-  // public interactWithBlackSmith(): boolean {
-  //   // create a new array with garbage item that are still on the screen
-  //   // (filter the clicked garbage item out of the array garbage items)
-  //   if (this.collidesWith(this.blackSmith)) {
-  //     console.log('INTERACTION WITH THE BLACKSMITH:)');
-  //     return false;
-  //   }
-  //   return true;
-  // }
 
   /**
    * Method that checks if the player collides and interacts with a NPC.
@@ -173,6 +167,36 @@ export default class Player extends GameItem {
       }
     });
     return collides;
+  }
+
+  /**
+   * Quest dialogue
+   *
+   * @param npcs the npc
+   * @returns boolean
+   */
+  public questWith(npcs: NPC[]): boolean {
+    let collides: boolean = true;
+    if (this.isQuesting) {
+      npcs.forEach((element) => {
+        if (this.collidesWith(element)) {
+          this.questBox.setDisplay(true);
+          console.log('quest WITH THE npc:)');
+          if (element.getProgression() + 1 >= element.getQuest().length) {
+            element.questingToPlayer(3, this.questBox);
+          } else if (element.questCompleted()) {
+            element.questingToPlayer(2, this.questBox);
+            element.setProgression(element.getProgression() + 1);
+          } else if (element.getProgression() < 2) {
+            element.questingToPlayer(element.getProgression(), this.questBox);
+            element.setProgression(element.getProgression() + 1);
+          }
+          collides = false;
+        }
+      });
+      return collides;
+    }
+    return false;
   }
 
   /**

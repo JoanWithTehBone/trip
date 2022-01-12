@@ -6,7 +6,6 @@ export default class DialogueBox extends GameItem {
     yPosition;
     textXPos;
     textYPos;
-    dialogueList;
     questList;
     game;
     constructor(game, xPos, yPos) {
@@ -26,7 +25,7 @@ export default class DialogueBox extends GameItem {
         }
     }
     writeTextToBox(currentDialogue) {
-        this.game.writeTextToCanvas(this.dialogueList[currentDialogue], 32, this.textXPos, this.textYPos, 'center', 'black');
+        this.game.writeTextToCanvas(this.questList[currentDialogue], 32, this.textXPos, this.textYPos, 'center', 'black');
     }
     setDisplay(active) {
         this.display = active;
@@ -43,11 +42,8 @@ export default class DialogueBox extends GameItem {
     setCurrentDialogue(currentDialogue) {
         this.currentDialogue = currentDialogue;
     }
-    setDialogueList(list) {
-        this.dialogueList = list;
-    }
     setQuestList(list) {
         this.questList = list;
     }
 }
-//# sourceMappingURL=DialogueBox.js.map
+//# sourceMappingURL=QuestBox.js.map

@@ -6,11 +6,16 @@ export default class Baker extends NPC {
         this.name = 'Baker';
         this.completed = true;
         this.dialogue = [];
+        this.questDialogue = [];
         this.dialogueFactory();
+        this.questFactory();
     }
     dialogueFactory() {
         this.dialogue.push('Hello, my name is Baker!', 'Would you like some sweet cakes?', 'I got you some oliebollen.', 'Okay, see you later. Im busy today!');
         console.log(this.dialogue);
+    }
+    questFactory() {
+        this.questDialogue.push('questbaker', 'qqq', 'qqqqqqq', 'qqqqqqqqqqqq');
     }
 }
 //# sourceMappingURL=Baker.js.map

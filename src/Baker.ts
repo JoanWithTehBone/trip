@@ -10,7 +10,9 @@ export default class Baker extends NPC {
     this.name = 'Baker';
     this.completed = true;
     this.dialogue = [];
+    this.questDialogue = [];
     this.dialogueFactory();
+    this.questFactory();
   }
 
   /**
@@ -24,4 +26,8 @@ export default class Baker extends NPC {
   // public giveReward(): void {
 
   // }
+
+  public questFactory(): void {
+    this.questDialogue.push('questbaker', 'qqq', 'qqqqqqq', 'qqqqqqqqqqqq');
+  }
 }
