@@ -20,7 +20,10 @@ export default class MonsterFight extends Scene {
 
   private dialogueBox: DialogueBox;
 
+
   private monsterFightArray: NPC[];
+
+  private monsterNewLocation: number [];
 
   /**
    * Constructor for the Monster Fight scene
@@ -42,6 +45,8 @@ export default class MonsterFight extends Scene {
     this.monsterFightArray = [];
     this.monsterFightArray.push(this.monster);
 
+    this.monsterNewLocation = [];
+
     this.keyboard = this.player.getKeys();
   }
 
@@ -53,6 +58,7 @@ export default class MonsterFight extends Scene {
 
     this.playerFights();
     this.monsterFights();
+    this.animateMovement();
   }
 
   /**
@@ -84,6 +90,17 @@ export default class MonsterFight extends Scene {
   public processInput(): void {
     this.player.move(this.game.canvas);
     console.log('BATTLE!!!');
+  }
+
+  /**
+   * Animate the monster movement to the new location
+   */
+  public animateMovement(): void {
+    // Should monster move? Yes
+    this.monster.move(80, 200);
+    this.monster.draw(this.game.ctx);
+
+    // If at it's new location, stop moving
   }
 
   /**
@@ -151,19 +168,24 @@ export default class MonsterFight extends Scene {
   }
 
   private showFightProgress() {
+    // const playerRect = this.game.ctx.fillRect(40, 15, 160, 200);
+    this.game.ctx.fillStyle = 'white';
+    this.game.ctx.fillRect(35, 15, 170, 200);
     // Show player stats
-    this.game.writeTextToCanvas('The Hero', 36, 120, 50, 'center', 'red');
+    this.game.writeTextToCanvas('The Hero', 36, 120, 50, 'center', 'black');
     const playerHp = `HP: ${this.game.getPlayerStats().getHP()}`;
-    this.game.writeTextToCanvas(playerHp, 36, 120, 100, 'center', 'red');
+    this.game.writeTextToCanvas(playerHp, 36, 120, 100, 'center', 'black');
     const playerAttack = `ATK: ${this.game.getPlayerStats().getATK()}`;
-    this.game.writeTextToCanvas(playerAttack, 36, 120, 150, 'center', 'red');
+    this.game.writeTextToCanvas(playerAttack, 36, 120, 150, 'center', 'black');
     const playerDefense = `DEF: ${this.game.getPlayerStats().getDEF()}`;
-    this.game.writeTextToCanvas(playerDefense, 36, 120, 200, 'center', 'red');
+    this.game.writeTextToCanvas(playerDefense, 36, 120, 200, 'center', 'black');
 
     // Show monster stats
-    this.game.writeTextToCanvas('Monster', 36, this.game.canvas.width - 120, 50, 'center', 'red');
+    this.game.ctx.fillStyle = 'white';
+    this.game.ctx.fillRect(this.game.canvas.width - 200, 15, 160, 100);
+    this.game.writeTextToCanvas('Monster', 36, this.game.canvas.width - 120, 50, 'center', 'black');
     const monsterHp = `HP: ${this.monster.getMonsterStats().getHP()}`;
-    this.game.writeTextToCanvas(monsterHp, 36, this.game.canvas.width - 120, 100, 'center', 'red');
+    this.game.writeTextToCanvas(monsterHp, 36, this.game.canvas.width - 120, 100, 'center', 'black');
   }
 
   /**
@@ -172,7 +194,8 @@ export default class MonsterFight extends Scene {
   public render(): void {
     this.game.ctx.clearRect(0, 0, this.game.canvas.width, this.game.canvas.height);
 
-    this.monster.draw(this.game.ctx);
+    // this.monster.draw(this.game.ctx);
+    this.animateMovement();
     this.player.draw(this.game.ctx);
 
     this.dialogueBox.drawBox(this.game.ctx);
