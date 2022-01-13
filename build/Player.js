@@ -7,7 +7,6 @@ export default class Player extends GameItem {
     questBox;
     yesornoquestprompt;
     keyboard;
-
     constructor(xPos, yPos, dialogueBox, questBox, yesornoquestprompt) {
         super('./assets/img/platerspritesheet.png', xPos, yPos);
         this.xVel = 3;
@@ -76,10 +75,9 @@ export default class Player extends GameItem {
     }
     isResponding() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_Y);
-
+    }
     answerQuestD() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_D);
-
     }
     collidesWith(other) {
         return this.xPos < other.getXPos() + other.getImageWidth()

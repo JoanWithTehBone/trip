@@ -1,6 +1,5 @@
 import Scene from './Scene.js';
 import Player from './Player.js';
-import GameOver from './GameOver.js';
 import DialogueBox from './DialogueBox.js';
 import Baker from './Baker.js';
 import BlackSmith from './BlackSmith.js';
@@ -8,7 +7,6 @@ import Hunter from './Hunter.js';
 import MonsterFight from './MonsterFight.js';
 import QuestBox from './QuestBox.js';
 import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
-
 export default class Level extends Scene {
     player;
     dialogueBox;
@@ -44,10 +42,9 @@ export default class Level extends Scene {
         if (this.player.isContinuing()) {
             this.dialogueBox.setDisplay(false);
         }
-
         if (this.player.isFighting()) {
             return new MonsterFight(this.game, this.player);
-
+        }
         if (this.player.startQuestYes() && this.baker.getProgression() === 5
             && this.player.collidesWith(this.baker)) {
             this.yesorNoQuestPrompt.setDisplay(false);
@@ -70,12 +67,6 @@ export default class Level extends Scene {
             this.questBox.setDisplay(false);
             this.dialogueBox.setDisplay(true);
         }
-        if (this.hasWon()) {
-            return new LevelUp(this.game);
-        }
-        if (this.game.getPlayerStats().getScore() < 0) {
-            return new GameOver(this.game);
-        }
         return null;
     }
     render() {
@@ -87,7 +78,6 @@ export default class Level extends Scene {
         this.questBox.drawBox(this.game.ctx);
         this.dialogueBox.drawBox(this.game.ctx);
         this.yesorNoQuestPrompt.drawBox(this.game.ctx);
-
         this.interact();
     }
     interact() {

@@ -35,7 +35,6 @@ export default class Player extends GameItem {
     questBox: QuestBox,
     yesornoquestprompt : YesorNoQuestPrompt,
   ) {
-
     super('./assets/img/platerspritesheet.png', xPos, yPos);
 
     this.xVel = 3;
@@ -166,7 +165,6 @@ export default class Player extends GameItem {
 
   /**
    *
-
    * @returns true if the player is fighting the monster
    */
   public isFighting(): boolean {
@@ -179,7 +177,9 @@ export default class Player extends GameItem {
    */
   public isResponding(): boolean {
     return this.keyboard.isKeyTyped(KeyListener.KEY_Y);
+  }
 
+  /**
    * @returns true if the player is continuing up
    */
   public answerQuestD(): boolean {
