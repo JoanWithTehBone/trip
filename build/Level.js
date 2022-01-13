@@ -92,6 +92,7 @@ export default class Level extends Scene {
         this.questBox.drawBox(this.game.ctx);
         this.dialogueBox.drawBox(this.game.ctx);
         this.yesorNoQuestPrompt.drawBox(this.game.ctx);
+
         this.interact();
     }
     interact() {
