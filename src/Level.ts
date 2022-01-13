@@ -116,6 +116,7 @@ export default class Level extends Scene {
     // this.player.onFrameStartListener();
     this.keyboard.onFrameStart();
     this.flyingDragonBaby.move();
+    this.flyingDragonBaby.outOfCanvas(this.game.canvas);
 
     if (this.player.isPressing()) {
       this.questBox.setDisplay(false);

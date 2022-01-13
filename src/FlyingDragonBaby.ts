@@ -12,9 +12,9 @@ export default class FlyingDragonBaby extends GameItem {
    */
   public constructor(canvas: HTMLCanvasElement) {
     const yPosition = Game.randomNumber(0, canvas.height);
-    super('./assets/img/egg.png', 0, yPosition);
-    this.speed = Game.randomNumber(2, 8);
-    this.xPos = 0 - this.img.width;
+    super('./assets/img/flyingbabydragon.png', 0, yPosition);
+    this.speed = Game.randomNumber(2, 6);
+    this.xPos = -100;
   }
 
   /**
@@ -22,5 +22,18 @@ export default class FlyingDragonBaby extends GameItem {
    */
   public move(): void {
     this.setXPos(this.getXPos() + this.speed);
+  }
+
+  /**
+   * Checks if Rocket is out of canvas
+   *
+   * @param canvas the canvas
+   */
+  public outOfCanvas(canvas: HTMLCanvasElement): void {
+    if (this.getXPos() - 100 >= canvas.width) {
+      this.setXPos(-100);
+      this.setYPos(Game.randomNumber(0, canvas.height));
+      this.speed = Game.randomNumber(2, 8);
+    }
   }
 }
