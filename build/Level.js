@@ -1,11 +1,10 @@
 import Scene from './Scene.js';
 import Player from './Player.js';
-import GameOver from './GameOver.js';
-import LevelUp from './LevelUp.js';
 import DialogueBox from './DialogueBox.js';
 import Baker from './Baker.js';
 import BlackSmith from './BlackSmith.js';
 import Hunter from './Hunter.js';
+import MonsterFight from './MonsterFight.js';
 import QuestBox from './QuestBox.js';
 import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
 import FlyingDragonBaby from './FlyingDragonBaby.js';
@@ -20,9 +19,6 @@ export default class Level extends Scene {
     npcs;
     flyingDragonBaby;
     keyboard;
-    hunterProgression;
-    blacksmithProgression;
-    bakerProgression;
     constructor(game) {
         super(game);
         this.baker = new Baker();
@@ -36,13 +32,6 @@ export default class Level extends Scene {
         this.npcs.push(this.baker, this.blacksmith, this.hunter);
         this.player = new Player(game.canvas.width / 2, game.canvas.height / 2, this.dialogueBox, this.questBox, this.yesorNoQuestPrompt);
         this.keyboard = this.player.getKeys();
-        this.hunterProgression = 0;
-        this.blacksmithProgression = 0;
-        this.bakerProgression = 0;
-    }
-    hasWon() {
-        const user = this.game.getUser();
-        return user.getScore() >= user.getLevel() * 10;
     }
     processInput() {
         this.player.move(this.game.canvas);
@@ -56,6 +45,9 @@ export default class Level extends Scene {
         }
         if (this.player.isContinuing()) {
             this.dialogueBox.setDisplay(false);
+        }
+        if (this.player.isFighting()) {
+            return new MonsterFight(this.game, this.player);
         }
         if (this.player.startQuestYes() && this.baker.getProgression() === 5
             && this.player.collidesWith(this.baker)) {
@@ -79,12 +71,6 @@ export default class Level extends Scene {
             this.questBox.setDisplay(false);
             this.dialogueBox.setDisplay(true);
         }
-        if (this.hasWon()) {
-            return new LevelUp(this.game);
-        }
-        if (this.game.getUser().getScore() < 0) {
-            return new GameOver(this.game);
-        }
         return null;
     }
     render() {
@@ -100,9 +86,9 @@ export default class Level extends Scene {
         this.interact();
     }
     interact() {
-        const score = `Score: ${this.game.getUser().getScore()}`;
+        const score = `Score: ${this.game.getPlayerStats().getScore()}`;
         this.game.writeTextToCanvas(score, 36, 120, 50);
-        const hp = `HP: ${this.game.getUser().getHP()}`;
+        const hp = `HP: ${this.game.getPlayerStats().getHP()}`;
         this.game.writeTextToCanvas(hp, 36, 120, 100);
     }
 }

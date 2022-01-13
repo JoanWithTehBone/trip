@@ -165,6 +165,21 @@ export default class Player extends GameItem {
 
   /**
    *
+   * @returns true if the player is fighting the monster
+   */
+  public isFighting(): boolean {
+    return this.keyboard.isKeyTyped(KeyListener.KEY_F);
+  }
+
+  /**
+   *
+   * @returns true if the player is responding to a dialogue prompt
+   */
+  public isResponding(): boolean {
+    return this.keyboard.isKeyTyped(KeyListener.KEY_Y);
+  }
+
+  /**
    * @returns true if the player is continuing up
    */
   public answerQuestD(): boolean {
@@ -268,5 +283,14 @@ export default class Player extends GameItem {
   public increaseSpeed(size: number): void {
     this.xVel += size;
     this.yVel += size;
+  }
+
+  /**
+   * Get the dialogue box details
+   *
+   * @returns the dialogue box
+   */
+  public getDialogueBox(): DialogueBox {
+    return this.dialogueBox;
   }
 }

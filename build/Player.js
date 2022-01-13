@@ -70,6 +70,12 @@ export default class Player extends GameItem {
     answerQuestC() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_C);
     }
+    isFighting() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_F);
+    }
+    isResponding() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_Y);
+    }
     answerQuestD() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_D);
     }
@@ -134,6 +140,9 @@ export default class Player extends GameItem {
     increaseSpeed(size) {
         this.xVel += size;
         this.yVel += size;
+    }
+    getDialogueBox() {
+        return this.dialogueBox;
     }
 }
 //# sourceMappingURL=Player.js.map
