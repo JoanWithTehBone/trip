@@ -5,7 +5,7 @@ export default class Monster extends NPC {
     baseXPos;
     baseYPos;
     constructor(canvas) {
-        super('./assets/img/shark_monster.jpg', canvas.width / 2, canvas.height / 2);
+        super('./assets/img/golem.png', canvas.width / 2, canvas.height / 2);
         this.progression = 0;
         this.name = 'Monster';
         this.completed = true;

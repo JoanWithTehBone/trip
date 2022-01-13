@@ -3,9 +3,11 @@ import NPC from './NPC.js';
 export default class BlackSmith extends NPC {
   /**
    * Constructor for the blacksmith class
+   *
+   * @param canvas the game canvas
    */
-  public constructor() {
-    super('./assets/img/blacksmith.jpeg', 1100, 100);
+  public constructor(canvas: HTMLCanvasElement) {
+    super('', canvas.width / 11, canvas.height - 260);
     this.progression = 0;
     this.name = 'BlackSmith';
     this.completed = true;

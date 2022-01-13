@@ -3,9 +3,11 @@ import NPC from './NPC.js';
 export default class Baker extends NPC {
   /**
    * Constructor for the baker class
+   *
+   * @param canvas the game canvas
    */
-  public constructor() {
-    super('./assets/img/baker.jpeg', 100, 100);
+  public constructor(canvas: HTMLCanvasElement) {
+    super('', (canvas.width / 5) * 4.05, canvas.height / 2.5);
     this.progression = 0;
     this.name = 'Baker';
     this.completed = true;

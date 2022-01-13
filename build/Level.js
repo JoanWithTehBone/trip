@@ -16,9 +16,9 @@ export default class Level extends Scene {
     keyboard;
     constructor(game) {
         super(game);
-        this.baker = new Baker();
-        this.blacksmith = new BlackSmith();
-        this.hunter = new Hunter();
+        this.baker = new Baker(game.canvas);
+        this.blacksmith = new BlackSmith(game.canvas);
+        this.hunter = new Hunter(game.canvas);
         this.dialogueBox = new DialogueBox(this.game, this.game.canvas.width / 2 - 350, (this.game.canvas.height / 5) * 3.5);
         this.npcs = [];
         this.npcs.push(this.baker, this.blacksmith, this.hunter);

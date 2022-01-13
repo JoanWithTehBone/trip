@@ -1,7 +1,7 @@
 import NPC from './NPC.js';
 export default class BlackSmith extends NPC {
-    constructor() {
-        super('./assets/img/blacksmith.jpeg', 1100, 100);
+    constructor(canvas) {
+        super('', canvas.width / 11, canvas.height - 260);
         this.progression = 0;
         this.name = 'BlackSmith';
         this.completed = true;

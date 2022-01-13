@@ -3,9 +3,11 @@ import NPC from './NPC.js';
 export default class Hunter extends NPC {
   /**
    * Constructor for the hunter class
+   *
+   * @param canvas the game canvas
    */
-  public constructor() {
-    super('./assets/img/hunter.jpeg', 1100, 700);
+  public constructor(canvas: HTMLCanvasElement) {
+    super('', canvas.width / 2.05, canvas.height / 4.5);
     // Progression of the dialogue
     this.progression = 0;
     this.name = 'Hunter';

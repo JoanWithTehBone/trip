@@ -36,9 +36,9 @@ export default class Level extends Scene {
   public constructor(game: Game) {
     super(game);
     // Create Characters
-    this.baker = new Baker();
-    this.blacksmith = new BlackSmith();
-    this.hunter = new Hunter();
+    this.baker = new Baker(game.canvas);
+    this.blacksmith = new BlackSmith(game.canvas);
+    this.hunter = new Hunter(game.canvas);
 
     // Create DialogueBox
     this.dialogueBox = new DialogueBox(
