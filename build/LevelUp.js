@@ -16,7 +16,7 @@ export default class LevelUp extends Scene {
     }
     update() {
         if (this.shouldStart) {
-            this.game.getUser().increaseLevel();
+            this.game.getPlayerStats().increaseLevel();
             return new Level(this.game);
         }
         return null;
@@ -24,10 +24,8 @@ export default class LevelUp extends Scene {
     render() {
         this.game.ctx.clearRect(0, 0, this.game.canvas.width, this.game.canvas.height);
         const centerX = this.game.canvas.width / 2;
-        const line1 = `Level ${this.game.getUser().getLevel()} Clear`;
+        const line1 = `Level ${this.game.getPlayerStats().getLevel()} Clear`;
         this.game.writeTextToCanvas(line1, 128, centerX, 250, 'center', 'red');
-        const msg = `${this.game.getUser().getName()} score: ${this.game.getUser().getScore()}`;
-        this.game.writeTextToCanvas(msg, 48, centerX, 450, 'center', 'yellow');
         this.game.writeTextToCanvas("Type 'p' to proceed to the next level", 48, centerX, 550, 'center', 'white');
     }
 }

@@ -1,7 +1,7 @@
 import NPC from './NPC.js';
 export default class Hunter extends NPC {
-    constructor() {
-        super('./assets/img/hunter.jpeg', 1100, 700);
+    constructor(canvas) {
+        super('', canvas.width / 2.05, canvas.height / 4.5);
         this.progression = 0;
         this.name = 'Hunter';
         this.completed = true;

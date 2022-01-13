@@ -1,3 +1,4 @@
+import Baker from './Baker.js';
 import Game from './Game.js';
 import GameItem from './GameItem.js';
 
@@ -16,26 +17,31 @@ export default class DialogueBox extends GameItem {
 
   private dialogueList: string[];
 
+  private questList: string[];
+
   private game: Game;
+
+  private baker : Baker;
 
   /**
    * Constructing the dialogue box
    *
    * @param game the game
+   * @param baker baker
    * @param xPos the x position
    * @param yPos the y position
    */
-  constructor(game: Game, xPos: number, yPos: number) {
-    super('', xPos, yPos);
+  constructor(game: Game, baker : Baker, xPos: number, yPos: number) {
+    super('./assets/img/dialogue.png', xPos, yPos);
     this.display = false;
     // Positioning
     this.xPosition = xPos;
     this.yPosition = yPos;
-    this.textXPos = xPos + 250;
-    this.textYPos = yPos + 75;
-    console.log(this.dialogueList);
+    this.textXPos = xPos + 200;
+    this.textYPos = yPos + 45;
 
     this.game = game;
+    this.baker = baker;
   }
 
   /**
@@ -51,9 +57,10 @@ export default class DialogueBox extends GameItem {
    */
   public drawBox(ctx: CanvasRenderingContext2D): void {
     if (this.display) {
-      ctx.clearRect(this.xPosition, this.yPosition, 700, 200);
+      ctx.clearRect(this.xPosition, this.yPosition, 1200, 200);
       // Drawing a white rectangle on the canvas background
-      ctx.fillRect(this.xPosition, this.yPosition, 700, 200);
+      // ctx.fillRect(this.xPosition, this.yPosition, 1200, 200);
+      ctx.drawImage(this.img, this.xPosition, this.yPosition);
       // console.log(this.npc.getProgression());
       this.writeTextToBox(this.currentDialogue);
     }
@@ -65,7 +72,7 @@ export default class DialogueBox extends GameItem {
    * @param currentDialogue the current integer of dialogue -> currentindex
    */
   public writeTextToBox(currentDialogue: number): void {
-    this.game.writeTextToCanvas(this.dialogueList[currentDialogue], 32, this.textXPos, this.textYPos, 'center', 'black');
+    this.game.writeTextToCanvas(this.dialogueList[currentDialogue], 26, this.textXPos, this.textYPos, 'center', 'black');
   }
 
   /**
@@ -120,5 +127,14 @@ export default class DialogueBox extends GameItem {
    */
   public setDialogueList(list: string[]): void {
     this.dialogueList = list;
+  }
+
+  /**
+   * Sets the qdialogue of the current character
+   *
+   * @param list the current list of dialogue
+   */
+  public setQuestList(list: string[]): void {
+    this.questList = list;
   }
 }

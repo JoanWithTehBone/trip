@@ -1,7 +1,20 @@
 body {
+    background: rgb(87, 101, 180);
+    padding : 0;
+    margin : 0;
     overflow: hidden;
 }
 
-canvas{
+.game-canvas {
+    position: relative; 
+    margin: 0, auto;
+    padding: 10px;
+    outline: 1px solid #fff;
+}
+
+canvas { 
+    image-rendering: pixelated;
     background-image: url("./../img/Backround.png");
+    background-position: center;
+    background-size: cover;
 }
