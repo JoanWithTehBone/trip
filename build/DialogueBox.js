@@ -9,7 +9,8 @@ export default class DialogueBox extends GameItem {
     dialogueList;
     questList;
     game;
-    constructor(game, xPos, yPos) {
+    baker;
+    constructor(game, baker, xPos, yPos) {
         super('./assets/img/dialogue.png', xPos, yPos);
         this.display = false;
         this.xPosition = xPos;
@@ -17,6 +18,7 @@ export default class DialogueBox extends GameItem {
         this.textXPos = xPos + 200;
         this.textYPos = yPos + 45;
         this.game = game;
+        this.baker = baker;
     }
     drawBox(ctx) {
         if (this.display) {

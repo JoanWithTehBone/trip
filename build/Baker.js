@@ -8,8 +8,7 @@ export default class Baker extends NPC {
         this.dialogue = [];
         this.questDialogue = [];
         this.yesornooptionbaker = 'Do you want to start the baker quest? Yes No';
-        this.questFailTextBaker = 'Mhhh let me check, I don`t think they did it.';
-        this.completedTextBaker = 'Mhhh let me check, Ah you found the thief';
+        this.questResponseBaker = ['Mhhh let me check, I don`t think they did it.', 'Mhhh let me check, Ah you found the thief'];
         this.dialogueFactory();
         this.questFactory();
     }
@@ -23,11 +22,11 @@ export default class Baker extends NPC {
     getYesorNoTextBaker() {
         return this.yesornooptionbaker;
     }
-    getquestFailTextBaker() {
-        return this.questFailTextBaker;
+    getquestResponseTextBaker() {
+        return this.questResponseBaker;
     }
-    getCompletedTextBaker() {
-        return this.completedTextBaker;
+    getQuestDialogue() {
+        return this.questDialogue;
     }
 }
 //# sourceMappingURL=Baker.js.map

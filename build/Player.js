@@ -53,7 +53,7 @@ export default class Player extends GameItem {
         return this.keyboard.isKeyTyped(KeyListener.KEY_SPACE);
     }
     isContinuing() {
-        return this.keyboard.isKeyTyped(KeyListener.KEY_C);
+        return this.keyboard.isKeyTyped(KeyListener.KEY_Q);
     }
     startQuestYes() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_Y);
@@ -122,8 +122,8 @@ export default class Player extends GameItem {
             npcs.forEach((element) => {
                 if (this.collidesWith(element)) {
                     this.questBox.setDisplay(true);
+                    this.dialogueBox.setDisplay(false);
                     console.log('quest WITH THE npc:)');
-                    element.questingToPlayer(0, this.questBox);
                     collides = false;
                 }
             });

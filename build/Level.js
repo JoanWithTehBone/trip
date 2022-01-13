@@ -26,7 +26,7 @@ export default class Level extends Scene {
         this.baker = new Baker();
         this.blacksmith = new BlackSmith();
         this.hunter = new Hunter();
-        this.dialogueBox = new DialogueBox(this.game, this.game.canvas.width / 2 - 600, (this.game.canvas.height / 5) * 3.7);
+        this.dialogueBox = new DialogueBox(this.game, this.baker, this.game.canvas.width / 2 - 600, (this.game.canvas.height / 5) * 3.7);
         this.questBox = new QuestBox(this.game, this.baker, this.game.canvas.width / 2 - 500, (this.game.canvas.height / 8) * 0.5);
         this.yesorNoQuestPrompt = new YesorNoQuestPrompt(this.game, this.baker, this.game.canvas.width / 2 - 300, (this.game.canvas.height / 8) * 3);
         this.npcs = [];
@@ -55,7 +55,6 @@ export default class Level extends Scene {
         }
         if (this.player.startQuestYes() && this.baker.getProgression() === 5
             && this.player.collidesWith(this.baker)) {
-            this.dialogueBox.setDisplay(false);
             this.yesorNoQuestPrompt.setDisplay(false);
             this.questBox.setDisplay(true);
         }
@@ -63,14 +62,18 @@ export default class Level extends Scene {
             this.yesorNoQuestPrompt.setDisplay(false);
             this.baker.setProgression(0);
         }
-        if (this.questBox.getDisplay() && this.player.answerQuestC) {
+        if (this.questBox.getDisplay() && this.player.answerQuestC()) {
+            this.dialogueBox.setDialogueList(this.baker.getquestResponseTextBaker());
+            this.dialogueBox.setCurrentDialogue(1);
+            this.questBox.setDisplay(false);
             this.dialogueBox.setDisplay(true);
-            this.questBox.writeCompletedTextBaker();
         }
-        if (this.questBox.getDisplay() && (this.player.answerQuestA
-            || this.player.answerQuestB || this.player.answerQuestD)) {
+        if (this.questBox.getDisplay() && (this.player.answerQuestA()
+            || this.player.answerQuestB() || this.player.answerQuestD())) {
+            this.dialogueBox.setDialogueList(this.baker.getquestResponseTextBaker());
+            this.dialogueBox.setCurrentDialogue(0);
+            this.questBox.setDisplay(false);
             this.dialogueBox.setDisplay(true);
-            this.questBox.writeFailTextBaker();
         }
         if (this.hasWon()) {
             return new LevelUp(this.game);

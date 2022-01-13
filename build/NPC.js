@@ -7,8 +7,7 @@ export default class NPC extends GameItem {
     questDialogue;
     quest;
     yesornooptionbaker;
-    questFailTextBaker;
-    completedTextBaker;
+    questResponseBaker;
     constructor(imageSrc, maxX, maxY) {
         super(imageSrc, maxX, maxY);
     }

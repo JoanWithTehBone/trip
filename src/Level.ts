@@ -56,6 +56,7 @@ export default class Level extends Scene {
     // Create DialogueBox
     this.dialogueBox = new DialogueBox(
       this.game,
+      this.baker,
       this.game.canvas.width / 2 - 600, // xPosition
       (this.game.canvas.height / 5) * 3.7, // yPosition
     );
@@ -140,11 +141,9 @@ export default class Level extends Scene {
     if (this.player.startQuestYes() && this.baker.getProgression() === 5
     && this.player.collidesWith(this.baker)) {
       // dialoguebox and the yesnoprompt gets removed from screen, the quest begins/shows on screen.
-      this.dialogueBox.setDisplay(false);
       this.yesorNoQuestPrompt.setDisplay(false);
       // this.player.questWith(this.npcs);
       this.questBox.setDisplay(true);
-      // this.baker.questingToPlayer(0, this.questBox);
       // PROBLEM the text pops up but also the dialogue box underneath?
     }
 
@@ -160,18 +159,22 @@ export default class Level extends Scene {
     // if The questbox is displayed and C is clicked the dialoguebox
     // and the completed text will pop up
     // PROBLEM there is no reaction to the button
-    if (this.questBox.getDisplay() && this.player.answerQuestC) {
+    if (this.questBox.getDisplay() && this.player.answerQuestC()) {
+      this.dialogueBox.setDialogueList(this.baker.getquestResponseTextBaker());
+      this.dialogueBox.setCurrentDialogue(1);
+      this.questBox.setDisplay(false);
       this.dialogueBox.setDisplay(true);
-      this.questBox.writeCompletedTextBaker();
     }
 
     // if the quest box is displayed and A or B or D is clicked the dialogeubox
     // and the fail text will pop up
     // PROBLEM there is no reaction to the button
-    if (this.questBox.getDisplay() && (this.player.answerQuestA
-    || this.player.answerQuestB || this.player.answerQuestD)) {
+    if (this.questBox.getDisplay() && (this.player.answerQuestA()
+    || this.player.answerQuestB() || this.player.answerQuestD())) {
+      this.dialogueBox.setDialogueList(this.baker.getquestResponseTextBaker());
+      this.dialogueBox.setCurrentDialogue(0);
+      this.questBox.setDisplay(false);
       this.dialogueBox.setDisplay(true);
-      this.questBox.writeFailTextBaker();
     }
 
     // Move to level clear screen

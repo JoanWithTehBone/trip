@@ -120,7 +120,7 @@ export default class Player extends GameItem {
    * @returns true if the player is continuing up
    */
   public isContinuing(): boolean {
-    return this.keyboard.isKeyTyped(KeyListener.KEY_C);
+    return this.keyboard.isKeyTyped(KeyListener.KEY_Q);
   }
 
   /**
@@ -241,9 +241,10 @@ export default class Player extends GameItem {
       npcs.forEach((element) => {
         if (this.collidesWith(element)) {
           this.questBox.setDisplay(true);
+          this.dialogueBox.setDisplay(false);
           console.log('quest WITH THE npc:)');
           // if (element.getProgression() + 1 >= element.getQuest().length) {
-          element.questingToPlayer(0, this.questBox);
+          // element.questingToPlayer(0, this.questBox);
           // } else if (element.questCompleted()) {
           //   element.questingToPlayer(2, this.questBox);
           //   element.setProgression(element.getProgression() + 1);

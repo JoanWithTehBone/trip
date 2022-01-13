@@ -60,31 +60,15 @@ export default class DialogueBox extends GameItem {
       // Drawing a white rectangle on the canvas background
       // ctx.fillRect(this.xPosition, this.yPosition, 1000, 550);
       // console.log(this.npc.getProgression());
-      this.writeTextToBox(this.currentDialogue);
+      this.writeTextToBox();
     }
   }
 
   /**
    * Method to write the text in the box to the screen
-   *
-   * @param currentDialogue the current integer of dialogue -> currentindex
    */
-  public writeTextToBox(currentDialogue: number): void {
-    this.game.writeTextToCanvas(this.questList[currentDialogue], 26, this.textXPos, this.textYPos, 'center', 'black');
-  }
-
-  /**
-   * Method to write the text in the box to the screen
-   */
-  public writeCompletedTextBaker(): void {
-    this.game.writeTextToCanvas(this.baker.getCompletedTextBaker(), 26, this.textXPos, this.textYPos, 'center', 'black');
-  }
-
-  /**
-   * Method to write the text in the box to the screen
-   */
-  public writeFailTextBaker(): void {
-    this.game.writeTextToCanvas(this.baker.getquestFailTextBaker(), 26, this.textXPos, this.textYPos, 'center', 'black');
+  public writeTextToBox(): void {
+    this.game.writeTextToCanvas(this.baker.getQuestDialogue()[0], 26, this.textXPos, this.textYPos, 'center', 'black');
   }
 
   /**

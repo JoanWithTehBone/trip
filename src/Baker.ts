@@ -12,8 +12,7 @@ export default class Baker extends NPC {
     this.dialogue = [];
     this.questDialogue = [];
     this.yesornooptionbaker = 'Do you want to start the baker quest? Yes No';
-    this.questFailTextBaker = 'Mhhh let me check, I don`t think they did it.';
-    this.completedTextBaker = 'Mhhh let me check, Ah you found the thief';
+    this.questResponseBaker = ['Mhhh let me check, I don`t think they did it.', 'Mhhh let me check, Ah you found the thief'];
     this.dialogueFactory();
     this.questFactory();
   }
@@ -50,8 +49,8 @@ export default class Baker extends NPC {
    *
    * @returns the text of the Question that is in the constructor
    */
-  public getquestFailTextBaker() : string {
-    return this.questFailTextBaker;
+  public getquestResponseTextBaker() : string[] {
+    return this.questResponseBaker;
   }
 
   /**
@@ -59,7 +58,7 @@ export default class Baker extends NPC {
    *
    * @returns the text of the Question that is in the constructor
    */
-  public getCompletedTextBaker() : string {
-    return this.completedTextBaker;
+  public getQuestDialogue() : string [] {
+    return this.questDialogue;
   }
 }
