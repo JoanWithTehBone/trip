@@ -1,7 +1,6 @@
 import Game from './Game.js';
 import Scene from './Scene.js';
 import Player from './Player.js';
-import GameOver from './GameOver.js';
 import DialogueBox from './DialogueBox.js';
 import Baker from './Baker.js';
 import BlackSmith from './BlackSmith.js';
@@ -122,10 +121,9 @@ export default class Level extends Scene {
       this.dialogueBox.setDisplay(false);
     }
 
-
     if (this.player.isFighting()) {
       return new MonsterFight(this.game, this.player);
-      
+    }
     // when the player is in collision with the baker and answers yes upon the yesnoprompt when
     // the progression is on 5(the prompt) so that you can't open the questbox in between dialogue
     if (this.player.startQuestYes() && this.baker.getProgression() === 5
