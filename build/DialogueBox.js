@@ -7,26 +7,28 @@ export default class DialogueBox extends GameItem {
     textXPos;
     textYPos;
     dialogueList;
+    questList;
     game;
-    constructor(game, xPos, yPos) {
-        super('', xPos, yPos);
+    baker;
+    constructor(game, baker, xPos, yPos) {
+        super('./assets/img/dialogue.png', xPos, yPos);
         this.display = false;
         this.xPosition = xPos;
         this.yPosition = yPos;
-        this.textXPos = xPos + 250;
-        this.textYPos = yPos + 75;
-        console.log(this.dialogueList);
+        this.textXPos = xPos + 200;
+        this.textYPos = yPos + 45;
         this.game = game;
+        this.baker = baker;
     }
     drawBox(ctx) {
         if (this.display) {
-            ctx.clearRect(this.xPosition, this.yPosition, 700, 200);
-            ctx.fillRect(this.xPosition, this.yPosition, 700, 200);
+            ctx.clearRect(this.xPosition, this.yPosition, 1200, 200);
+            ctx.drawImage(this.img, this.xPosition, this.yPosition);
             this.writeTextToBox(this.currentDialogue);
         }
     }
     writeTextToBox(currentDialogue) {
-        this.game.writeTextToCanvas(this.dialogueList[currentDialogue], 32, this.textXPos, this.textYPos, 'center', 'black');
+        this.game.writeTextToCanvas(this.dialogueList[currentDialogue], 26, this.textXPos, this.textYPos, 'center', 'black');
     }
     setDisplay(active) {
         this.display = active;
@@ -45,6 +47,9 @@ export default class DialogueBox extends GameItem {
     }
     setDialogueList(list) {
         this.dialogueList = list;
+    }
+    setQuestList(list) {
+        this.questList = list;
     }
 }
 //# sourceMappingURL=DialogueBox.js.map

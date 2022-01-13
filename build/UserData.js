@@ -1,23 +1,15 @@
 export default class UserData {
-    name;
     score;
     level;
     hp;
     atk;
     def;
-    constructor() {
+    constructor(health, attack, defense) {
         this.level = 1;
         this.score = 0;
-        this.name = 'Player 1';
-        this.hp = 10;
-        this.atk = 1;
-        this.def = 1;
-    }
-    getName() {
-        return this.name;
-    }
-    setName(name) {
-        this.name = name;
+        this.hp = health;
+        this.atk = attack;
+        this.def = defense;
     }
     getScore() {
         return this.score;
