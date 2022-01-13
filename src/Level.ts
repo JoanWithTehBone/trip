@@ -63,6 +63,7 @@ export default class Level extends Scene {
     // Create the QuestBox
     this.questBox = new QuestBox(
       this.game,
+      this.baker,
       this.game.canvas.width / 2 - 500, // xPosition
       (this.game.canvas.height / 8) * 0.5, // yPostition
     );
@@ -134,10 +135,43 @@ export default class Level extends Scene {
       this.dialogueBox.setDisplay(false);
     }
 
-    if (this.player.startQuestYes()) {
+    // when the player is in collision with the baker and answers yes upon the yesnoprompt when
+    // the progression is on 5(the prompt) so that you can't open the questbox in between dialogue
+    if (this.player.startQuestYes() && this.baker.getProgression() === 5
+    && this.player.collidesWith(this.baker)) {
+      // dialoguebox and the yesnoprompt gets removed from screen, the quest begins/shows on screen.
       this.dialogueBox.setDisplay(false);
       this.yesorNoQuestPrompt.setDisplay(false);
-      this.player.questWith(this.npcs);
+      // this.player.questWith(this.npcs);
+      this.questBox.setDisplay(true);
+      // this.baker.questingToPlayer(0, this.questBox);
+      // PROBLEM the text pops up but also the dialogue box underneath?
+    }
+
+    // when the player is in collision with the baker and answers no upon the yesnoprompt
+    if (this.player.refuseQuestNo() && this.player.collidesWith(this.baker)) {
+      // the yes no prompt gets removed and the progression (of dialogue) get set to 0
+      // so the dialogue start over upon interacting with npc again.
+      this.yesorNoQuestPrompt.setDisplay(false);
+      this.baker.setProgression(0);
+    } // PROBLEM remove the dialogue box except if added in here then dialogue box will also
+    // remove even when not on the yesnoprompt upon clicking Key_N
+
+    // if The questbox is displayed and C is clicked the dialoguebox
+    // and the completed text will pop up
+    // PROBLEM there is no reaction to the button
+    if (this.questBox.getDisplay() && this.player.answerQuestC) {
+      this.dialogueBox.setDisplay(true);
+      this.questBox.writeCompletedTextBaker();
+    }
+
+    // if the quest box is displayed and A or B or D is clicked the dialogeubox
+    // and the fail text will pop up
+    // PROBLEM there is no reaction to the button
+    if (this.questBox.getDisplay() && (this.player.answerQuestA
+    || this.player.answerQuestB || this.player.answerQuestD)) {
+      this.dialogueBox.setDisplay(true);
+      this.questBox.writeFailTextBaker();
     }
 
     // Move to level clear screen

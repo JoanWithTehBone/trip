@@ -28,7 +28,7 @@ export default class DialogueBox extends GameItem {
    * @param yPos the y position
    */
   constructor(game: Game, xPos: number, yPos: number) {
-    super('', xPos, yPos);
+    super('./assets/img/dialogue.png', xPos, yPos);
     this.display = false;
     // Positioning
     this.xPosition = xPos;
@@ -54,7 +54,8 @@ export default class DialogueBox extends GameItem {
     if (this.display) {
       ctx.clearRect(this.xPosition, this.yPosition, 1200, 200);
       // Drawing a white rectangle on the canvas background
-      ctx.fillRect(this.xPosition, this.yPosition, 1200, 200);
+      // ctx.fillRect(this.xPosition, this.yPosition, 1200, 200);
+      ctx.drawImage(this.img, this.xPosition, this.yPosition);
       // console.log(this.npc.getProgression());
       this.writeTextToBox(this.currentDialogue);
     }

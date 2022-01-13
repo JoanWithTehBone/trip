@@ -8,24 +8,32 @@ export default class DialogueBox extends GameItem {
     textYPos;
     questList;
     game;
-    constructor(game, xPos, yPos) {
-        super('', xPos, yPos);
+    baker;
+    constructor(game, baker, xPos, yPos) {
+        super('./assets/img/questbox.png', xPos, yPos);
         this.display = false;
         this.xPosition = xPos;
         this.yPosition = yPos;
         this.textXPos = xPos + 20;
         this.textYPos = yPos + 35;
         this.game = game;
+        this.baker = baker;
     }
     drawBox(ctx) {
         if (this.display) {
             ctx.clearRect(this.xPosition, this.yPosition, 1000, 550);
-            ctx.fillRect(this.xPosition, this.yPosition, 1000, 550);
+            ctx.drawImage(this.img, this.xPosition, this.yPosition);
             this.writeTextToBox(this.currentDialogue);
         }
     }
     writeTextToBox(currentDialogue) {
         this.game.writeTextToCanvas(this.questList[currentDialogue], 26, this.textXPos, this.textYPos, 'center', 'black');
+    }
+    writeCompletedTextBaker() {
+        this.game.writeTextToCanvas(this.baker.getCompletedTextBaker(), 26, this.textXPos, this.textYPos, 'center', 'black');
+    }
+    writeFailTextBaker() {
+        this.game.writeTextToCanvas(this.baker.getquestFailTextBaker(), 26, this.textXPos, this.textYPos, 'center', 'black');
     }
     setDisplay(active) {
         this.display = active;
