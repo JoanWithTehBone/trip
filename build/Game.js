@@ -4,7 +4,7 @@ import UserData from './UserData.js';
 export default class Game {
     canvas;
     ctx;
-    user;
+    playerStats;
     gameLoop;
     constructor(canvas) {
         this.canvas = canvas;
@@ -14,11 +14,11 @@ export default class Game {
         this.gameLoop = new GameLoop();
         this.gameLoop.start(new Start(this));
     }
-    getUser() {
-        return this.user;
+    getPlayerStats() {
+        return this.playerStats;
     }
     reset() {
-        this.user = new UserData();
+        this.playerStats = new UserData(20, 4, 2);
     }
     writeTextToCanvas(text, fontSize = 14, xCoordinate, yCoordinate, alignment = 'center', color = 'white') {
         this.ctx.font = `${fontSize}px sans-serif`;
