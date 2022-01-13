@@ -8,7 +8,7 @@ export default class Player extends GameItem {
     yesornoquestprompt;
     keyboard;
     constructor(xPos, yPos, dialogueBox, questBox, yesornoquestprompt) {
-        super('./assets/img/platerspritesheet.png', xPos, yPos);
+        super('./assets/img/player.png', xPos, yPos);
         this.xVel = 3;
         this.yVel = 3;
         this.keyboard = new KeyListener();

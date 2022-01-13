@@ -35,7 +35,7 @@ export default class Player extends GameItem {
     questBox: QuestBox,
     yesornoquestprompt : YesorNoQuestPrompt,
   ) {
-    super('./assets/img/platerspritesheet.png', xPos, yPos);
+    super('./assets/img/player.png', xPos, yPos);
 
     this.xVel = 3;
     this.yVel = 3;
