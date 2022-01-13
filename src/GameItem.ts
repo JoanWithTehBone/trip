@@ -57,6 +57,15 @@ export default abstract class GameItem {
   }
 
   /**
+   * getXPos
+   *
+   * @param xPosition of the gameitem
+   */
+  public setXPos(xPosition : number): void {
+    this.xPos = xPosition;
+  }
+
+  /**
    * getYPos
    *
    * @returns the current Y-position

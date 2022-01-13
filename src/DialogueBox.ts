@@ -54,6 +54,7 @@ export default class DialogueBox extends GameItem {
    *  - Add continue prompt to show how to continue.
    *
    * @param ctx CanvasRenderingContext
+
    */
   public drawBox(ctx: CanvasRenderingContext2D): void {
     if (this.display) {

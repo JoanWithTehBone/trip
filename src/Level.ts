@@ -11,6 +11,7 @@ import KeyListener from './KeyListener.js';
 import NPC from './NPC.js';
 import QuestBox from './QuestBox.js';
 import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
+import FlyingDragonBaby from './FlyingDragonBaby.js';
 
 export default class Level extends Scene {
   // Player
@@ -30,6 +31,8 @@ export default class Level extends Scene {
   private hunter: Hunter;
 
   private npcs: NPC[];
+
+  private flyingDragonBaby: FlyingDragonBaby;
 
   // Keyboard
   private keyboard: KeyListener;
@@ -52,6 +55,7 @@ export default class Level extends Scene {
     this.baker = new Baker();
     this.blacksmith = new BlackSmith();
     this.hunter = new Hunter();
+    this.flyingDragonBaby = new FlyingDragonBaby(game.canvas);
 
     // Create DialogueBox
     this.dialogueBox = new DialogueBox(
@@ -126,6 +130,7 @@ export default class Level extends Scene {
   public update(): Scene {
     // this.player.onFrameStartListener();
     this.keyboard.onFrameStart();
+    this.flyingDragonBaby.move();
 
     if (this.player.isPressing()) {
       this.questBox.setDisplay(false);
@@ -201,6 +206,7 @@ export default class Level extends Scene {
     this.blacksmith.draw(this.game.ctx);
     this.hunter.draw(this.game.ctx);
     this.player.draw(this.game.ctx);
+    this.flyingDragonBaby.draw(this.game.ctx);
 
     this.questBox.drawBox(this.game.ctx);
     this.dialogueBox.drawBox(this.game.ctx);

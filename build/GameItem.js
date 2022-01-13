@@ -20,6 +20,9 @@ export default class GameItem {
     getXPos() {
         return this.xPos;
     }
+    setXPos(xPosition) {
+        this.xPos = xPosition;
+    }
     getYPos() {
         return this.yPos;
     }
