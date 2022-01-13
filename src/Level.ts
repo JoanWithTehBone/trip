@@ -8,13 +8,21 @@ import BlackSmith from './BlackSmith.js';
 import Hunter from './Hunter.js';
 import KeyListener from './KeyListener.js';
 import NPC from './NPC.js';
+
 import MonsterFight from './MonsterFight.js';
+
+import QuestBox from './QuestBox.js';
+import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
 
 export default class Level extends Scene {
   // Player
   private player: Player;
 
   private dialogueBox: DialogueBox;
+
+  private questBox: QuestBox;
+
+  private yesorNoQuestPrompt : YesorNoQuestPrompt;
 
   // NPCS
   private baker: Baker;
@@ -43,8 +51,25 @@ export default class Level extends Scene {
     // Create DialogueBox
     this.dialogueBox = new DialogueBox(
       this.game,
-      this.game.canvas.width / 2 - 350,
-      (this.game.canvas.height / 5) * 3.5,
+      this.baker,
+      this.game.canvas.width / 2 - 600, // xPosition
+      (this.game.canvas.height / 5) * 3.7, // yPosition
+    );
+
+    // Create the QuestBox
+    this.questBox = new QuestBox(
+      this.game,
+      this.baker,
+      this.game.canvas.width / 2 - 500, // xPosition
+      (this.game.canvas.height / 8) * 0.5, // yPostition
+    );
+
+    // Create the Yes or no prompt box
+    this.yesorNoQuestPrompt = new YesorNoQuestPrompt(
+      this.game,
+      this.baker,
+      this.game.canvas.width / 2 - 300, // xPosition
+      (this.game.canvas.height / 8) * 3, // yPostition
     );
 
     // Create a new array of NPCS to pass on
@@ -56,6 +81,8 @@ export default class Level extends Scene {
       game.canvas.width / 2,
       game.canvas.height / 2,
       this.dialogueBox,
+      this.questBox,
+      this.yesorNoQuestPrompt,
     );
     this.keyboard = this.player.getKeys();
   }
@@ -87,6 +114,7 @@ export default class Level extends Scene {
     this.keyboard.onFrameStart();
 
     if (this.player.isPressing()) {
+      this.questBox.setDisplay(false);
       this.player.interactWith(this.npcs);
     }
 
@@ -94,13 +122,49 @@ export default class Level extends Scene {
       this.dialogueBox.setDisplay(false);
     }
 
+
     if (this.player.isFighting()) {
       return new MonsterFight(this.game, this.player);
+      
+    // when the player is in collision with the baker and answers yes upon the yesnoprompt when
+    // the progression is on 5(the prompt) so that you can't open the questbox in between dialogue
+    if (this.player.startQuestYes() && this.baker.getProgression() === 5
+    && this.player.collidesWith(this.baker)) {
+      // dialoguebox and the yesnoprompt gets removed from screen, the quest begins/shows on screen.
+      this.yesorNoQuestPrompt.setDisplay(false);
+      // this.player.questWith(this.npcs);
+      this.questBox.setDisplay(true);
+      // PROBLEM the text pops up but also the dialogue box underneath?
     }
 
-    // Move to gameover screen
-    if (this.game.getPlayerStats().getScore() < 0) {
-      return new GameOver(this.game);
+    // when the player is in collision with the baker and answers no upon the yesnoprompt
+    if (this.player.refuseQuestNo() && this.player.collidesWith(this.baker)) {
+      // the yes no prompt gets removed and the progression (of dialogue) get set to 0
+      // so the dialogue start over upon interacting with npc again.
+      this.yesorNoQuestPrompt.setDisplay(false);
+      this.baker.setProgression(0);
+    } // PROBLEM remove the dialogue box except if added in here then dialogue box will also
+    // remove even when not on the yesnoprompt upon clicking Key_N
+
+    // if The questbox is displayed and C is clicked the dialoguebox
+    // and the completed text will pop up
+    // PROBLEM there is no reaction to the button
+    if (this.questBox.getDisplay() && this.player.answerQuestC()) {
+      this.dialogueBox.setDialogueList(this.baker.getquestResponseTextBaker());
+      this.dialogueBox.setCurrentDialogue(1);
+      this.questBox.setDisplay(false);
+      this.dialogueBox.setDisplay(true);
+    }
+
+    // if the quest box is displayed and A or B or D is clicked the dialogeubox
+    // and the fail text will pop up
+    // PROBLEM there is no reaction to the button
+    if (this.questBox.getDisplay() && (this.player.answerQuestA()
+    || this.player.answerQuestB() || this.player.answerQuestD())) {
+      this.dialogueBox.setDialogueList(this.baker.getquestResponseTextBaker());
+      this.dialogueBox.setCurrentDialogue(0);
+      this.questBox.setDisplay(false);
+      this.dialogueBox.setDisplay(true);
     }
 
     return null;
@@ -113,13 +177,14 @@ export default class Level extends Scene {
     // Clear the screen
     this.game.ctx.clearRect(0, 0, this.game.canvas.width, this.game.canvas.height);
 
-    this.player.draw(this.game.ctx);
     this.baker.draw(this.game.ctx);
     this.blacksmith.draw(this.game.ctx);
     this.hunter.draw(this.game.ctx);
+    this.player.draw(this.game.ctx);
 
+    this.questBox.drawBox(this.game.ctx);
     this.dialogueBox.drawBox(this.game.ctx);
-
+    this.yesorNoQuestPrompt.drawBox(this.game.ctx);
     this.interact();
   }
 

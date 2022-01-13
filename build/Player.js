@@ -4,13 +4,18 @@ export default class Player extends GameItem {
     xVel;
     yVel;
     dialogueBox;
+    questBox;
+    yesornoquestprompt;
     keyboard;
-    constructor(xPos, yPos, dialogueBox) {
-        super('./assets/img/player.png', xPos, yPos);
+
+    constructor(xPos, yPos, dialogueBox, questBox, yesornoquestprompt) {
+        super('./assets/img/platerspritesheet.png', xPos, yPos);
         this.xVel = 3;
         this.yVel = 3;
         this.keyboard = new KeyListener();
         this.dialogueBox = dialogueBox;
+        this.questBox = questBox;
+        this.yesornoquestprompt = yesornoquestprompt;
     }
     move(canvas) {
         const minX = 0;
@@ -49,6 +54,21 @@ export default class Player extends GameItem {
         return this.keyboard.isKeyTyped(KeyListener.KEY_SPACE);
     }
     isContinuing() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_Q);
+    }
+    startQuestYes() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_Y);
+    }
+    refuseQuestNo() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_N);
+    }
+    answerQuestA() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_A);
+    }
+    answerQuestB() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_B);
+    }
+    answerQuestC() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_C);
     }
     isFighting() {
@@ -56,6 +76,10 @@ export default class Player extends GameItem {
     }
     isResponding() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_Y);
+
+    answerQuestD() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_D);
+
     }
     collidesWith(other) {
         return this.xPos < other.getXPos() + other.getImageWidth()
@@ -69,21 +93,51 @@ export default class Player extends GameItem {
             if (this.collidesWith(element)) {
                 this.dialogueBox.setDisplay(true);
                 console.log('INTERACTION WITH THE npc:)');
-                if (element.getProgression() + 1 >= element.getDialogue().length) {
-                    element.talkToPlayer(3, this.dialogueBox);
+                if (element.questCompleted() && element.getProgression() === 4) {
+                    this.dialogueBox.setDisplay(false);
+                    this.yesornoquestprompt.setDisplay(true);
+                    element.setProgression(element.getProgression() + 1);
+                    console.log(element.getProgression());
                 }
-                else if (element.questCompleted()) {
+                else if (element.questCompleted() && element.getProgression() === 3) {
+                    element.talkToPlayer(3, this.dialogueBox);
+                    element.setProgression(element.getProgression() + 1);
+                    console.log(element.getProgression());
+                }
+                else if (element.questCompleted() && element.getProgression() === 2) {
                     element.talkToPlayer(2, this.dialogueBox);
                     element.setProgression(element.getProgression() + 1);
+                    console.log(element.getProgression());
                 }
-                else if (element.getProgression() < 2) {
+                else if (element.questCompleted() && element.getProgression() === 1) {
+                    element.talkToPlayer(1, this.dialogueBox);
+                    element.setProgression(element.getProgression() + 1);
+                    console.log(element.getProgression());
+                }
+                else if (element.getProgression() < 1) {
                     element.talkToPlayer(element.getProgression(), this.dialogueBox);
                     element.setProgression(element.getProgression() + 1);
+                    console.log(element.getProgression());
                 }
                 collides = false;
             }
         });
         return collides;
+    }
+    questWith(npcs) {
+        let collides = true;
+        if (this.startQuestYes) {
+            npcs.forEach((element) => {
+                if (this.collidesWith(element)) {
+                    this.questBox.setDisplay(true);
+                    this.dialogueBox.setDisplay(false);
+                    console.log('quest WITH THE npc:)');
+                    collides = false;
+                }
+            });
+            return collides;
+        }
+        return false;
     }
     increaseSpeed(size) {
         this.xVel += size;

@@ -20,7 +20,7 @@ export default class Game {
     reset() {
         this.playerStats = new UserData(20, 4, 2);
     }
-    writeTextToCanvas(text, fontSize = 20, xCoordinate, yCoordinate, alignment = 'center', color = 'white') {
+    writeTextToCanvas(text, fontSize = 14, xCoordinate, yCoordinate, alignment = 'center', color = 'white') {
         this.ctx.font = `${fontSize}px sans-serif`;
         this.ctx.fillStyle = color;
         this.ctx.textAlign = alignment;
