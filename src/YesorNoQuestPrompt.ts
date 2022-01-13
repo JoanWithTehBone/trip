@@ -2,10 +2,8 @@ import Baker from './Baker.js';
 import Game from './Game.js';
 import GameItem from './GameItem.js';
 
-export default class DialogueBox extends GameItem {
+export default class YesorNoQuestPrompt extends GameItem {
   private display: boolean;
-
-  private currentDialogue: number;
 
   private xPosition: number;
 
@@ -14,10 +12,6 @@ export default class DialogueBox extends GameItem {
   private textXPos: number;
 
   private textYPos: number;
-
-  private dialogueList: string[];
-
-  private questList: string[];
 
   private game: Game;
 
@@ -31,14 +25,14 @@ export default class DialogueBox extends GameItem {
    * @param xPos the x position
    * @param yPos the y position
    */
-  constructor(game: Game, baker : Baker, xPos: number, yPos: number) {
-    super('./assets/img/dialogue.png', xPos, yPos);
+  constructor(game: Game, baker: Baker, xPos: number, yPos: number) {
+    super('./assets/img/yesornobox.png', xPos, yPos);
     this.display = false;
     // Positioning
     this.xPosition = xPos;
     this.yPosition = yPos;
-    this.textXPos = xPos + 200;
-    this.textYPos = yPos + 45;
+    this.textXPos = xPos + 20;
+    this.textYPos = yPos + 35;
 
     this.game = game;
     this.baker = baker;
@@ -57,22 +51,20 @@ export default class DialogueBox extends GameItem {
    */
   public drawBox(ctx: CanvasRenderingContext2D): void {
     if (this.display) {
-      ctx.clearRect(this.xPosition, this.yPosition, 1200, 200);
+      ctx.clearRect(this.xPosition, this.yPosition, 600, 250);
       // Drawing a white rectangle on the canvas background
-      // ctx.fillRect(this.xPosition, this.yPosition, 1200, 200);
+      // ctx.fillRect(this.xPosition, this.yPosition, 600, 250);
       ctx.drawImage(this.img, this.xPosition, this.yPosition);
       // console.log(this.npc.getProgression());
-      this.writeTextToBox(this.currentDialogue);
+      this.writeTextToBox();
     }
   }
 
   /**
    * Method to write the text in the box to the screen
-   *
-   * @param currentDialogue the current integer of dialogue -> currentindex
    */
-  public writeTextToBox(currentDialogue: number): void {
-    this.game.writeTextToCanvas(this.dialogueList[currentDialogue], 26, this.textXPos, this.textYPos, 'center', 'black');
+  public writeTextToBox(): void {
+    this.game.writeTextToCanvas(this.baker.getYesorNoTextBaker(), 26, this.textXPos, this.textYPos, 'center', 'black');
   }
 
   /**
@@ -109,32 +101,5 @@ export default class DialogueBox extends GameItem {
    */
   public getTextYPos(): number {
     return this.textYPos;
-  }
-
-  /**
-   * Sets the current integer of the dialogue index
-   *
-   * @param currentDialogue the current integer of dialogue -> currentindex
-   */
-  public setCurrentDialogue(currentDialogue: number): void {
-    this.currentDialogue = currentDialogue;
-  }
-
-  /**
-   * Sets the dialogue of the current character
-   *
-   * @param list the current list of dialogue
-   */
-  public setDialogueList(list: string[]): void {
-    this.dialogueList = list;
-  }
-
-  /**
-   * Sets the qdialogue of the current character
-   *
-   * @param list the current list of dialogue
-   */
-  public setQuestList(list: string[]): void {
-    this.questList = list;
   }
 }

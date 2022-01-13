@@ -28,7 +28,7 @@ export default abstract class GameItem {
    * @param ctx the rendering context to draw on
    */
   public draw(ctx: CanvasRenderingContext2D): void {
-    ctx.drawImage(this.img, this.xPos, this.yPos);
+    ctx.drawImage(this.img, 0, 0, 64, 50, this.xPos, this.yPos, 160, 128);
   }
 
   /**

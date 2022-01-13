@@ -44,7 +44,7 @@ export default class Game {
    */
   public reset(): void {
     // Initialising the player's stats
-    this.playerStats = new UserData(20, 4, 2);
+    this.playerStats = new UserData(20, 3, 2);
   }
 
   /**
@@ -59,7 +59,7 @@ export default class Game {
    */
   public writeTextToCanvas(
     text: string,
-    fontSize: number = 20,
+    fontSize: number = 14,
     xCoordinate: number,
     yCoordinate: number,
     alignment: CanvasTextAlign = 'center',
