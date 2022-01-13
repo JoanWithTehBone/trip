@@ -115,7 +115,9 @@ export default class Level extends Scene {
   public update(): Scene {
     // this.player.onFrameStartListener();
     this.keyboard.onFrameStart();
+    // moves the dragonbaby across the screen
     this.flyingDragonBaby.move();
+    // checks if the dragon baby is out of the canvas
     this.flyingDragonBaby.outOfCanvas(this.game.canvas);
 
     if (this.player.isPressing()) {
