@@ -35,8 +35,8 @@ export default class MonsterFight extends Scene {
         }
     }
     changeMonsterPos() {
-        this.newXPos = Game.randomNumber((1 + this.monster.getImageWidth()), this.game.canvas.width - this.monster.getImageWidth());
-        this.newYPos = Game.randomNumber((1 + this.monster.getImageHeight()), this.game.canvas.height - this.monster.getImageHeight());
+        this.newXPos = Game.randomNumber((1 + this.monster.getImage().width), this.game.canvas.width - this.monster.getImage().width);
+        this.newYPos = Game.randomNumber((1 + this.monster.getImage().height), this.game.canvas.height - this.monster.getImage().height);
     }
     playerFights() {
         this.monster.getMonsterStats().setHP(this.monster.getMonsterStats().getHP()

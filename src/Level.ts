@@ -7,9 +7,8 @@ import BlackSmith from './BlackSmith.js';
 import Hunter from './Hunter.js';
 import KeyListener from './KeyListener.js';
 import NPC from './NPC.js';
-
+import GameItem from './GameItem.js';
 import MonsterFight from './MonsterFight.js';
-
 import QuestBox from './QuestBox.js';
 import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
 import FlyingDragonBaby from './FlyingDragonBaby.js';
@@ -32,6 +31,8 @@ export default class Level extends Scene {
   private hunter: Hunter;
 
   private npcs: NPC[];
+
+  private gameitem: GameItem;
 
   private flyingDragonBaby: FlyingDragonBaby;
 
@@ -186,7 +187,8 @@ export default class Level extends Scene {
     this.baker.draw(this.game.ctx);
     this.blacksmith.draw(this.game.ctx);
     this.hunter.draw(this.game.ctx);
-    this.player.draw(this.game.ctx);
+    // this.player.draw(this.game.ctx);
+    this.player.getSprite().drawSprite(this.game.ctx, this.player);
     this.flyingDragonBaby.draw(this.game.ctx);
 
     this.questBox.drawBox(this.game.ctx);

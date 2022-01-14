@@ -17,6 +17,7 @@ export default class Level extends Scene {
     blacksmith;
     hunter;
     npcs;
+    gameitem;
     flyingDragonBaby;
     keyboard;
     constructor(game) {
@@ -79,7 +80,7 @@ export default class Level extends Scene {
         this.baker.draw(this.game.ctx);
         this.blacksmith.draw(this.game.ctx);
         this.hunter.draw(this.game.ctx);
-        this.player.draw(this.game.ctx);
+        this.player.getSprite().drawSprite(this.game.ctx, this.player);
         this.flyingDragonBaby.draw(this.game.ctx);
         this.questBox.drawBox(this.game.ctx);
         this.dialogueBox.drawBox(this.game.ctx);

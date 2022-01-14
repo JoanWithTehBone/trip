@@ -1,4 +1,5 @@
 import Game from './Game.js';
+import Sprite from './Sprite.js';
 
 export default abstract class GameItem {
   protected img: HTMLImageElement;
@@ -6,6 +7,8 @@ export default abstract class GameItem {
   protected xPos: number;
 
   protected yPos: number;
+
+  protected sprite: Sprite;
 
   /**
    * Creates a new GameItem on a random position
@@ -18,6 +21,7 @@ export default abstract class GameItem {
     this.img = Game.loadNewImage(imageSrc);
     this.xPos = maxX;
     this.yPos = maxY;
+    this.sprite = new Sprite(this);
   }
 
   /**
@@ -30,21 +34,12 @@ export default abstract class GameItem {
   }
 
   /**
-   * getImageHeight
-   *
-   * @returns the current height of the image.
-   */
-  public getImageHeight(): number {
-    return this.img.height;
-  }
-
-  /**
    * getImageWidth
    *
    * @returns the current width of the image.
    */
-  public getImageWidth(): number {
-    return this.img.width;
+  public getImage(): HTMLImageElement {
+    return this.img;
   }
 
   /**
@@ -81,5 +76,14 @@ export default abstract class GameItem {
    */
   public setYPos(yPosition : number): void {
     this.yPos = yPosition;
+  }
+
+  /**
+   * get the sprite called in here
+   *
+   * @returns the sprite
+   */
+  public getSprite() : Sprite {
+    return this.sprite;
   }
 }

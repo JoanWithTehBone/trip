@@ -1,21 +1,21 @@
 import Game from './Game.js';
+import Sprite from './Sprite.js';
 export default class GameItem {
     img;
     xPos;
     yPos;
+    sprite;
     constructor(imageSrc, maxX, maxY) {
         this.img = Game.loadNewImage(imageSrc);
         this.xPos = maxX;
         this.yPos = maxY;
+        this.sprite = new Sprite(this);
     }
     draw(ctx) {
         ctx.drawImage(this.img, this.xPos, this.yPos);
     }
-    getImageHeight() {
-        return this.img.height;
-    }
-    getImageWidth() {
-        return this.img.width;
+    getImage() {
+        return this.img;
     }
     getXPos() {
         return this.xPos;
@@ -28,6 +28,9 @@ export default class GameItem {
     }
     setYPos(yPosition) {
         this.yPos = yPosition;
+    }
+    getSprite() {
+        return this.sprite;
     }
 }
 //# sourceMappingURL=GameItem.js.map

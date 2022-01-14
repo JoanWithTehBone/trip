@@ -35,7 +35,7 @@ export default class Player extends GameItem {
     questBox: QuestBox,
     yesornoquestprompt : YesorNoQuestPrompt,
   ) {
-    super('./assets/img/platerspritesheet.png', xPos, yPos);
+    super('./assets/img/testplayer.png', xPos, yPos);
 
     this.xVel = 3;
     this.yVel = 3;
@@ -192,9 +192,9 @@ export default class Player extends GameItem {
    * @returns true if this object collides with the specified other object
    */
   public collidesWith(other: NPC): boolean {
-    return this.xPos < other.getXPos() + other.getImageWidth()
+    return this.xPos < other.getXPos() + other.getImage().width
       && this.xPos + this.img.width > other.getXPos()
-      && this.yPos < other.getYPos() + other.getImageHeight()
+      && this.yPos < other.getYPos() + other.getImage().height
       && this.yPos + this.img.height > other.getYPos();
   }
 
