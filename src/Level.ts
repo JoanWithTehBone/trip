@@ -7,9 +7,7 @@ import BlackSmith from './BlackSmith.js';
 import Hunter from './Hunter.js';
 import KeyListener from './KeyListener.js';
 import NPC from './NPC.js';
-
 import MonsterFight from './MonsterFight.js';
-
 import QuestBox from './QuestBox.js';
 import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
 
@@ -112,18 +110,23 @@ export default class Level extends Scene {
     // this.player.onFrameStartListener();
     this.keyboard.onFrameStart();
 
+    // Checks if the player is presing the interact button and gets rid of the questBox
+    // Then it starts the Dialogue Lines
     if (this.player.isPressing()) {
       this.questBox.setDisplay(false);
       this.player.interactWith(this.npcs);
     }
 
+    // Checks if the player continues the conversation and gets rid of the dialogue box
     if (this.player.isContinuing()) {
       this.dialogueBox.setDisplay(false);
     }
 
+    // Dev button to go to the monster fight: "F"
     if (this.player.isFighting()) {
       return new MonsterFight(this.game, this.player);
     }
+
     // when the player is in collision with the baker and answers yes upon the yesnoprompt when
     // the progression is on 5(the prompt) so that you can't open the questbox in between dialogue
     if (this.player.startQuestYes() && this.baker.getProgression() === 5
@@ -175,9 +178,12 @@ export default class Level extends Scene {
     // Clear the screen
     this.game.ctx.clearRect(0, 0, this.game.canvas.width, this.game.canvas.height);
 
+    // Draws the invisible icons of the houses to the screen
     this.baker.draw(this.game.ctx);
     this.blacksmith.draw(this.game.ctx);
     this.hunter.draw(this.game.ctx);
+
+    // Draws the player to the screen
     this.player.draw(this.game.ctx);
 
     this.questBox.drawBox(this.game.ctx);
@@ -188,10 +194,10 @@ export default class Level extends Scene {
 
   private interact() {
     const score = `Score: ${this.game.getPlayerStats().getScore()}`;
-    this.game.writeTextToCanvas(score, 36, 120, 50);
+    // this.game.writeTextToCanvas(score, 36, 120, 50);
 
     // Show HP
     const hp = `HP: ${this.game.getPlayerStats().getHP()}`;
-    this.game.writeTextToCanvas(hp, 36, 120, 100);
+    // this.game.writeTextToCanvas(hp, 36, 120, 100);
   }
 }
