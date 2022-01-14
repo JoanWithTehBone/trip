@@ -17,18 +17,22 @@ export default class Level extends Scene {
     hunter;
     npcs;
     keyboard;
+    keyArray;
+    answerArray;
     constructor(game) {
         super(game);
         this.baker = new Baker(game.canvas);
         this.blacksmith = new BlackSmith(game.canvas);
         this.hunter = new Hunter(game.canvas);
-        this.dialogueBox = new DialogueBox(this.game, this.baker, this.game.canvas.width / 2 - 600, (this.game.canvas.height / 5) * 3.7);
-        this.questBox = new QuestBox(this.game, this.baker, this.game.canvas.width / 2 - 500, (this.game.canvas.height / 8) * 0.5);
-        this.yesorNoQuestPrompt = new YesorNoQuestPrompt(this.game, this.baker, this.game.canvas.width / 2 - 300, (this.game.canvas.height / 8) * 3);
+        this.dialogueBox = new DialogueBox(this.game, this.game.canvas.width / 2 - 600, (this.game.canvas.height / 5) * 3.7);
+        this.questBox = new QuestBox(this.game, this.game.canvas.width / 2 - 500, (this.game.canvas.height / 8) * 0.5);
+        this.yesorNoQuestPrompt = new YesorNoQuestPrompt(this.game, this.game.canvas.width / 2 - 300, (this.game.canvas.height / 8) * 3);
         this.npcs = [];
         this.npcs.push(this.baker, this.blacksmith, this.hunter);
         this.player = new Player(game.canvas.width / 2, game.canvas.height / 2, this.dialogueBox, this.questBox, this.yesorNoQuestPrompt);
         this.keyboard = this.player.getKeys();
+        this.answerArray = ['A', 'B', 'C', 'D'];
+        this.keyArray = [false, false, false, false];
     }
     processInput() {
         this.player.move(this.game.canvas);
@@ -36,7 +40,6 @@ export default class Level extends Scene {
     update() {
         this.keyboard.onFrameStart();
         if (this.player.isPressing()) {
-            this.questBox.setDisplay(false);
             this.player.interactWith(this.npcs);
         }
         if (this.player.isContinuing()) {
@@ -45,27 +48,9 @@ export default class Level extends Scene {
         if (this.player.isFighting()) {
             return new MonsterFight(this.game, this.player);
         }
-        if (this.player.startQuestYes() && this.baker.getProgression() === 5
-            && this.player.collidesWith(this.baker)) {
-            this.yesorNoQuestPrompt.setDisplay(false);
-            this.questBox.setDisplay(true);
-        }
-        if (this.player.refuseQuestNo() && this.player.collidesWith(this.baker)) {
-            this.yesorNoQuestPrompt.setDisplay(false);
-            this.baker.setProgression(0);
-        }
-        if (this.questBox.getDisplay() && this.player.answerQuestC()) {
-            this.dialogueBox.setDialogueList(this.baker.getquestResponseTextBaker());
-            this.dialogueBox.setCurrentDialogue(1);
-            this.questBox.setDisplay(false);
-            this.dialogueBox.setDisplay(true);
-        }
-        if (this.questBox.getDisplay() && (this.player.answerQuestA()
-            || this.player.answerQuestB() || this.player.answerQuestD())) {
-            this.dialogueBox.setDialogueList(this.baker.getquestResponseTextBaker());
-            this.dialogueBox.setCurrentDialogue(0);
-            this.questBox.setDisplay(false);
-            this.dialogueBox.setDisplay(true);
+        this.player.questWith(this.npcs);
+        if (this.questBox.getDisplay()) {
+            this.player.questAnswer(this.npcs);
         }
         return null;
     }
@@ -78,13 +63,6 @@ export default class Level extends Scene {
         this.questBox.drawBox(this.game.ctx);
         this.dialogueBox.drawBox(this.game.ctx);
         this.yesorNoQuestPrompt.drawBox(this.game.ctx);
-        this.interact();
-    }
-    interact() {
-        const score = `Score: ${this.game.getPlayerStats().getScore()}`;
-        this.game.writeTextToCanvas(score, 36, 120, 50);
-        const hp = `HP: ${this.game.getPlayerStats().getHP()}`;
-        this.game.writeTextToCanvas(hp, 36, 120, 100);
     }
 }
 //# sourceMappingURL=Level.js.map

@@ -97,4 +97,8 @@ export default class Monster extends NPC {
   public setBaseYPos(yPosition: number): void {
     this.baseYPos = yPosition;
   }
+
+  public giveReward(): void {
+    console.log('You did it!');
+  }
 }

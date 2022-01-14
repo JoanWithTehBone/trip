@@ -15,9 +15,11 @@ export default abstract class NPC extends GameItem {
 
   protected quest: boolean;
 
-  protected yesornooptionbaker : string;
+  protected yesOrNoOption: string;
 
-  protected questResponseBaker : string [];
+  protected questResponse: string [];
+
+  protected rightAnswer: string;
 
   /**
    * Constructor of the NPC abstract class
@@ -29,10 +31,9 @@ export default abstract class NPC extends GameItem {
   public constructor(imageSrc: string, maxX: number, maxY: number) {
     super(imageSrc, maxX, maxY);
   }
-
   public abstract dialogueFactory(): void;
 
-  // public abstract giveReward(): void;
+  public abstract giveReward(): void;
 
   /**
    * Method that displays the NPCS dialogue to the screen so the player can read it.
@@ -112,6 +113,7 @@ export default abstract class NPC extends GameItem {
    */
   public questCompleted(): boolean {
     if (this.completed) {
+      this.giveReward();
       return true;
     }
     return false;
@@ -136,6 +138,31 @@ export default abstract class NPC extends GameItem {
   }
 
   /**
+   * Whenever the progression needs to go up, call this function
+   */
+  public progressFurther(): void {
+    this.progression += 1;
+  }
+
+  /**
+   * A getter for the Yes or No question
+   *
+   * @returns the text of the Question that is in the constructor
+   */
+  public getYesorNoText() : string {
+    return this.yesOrNoOption;
+  }
+
+  /**
+   * A getter for the Yes or No question
+   *
+   * @returns the text of the Question that is in the constructor
+   */
+  public getQuestResponseText() : string[] {
+    return this.questResponse;
+  }
+
+  /**
    * Gets the progression of the NPC
    *
    * @returns Progression of the child
@@ -149,7 +176,16 @@ export default abstract class NPC extends GameItem {
    *
    * @returns Progression of the child
    */
-  public getQuest(): string[] {
+  public getQuestDialogue(): string[] {
     return this.questDialogue;
+  }
+
+  /**
+   * Gets the right answer for the quest
+   *
+   * @returns the right answer of the specified quest
+   */
+  public getRightAnswer(): string {
+    return this.rightAnswer;
   }
 }

@@ -51,5 +51,8 @@ export default class Monster extends NPC {
     setBaseYPos(yPosition) {
         this.baseYPos = yPosition;
     }
+    giveReward() {
+        console.log('You did it!');
+    }
 }
 //# sourceMappingURL=Monster.js.map
