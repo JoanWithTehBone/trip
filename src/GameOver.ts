@@ -23,7 +23,7 @@ export default class GameOver extends Scene {
    * Handles any user input that has happened since the last call
    */
   public processInput(): void {
-    if (this.keyboard.isKeyDown(KeyListener.KEY_C)) {
+    if (this.keyboard.isKeyDown(KeyListener.KEY_R)) {
       this.shouldStart = true;
     }
   }
@@ -60,7 +60,7 @@ export default class GameOver extends Scene {
     this.game.writeTextToCanvas('Game Over', 128, centerX, 250, 'center', 'red');
     // const msg = `${this.game.getUser().getName()} score: ${this.game.getUser().getScore()}`;
     // this.game.writeTextToCanvas(msg, 48, centerX, 450, 'center', 'yellow');
-    this.game.writeTextToCanvas("Type 'c' to continue", 48, centerX,
+    this.game.writeTextToCanvas("Type 'R' to Replay", 48, centerX,
       550, 'center', 'white');
   }
 }

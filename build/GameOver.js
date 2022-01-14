@@ -10,7 +10,7 @@ export default class GameOver extends Scene {
         this.shouldStart = false;
     }
     processInput() {
-        if (this.keyboard.isKeyDown(KeyListener.KEY_C)) {
+        if (this.keyboard.isKeyDown(KeyListener.KEY_R)) {
             this.shouldStart = true;
         }
     }
@@ -24,7 +24,7 @@ export default class GameOver extends Scene {
         this.game.ctx.clearRect(0, 0, this.game.canvas.width, this.game.canvas.height);
         const centerX = this.game.canvas.width / 2;
         this.game.writeTextToCanvas('Game Over', 128, centerX, 250, 'center', 'red');
-        this.game.writeTextToCanvas("Type 'c' to continue", 48, centerX, 550, 'center', 'white');
+        this.game.writeTextToCanvas("Type 'R' to Replay", 48, centerX, 550, 'center', 'white');
     }
 }
 //# sourceMappingURL=GameOver.js.map
