@@ -6,8 +6,9 @@ export default class NPC extends GameItem {
     dialogue;
     questDialogue;
     quest;
-    yesornooptionbaker;
-    questResponseBaker;
+    yesOrNoOption;
+    questResponse;
+    rightAnswer;
     constructor(imageSrc, maxX, maxY) {
         super(imageSrc, maxX, maxY);
     }
@@ -79,6 +80,7 @@ export default class NPC extends GameItem {
     }
     questCompleted() {
         if (this.completed) {
+            this.giveReward();
             return true;
         }
         return false;
@@ -89,11 +91,23 @@ export default class NPC extends GameItem {
     setProgression(input) {
         this.progression = input;
     }
+    progressFurther() {
+        this.progression += 1;
+    }
+    getYesorNoText() {
+        return this.yesOrNoOption;
+    }
+    getQuestResponseText() {
+        return this.questResponse;
+    }
     getDialogue() {
         return this.dialogue;
     }
-    getQuest() {
+    getQuestDialogue() {
         return this.questDialogue;
+    }
+    getRightAnswer() {
+        return this.rightAnswer;
     }
 }
 //# sourceMappingURL=NPC.js.map

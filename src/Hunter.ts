@@ -14,6 +14,11 @@ export default class Hunter extends NPC {
     this.completed = true;
     this.dialogue = [];
     this.dialogueFactory();
+
+    this.questDialogue = [];
+    this.yesOrNoOption = 'Do you want to start the hunter quest? Yes No';
+    this.questResponse = ['Mhhh let me check, I don`t think they did it.', 'Mhhh let me check, Ah you found the thief'];
+    this.rightAnswer = 'D';
   }
 
   /**
@@ -24,7 +29,7 @@ export default class Hunter extends NPC {
     console.log(this.dialogue);
   }
 
-  // public giveReward(): void {
-
-  // }
+  public giveReward(): void {
+    console.log('You did it!');
+  }
 }

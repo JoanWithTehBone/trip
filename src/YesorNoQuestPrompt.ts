@@ -1,4 +1,3 @@
-import Baker from './Baker.js';
 import Game from './Game.js';
 import GameItem from './GameItem.js';
 
@@ -15,17 +14,16 @@ export default class YesorNoQuestPrompt extends GameItem {
 
   private game: Game;
 
-  private baker : Baker;
+  private currentPrompt: string;
 
   /**
    * Constructing the dialogue box
    *
    * @param game the game
-   * @param baker baker
    * @param xPos the x position
    * @param yPos the y position
    */
-  constructor(game: Game, baker: Baker, xPos: number, yPos: number) {
+  constructor(game: Game, xPos: number, yPos: number) {
     super('./assets/img/yesornobox.png', xPos, yPos);
     this.display = false;
     // Positioning
@@ -34,8 +32,8 @@ export default class YesorNoQuestPrompt extends GameItem {
     this.textXPos = xPos + 20;
     this.textYPos = yPos + 35;
 
+    this.currentPrompt = '';
     this.game = game;
-    this.baker = baker;
   }
 
   /**
@@ -64,7 +62,7 @@ export default class YesorNoQuestPrompt extends GameItem {
    * Method to write the text in the box to the screen
    */
   public writeTextToBox(): void {
-    this.game.writeTextToCanvas(this.baker.getYesorNoTextBaker(), 26, this.textXPos, this.textYPos, 'center', 'black');
+    this.game.writeTextToCanvas(this.currentPrompt, 26, this.textXPos, this.textYPos, 'center', 'black');
   }
 
   /**
@@ -101,5 +99,14 @@ export default class YesorNoQuestPrompt extends GameItem {
    */
   public getTextYPos(): number {
     return this.textYPos;
+  }
+
+  /**
+   * Sets the current prompt for the YesOrNoQuestPrompt
+   *
+   * @param currentPrompt the current line of text that needs to be displayed in the prompt
+   */
+  public setCurrentPrompt(currentPrompt: string): void {
+    this.currentPrompt = currentPrompt;
   }
 }

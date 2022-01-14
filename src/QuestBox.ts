@@ -1,4 +1,3 @@
-import Baker from './Baker.js';
 import Game from './Game.js';
 import GameItem from './GameItem.js';
 
@@ -19,17 +18,14 @@ export default class DialogueBox extends GameItem {
 
   private game: Game;
 
-  private baker: Baker;
-
   /**
    * Constructing the dialogue box
    *
    * @param game the game
-   * @param baker baker
    * @param xPos the x position
    * @param yPos the y position
    */
-  constructor(game: Game, baker: Baker, xPos: number, yPos: number) {
+  constructor(game: Game, xPos: number, yPos: number) {
     super('./assets/img/questbox.png', xPos, yPos);
     this.display = false;
     // Positioning
@@ -39,7 +35,6 @@ export default class DialogueBox extends GameItem {
     this.textYPos = yPos + 35;
 
     this.game = game;
-    this.baker = baker;
   }
 
   /**
@@ -68,7 +63,7 @@ export default class DialogueBox extends GameItem {
    * Method to write the text in the box to the screen
    */
   public writeTextToBox(): void {
-    this.game.writeTextToCanvas(this.baker.getQuestDialogue()[0], 26, this.textXPos, this.textYPos, 'center', 'black');
+    this.game.writeTextToCanvas(this.questList[0], 26, this.textXPos, this.textYPos, 'center', 'black');
   }
 
   /**
