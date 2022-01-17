@@ -315,6 +315,7 @@ export default class Player extends GameItem {
             console.log('This is fudd');
             this.questBox.setDisplay(false);
             npc.setCompletion(true);
+            console.log(npc.questCompleted());
           } else {
             this.dialogueBox.setDialogueList(npc.getQuestResponseText());
             this.dialogueBox.setCurrentDialogue(0);
@@ -322,9 +323,21 @@ export default class Player extends GameItem {
             console.log('This is starting');
           }
         }
+      }
+    });
+  }
 
+  /**
+   * Method that arranges the convo's after the quest has been completed
+   *
+   * @param npcs The list of NPCS that can be collided with
+   */
+  public afterQuest(npcs: NPC[]): void {
+    npcs.forEach((npc): void => {
+      if (this.collidesWith(npc)) {
         if (npc.questCompleted()) {
-          this.dialogueBox.setDialogueList()
+          npc.talkToPlayer(npc.getDialogue().length - 1, this.dialogueBox);
+          console.log(npc.getProgression());
           npc.giveReward();
         }
       }

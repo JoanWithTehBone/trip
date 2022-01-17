@@ -2,9 +2,8 @@ import DislplayItem from './DislplayItem.js';
 import Game from './Game.js';
 
 export default class QuestBox extends DislplayItem {
-  private currentDialogue: number;
-
   private questList: string[];
+
   /**
    * Constructing the dialogue box
    *

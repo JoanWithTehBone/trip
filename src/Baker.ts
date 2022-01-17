@@ -25,7 +25,13 @@ export default class Baker extends NPC {
    * Factory for creating the dialogue of the baker
    */
   public dialogueFactory(): void {
-    this.dialogue.push('Baker: Oh, hello there traveller! My name is Francis. I am the baker of this villages and the one with the best carrot cake in the whole kingdom! ', 'You: ... ', 'Baker: Ah, you are here to fight the monster? In that case I definitely have something that will energize you for battle! ', 'Baker: Except I am having some problems with a few customers online, one of them stole my carrot cake recipe! Can you help me? ');
+    this.dialogue.push(
+      'Baker: Oh, hello there traveller! My name is Francis. I am the baker of this villages and the one with the best carrot cake in the whole kingdom! ',
+      'You: ... ',
+      'Baker: Ah, you are here to fight the monster? In that case I definitely have something that will energize you for battle! ',
+      'Baker: Except I am having some problems with a few customers online, one of them stole my carrot cake recipe! Can you help me?',
+      'Thank you for helping me out, here have this as a reward!',
+    );
     console.log(this.dialogue);
   }
 

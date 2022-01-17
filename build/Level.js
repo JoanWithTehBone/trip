@@ -47,6 +47,7 @@ export default class Level extends Scene {
         this.flyingDragonBaby.outOfCanvas(this.game.canvas);
         if (this.player.isPressing()) {
             this.player.interactWith(this.npcs);
+            this.player.afterQuest(this.npcs);
         }
         if (this.player.isContinuing()) {
             this.dialogueBox.setDisplay(false);

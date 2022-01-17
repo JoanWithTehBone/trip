@@ -1,21 +1,10 @@
-import GameItem from './GameItem.js';
-export default class YesorNoQuestPrompt extends GameItem {
-    display;
-    xPosition;
-    yPosition;
-    textXPos;
-    textYPos;
-    game;
+import DislplayItem from './DislplayItem.js';
+export default class YesorNoQuestPrompt extends DislplayItem {
     currentPrompt;
     constructor(game, xPos, yPos) {
-        super('./assets/img/yesornobox.png', xPos, yPos);
-        this.display = false;
-        this.xPosition = xPos;
-        this.yPosition = yPos;
+        super('./assets/img/yesornobox.png', game, xPos, yPos);
         this.textXPos = xPos + 20;
         this.textYPos = yPos + 35;
-        this.currentPrompt = '';
-        this.game = game;
     }
     drawBox(ctx) {
         if (this.display) {
@@ -27,20 +16,8 @@ export default class YesorNoQuestPrompt extends GameItem {
     writeTextToBox() {
         this.game.writeTextToCanvas(this.currentPrompt, 26, this.textXPos, this.textYPos, 'center', 'black');
     }
-    setDisplay(active) {
-        this.display = active;
-    }
-    getDisplay() {
-        return this.display;
-    }
-    getTextXPos() {
-        return this.textXPos;
-    }
-    getTextYPos() {
-        return this.textYPos;
-    }
-    setCurrentPrompt(currentPrompt) {
-        this.currentPrompt = currentPrompt;
+    setCurrentPrompt(prompt) {
+        this.currentPrompt = prompt;
     }
 }
 //# sourceMappingURL=YesorNoQuestPrompt.js.map

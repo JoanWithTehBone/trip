@@ -7,7 +7,7 @@ export default class Player extends GameItem {
     questBox;
     yesOrNoQuestPrompt;
     keyboard;
-    constructor(xPos, yPos, dialogueBox, questBox, yesornoquestprompt) {
+    constructor(xPos, yPos, dialogueBox, questBox, yesOrNoQuestPrompt) {
         super('./assets/img/testplayer.png', xPos, yPos);
         this.xVel = 3;
         this.yVel = 3;
@@ -177,6 +177,7 @@ export default class Player extends GameItem {
                         console.log('This is fudd');
                         this.questBox.setDisplay(false);
                         npc.setCompletion(true);
+                        console.log(npc.questCompleted());
                     }
                     else {
                         this.dialogueBox.setDialogueList(npc.getQuestResponseText());
@@ -185,7 +186,15 @@ export default class Player extends GameItem {
                         console.log('This is starting');
                     }
                 }
+            }
+        });
+    }
+    afterQuest(npcs) {
+        npcs.forEach((npc) => {
+            if (this.collidesWith(npc)) {
                 if (npc.questCompleted()) {
+                    npc.talkToPlayer(npc.getDialogue().length - 1, this.dialogueBox);
+                    console.log(npc.getProgression());
                     npc.giveReward();
                 }
             }

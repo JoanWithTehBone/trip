@@ -1,10 +1,9 @@
 import DislplayItem from './DislplayItem.js';
 import Game from './Game.js';
-import GameItem from './GameItem.js';
 
-export default class YesorNoQuestPrompt extends GameItem {
+export default class YesorNoQuestPrompt extends DislplayItem {
   private currentPrompt: string;
-  
+
   /**
    * Constructing the dialogue box
    *
@@ -45,5 +44,14 @@ export default class YesorNoQuestPrompt extends GameItem {
    */
   public writeTextToBox(): void {
     this.game.writeTextToCanvas(this.currentPrompt, 26, this.textXPos, this.textYPos, 'center', 'black');
+  }
+
+  /**
+   * Sets the current prompt to a new one.
+   *
+   * @param prompt text to display on the yes or no prompt
+   */
+  public setCurrentPrompt(prompt: string): void {
+    this.currentPrompt = prompt;
   }
 }

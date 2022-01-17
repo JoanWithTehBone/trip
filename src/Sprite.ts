@@ -79,8 +79,8 @@ export default class Sprite {
   public drawSprite(ctx: CanvasRenderingContext2D, gameitem: GameItem): void {
     const xP = gameitem.getXPos();
     const yP = gameitem.getYPos();
-    console.log('sprite is drawn');
-    console.log(this.getFrame());
+    // console.log('sprite is drawn');
+    // console.log(this.getFrame());
 
     // seperate the frame so the values can be used in drawimage
     const [frameX, frameY] : number[] = this.getFrame();

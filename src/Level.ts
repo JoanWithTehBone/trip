@@ -129,6 +129,7 @@ export default class Level extends Scene {
     // Then it starts the Dialogue Lines
     if (this.player.isPressing()) {
       this.player.interactWith(this.npcs);
+      this.player.afterQuest(this.npcs);
     }
 
     // Checks if the player continues the conversation and gets rid of the dialogue box
@@ -146,6 +147,7 @@ export default class Level extends Scene {
     if (this.questBox.getDisplay()) {
       this.player.questAnswer(this.npcs);
     }
+
     // Create an answer for the quest CHECK
     // Create a function that returns the correct answer
     // if (this.isRightAnswer()) {
