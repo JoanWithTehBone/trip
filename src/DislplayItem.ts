@@ -4,6 +4,8 @@ import GameItem from './GameItem.js';
 export default abstract class DislplayItem extends GameItem {
   protected display: boolean;
 
+  protected currentDialogue : number;
+
   protected imageSource: HTMLImageElement;
 
   protected xPosition: number;
@@ -16,8 +18,6 @@ export default abstract class DislplayItem extends GameItem {
 
   protected game: Game;
 
-  protected currentDialogue: number;
-
   /**
    * The constructor of the DisplayItem abstract class That extends teh gameitem glass
    * it is specifiet to fit basics for the display functions in the game
@@ -27,12 +27,9 @@ export default abstract class DislplayItem extends GameItem {
    * @param xPosition the positions of the npc
    * @param yPosition the positions of the npc
    */
-  constructor(imageSrc: string, game: Game,
-    xPosition: number, yPosition: number) {
+  constructor(imageSrc: string, game: Game, xPosition: number, yPosition: number) {
     super(imageSrc, xPosition, yPosition);
     this.display = false;
-    this.xPosition = xPosition;
-    this.yPosition = yPosition;
     this.game = game;
   }
 

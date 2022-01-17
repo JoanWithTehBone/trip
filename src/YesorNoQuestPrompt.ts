@@ -13,6 +13,8 @@ export default class YesorNoQuestPrompt extends DislplayItem {
    */
   constructor(game: Game, xPos: number, yPos: number) {
     super('./assets/img/yesornobox.png', game, xPos, yPos);
+    this.xPosition = xPos;
+    this.yPosition = yPos;
     this.textXPos = xPos + 20;
     this.textYPos = yPos + 35;
   }
@@ -47,11 +49,11 @@ export default class YesorNoQuestPrompt extends DislplayItem {
   }
 
   /**
-   * Sets the current prompt to a new one.
+   * Sets the current prompt for the YesOrNoQuestPrompt
    *
-   * @param prompt text to display on the yes or no prompt
+   * @param currentPrompt the current line of text that needs to be displayed in the prompt
    */
-  public setCurrentPrompt(prompt: string): void {
-    this.currentPrompt = prompt;
+  public setCurrentPrompt(currentPrompt: string): void {
+    this.currentPrompt = currentPrompt;
   }
 }

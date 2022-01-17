@@ -3,6 +3,8 @@ export default class DialogueBox extends DislplayItem {
     dialogueList;
     constructor(game, xPos, yPos) {
         super('./assets/img/dialogue.png', game, xPos, yPos);
+        this.xPosition = xPos;
+        this.yPosition = yPos;
         this.textXPos = xPos + 200;
         this.textYPos = yPos + 45;
     }

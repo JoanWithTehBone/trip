@@ -3,6 +3,8 @@ export default class QuestBox extends DislplayItem {
     questList;
     constructor(game, xPos, yPos) {
         super('./assets/img/questbox.png', game, xPos, yPos);
+        this.xPosition = xPos;
+        this.yPosition = yPos;
         this.textXPos = xPos + 20;
         this.textYPos = yPos + 35;
     }

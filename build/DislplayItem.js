@@ -1,18 +1,16 @@
 import GameItem from './GameItem.js';
 export default class DislplayItem extends GameItem {
     display;
+    currentDialogue;
     imageSource;
     xPosition;
     yPosition;
     textXPos;
     textYPos;
     game;
-    currentDialogue;
     constructor(imageSrc, game, xPosition, yPosition) {
         super(imageSrc, xPosition, yPosition);
         this.display = false;
-        this.xPosition = xPosition;
-        this.yPosition = yPosition;
         this.game = game;
     }
     setDisplay(active) {
