@@ -110,7 +110,7 @@ export default class MonsterFight extends Scene {
     render() {
         this.game.ctx.clearRect(0, 0, this.game.canvas.width, this.game.canvas.height);
         this.animateMovement(this.newXPos, this.newYPos);
-        this.player.draw(this.game.ctx);
+        this.player.getSprite().drawSprite(this.game.ctx, this.player);
         this.dialogueBox.drawBox(this.game.ctx);
         this.showFightProgress();
     }

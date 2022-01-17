@@ -219,7 +219,7 @@ export default class MonsterFight extends Scene {
 
     // this.monster.draw(this.game.ctx);
     this.animateMovement(this.newXPos, this.newYPos);
-    this.player.draw(this.game.ctx);
+    this.player.getSprite().drawSprite(this.game.ctx, this.player);
 
     this.dialogueBox.drawBox(this.game.ctx);
 
