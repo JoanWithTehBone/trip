@@ -12,7 +12,9 @@ export default class YesorNoQuestPrompt extends DislplayItem {
    * @param yPos the y position
    */
   constructor(game: Game, baker: Baker, xPos: number, yPos: number) {
-    super('./assets/img/yesornobox.png', baker, game, xPos, yPos, false, xPos + 20, yPos + 35);
+    super('./assets/img/yesornobox.png', baker, game, xPos, yPos);
+    this.textXPos = xPos + 20;
+    this.textYPos = yPos + 35;
   }
 
   /**

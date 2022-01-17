@@ -18,7 +18,9 @@ export default class DialogueBox extends DislplayItem {
    * @param yPos the y position
    */
   constructor(game: Game, baker : Baker, xPos: number, yPos: number) {
-    super('./assets/img/dialogue.png', baker, game, xPos, yPos, false, xPos + 200, yPos + 45);
+    super('./assets/img/dialogue.png', baker, game, xPos, yPos);
+    this.textXPos = xPos + 200;
+    this.textYPos = yPos + 45;
   }
 
   /**

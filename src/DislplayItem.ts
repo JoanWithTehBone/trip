@@ -28,13 +28,11 @@ export default abstract class DislplayItem extends GameItem {
    * @param game the game class
    * @param yPosition the positions of the npc
    * @param xPosition the positions of the npc
-   * @param display the display being shown or not
-   * @param textXPos position x inside the image
-   * @param textYPos positions Y inside the image
    */
   constructor(imageSrc: string, baker: Baker, game: Game, yPosition: number,
-    xPosition: number, display: boolean, textXPos: number, textYPos: number) {
-    super(null, null, null);
+    xPosition: number) {
+    super(imageSrc, xPosition, yPosition);
+    this.display = false;
   }
 
   /**
