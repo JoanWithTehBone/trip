@@ -59,7 +59,7 @@ export default class Start extends Scene {
     // Show score
     const centerX = this.game.canvas.width / 2;
     this.game.writeTextToCanvas('TRIP', 128, centerX, 250, 'center', 'red');
-    this.game.writeTextToCanvas("Type 's' to start", 48, centerX,
+    this.game.writeTextToCanvas("Type 'S' to Start", 48, centerX,
       550, 'center', 'white');
   }
 }
