@@ -7,7 +7,7 @@ export default class Player extends GameItem {
     questBox;
     yesOrNoQuestPrompt;
     keyboard;
-    constructor(xPos, yPos, dialogueBox, questBox, yesornoquestprompt) {
+    constructor(xPos, yPos, dialogueBox, questBox, yesOrNoQuestPrompt) {
         super('./assets/img/testplayer.png', xPos, yPos);
         this.xVel = 3;
         this.yVel = 3;

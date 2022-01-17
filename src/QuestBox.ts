@@ -2,9 +2,8 @@ import DislplayItem from './DislplayItem.js';
 import Game from './Game.js';
 
 export default class QuestBox extends DislplayItem {
-  private currentDialogue: number;
-
   private questList: string[];
+
   /**
    * Constructing the dialogue box
    *
@@ -14,6 +13,8 @@ export default class QuestBox extends DislplayItem {
    */
   constructor(game: Game, xPos: number, yPos: number) {
     super('./assets/img/questbox.png', game, xPos, yPos);
+    this.xPosition = xPos;
+    this.yPosition = yPos;
     this.textXPos = xPos + 20;
     this.textYPos = yPos + 35;
   }

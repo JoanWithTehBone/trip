@@ -9,7 +9,7 @@ export default abstract class GameItem {
   protected yPos: number;
 
   protected sprite: Sprite;
-  
+
   protected canvas: HTMLCanvasElement;
 
   /**

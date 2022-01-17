@@ -1,5 +1,5 @@
-import GameOver from './GameOver.js';
-export default class GameWonTalk extends GameOver {
+import GameOverScene from './GameOverScene.js';
+export default class GameWonTalk extends GameOverScene {
     constructor(game) {
         super(game);
     }

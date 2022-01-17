@@ -17,7 +17,7 @@ export default abstract class NPC extends GameItem {
 
   protected yesOrNoOption: string;
 
-  protected questResponse: string [];
+  protected questResponse: string[];
 
   protected rightAnswer: string;
 
@@ -43,35 +43,11 @@ export default abstract class NPC extends GameItem {
    */
   public talkToPlayer(dialogueIndex: number, dialogueBox: DialogueBox): void {
     dialogueBox.setDialogueList(this.dialogue);
-    if (dialogueIndex === 0) {
-      console.log(this.dialogue[0]);
-      if (dialogueBox.getDisplay()) {
-        dialogueBox.setCurrentDialogue(0);
-      }
-    } else if (dialogueIndex === 1) {
-      console.log(this.dialogue[1]);
-      if (dialogueBox.getDisplay()) {
-        dialogueBox.setCurrentDialogue(1);
-      }
-    } else if (dialogueIndex === 2) {
-      console.log(this.dialogue[2]);
-      if (dialogueBox.getDisplay()) {
-        dialogueBox.setCurrentDialogue(2);
-      }
-    } else if (dialogueIndex === 3) {
-      console.log(this.dialogue[3]);
-      if (dialogueBox.getDisplay()) {
-        dialogueBox.setCurrentDialogue(3);
-      }
-    } else if (dialogueIndex === 4) {
-      console.log(this.dialogue[4]);
-      if (dialogueBox.getDisplay()) {
-        dialogueBox.setCurrentDialogue(4);
-      }
-    } else if (dialogueIndex === 5) {
-      console.log(this.dialogue[5]);
-      if (dialogueBox.getDisplay()) {
-        dialogueBox.setCurrentDialogue(5);
+    for (let i = 0; i < this.dialogue.length; i += 1) {
+      if (dialogueIndex === i) {
+        if (dialogueBox.getDisplay()) {
+          dialogueBox.setCurrentDialogue(i);
+        }
       }
     }
   }
@@ -83,25 +59,11 @@ export default abstract class NPC extends GameItem {
    */
   public questingToPlayer(questIndex: number, questBox: QuestBox): void {
     questBox.setQuestList(this.questDialogue);
-    if (questIndex === 0) {
-      console.log(questBox.getDisplay());
-      if (questBox.getDisplay()) {
-        questBox.setCurrentDialogue(0);
-      }
-    } else if (questIndex === 1) {
-      console.log(this.questDialogue[1]);
-      if (questBox.getDisplay()) {
-        questBox.setCurrentDialogue(1);
-      }
-    } else if (questIndex === 2) {
-      console.log(this.questDialogue[2]);
-      if (questBox.getDisplay()) {
-        questBox.setCurrentDialogue(2);
-      }
-    } else {
-      console.log(this.questDialogue[3]);
-      if (questBox.getDisplay()) {
-        questBox.setCurrentDialogue(3);
+    for (let i = 0; i < this.questDialogue.length; i += 0) {
+      if (questIndex === i) {
+        if (questBox.getDisplay()) {
+          questBox.setCurrentDialogue(i);
+        }
       }
     }
   }
@@ -149,7 +111,7 @@ export default abstract class NPC extends GameItem {
    *
    * @returns the text of the Question that is in the constructor
    */
-  public getYesorNoText() : string {
+  public getYesorNoText(): string {
     return this.yesOrNoOption;
   }
 
@@ -158,7 +120,7 @@ export default abstract class NPC extends GameItem {
    *
    * @returns the text of the Question that is in the constructor
    */
-  public getQuestResponseText() : string[] {
+  public getQuestResponseText(): string[] {
     return this.questResponse;
   }
 

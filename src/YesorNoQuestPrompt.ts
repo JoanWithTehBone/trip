@@ -1,10 +1,9 @@
 import DislplayItem from './DislplayItem.js';
 import Game from './Game.js';
-import GameItem from './GameItem.js';
 
-export default class YesorNoQuestPrompt extends GameItem {
+export default class YesorNoQuestPrompt extends DislplayItem {
   private currentPrompt: string;
-  
+
   /**
    * Constructing the dialogue box
    *
@@ -14,6 +13,8 @@ export default class YesorNoQuestPrompt extends GameItem {
    */
   constructor(game: Game, xPos: number, yPos: number) {
     super('./assets/img/yesornobox.png', game, xPos, yPos);
+    this.xPosition = xPos;
+    this.yPosition = yPos;
     this.textXPos = xPos + 20;
     this.textYPos = yPos + 35;
   }
@@ -45,5 +46,14 @@ export default class YesorNoQuestPrompt extends GameItem {
    */
   public writeTextToBox(): void {
     this.game.writeTextToCanvas(this.currentPrompt, 26, this.textXPos, this.textYPos, 'center', 'black');
+  }
+
+  /**
+   * Sets the current prompt for the YesOrNoQuestPrompt
+   *
+   * @param currentPrompt the current line of text that needs to be displayed in the prompt
+   */
+  public setCurrentPrompt(currentPrompt: string): void {
+    this.currentPrompt = currentPrompt;
   }
 }
