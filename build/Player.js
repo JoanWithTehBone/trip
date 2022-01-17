@@ -5,7 +5,7 @@ export default class Player extends GameItem {
     yVel;
     dialogueBox;
     questBox;
-    yesornoquestprompt;
+    yesOrNoQuestPrompt;
     keyboard;
     constructor(xPos, yPos, dialogueBox, questBox, yesornoquestprompt) {
         super('./assets/img/testplayer.png', xPos, yPos);
@@ -14,7 +14,7 @@ export default class Player extends GameItem {
         this.keyboard = new KeyListener();
         this.dialogueBox = dialogueBox;
         this.questBox = questBox;
-        this.yesornoquestprompt = yesornoquestprompt;
+        this.yesOrNoQuestPrompt = yesOrNoQuestPrompt;
     }
     move(canvas) {
         const minX = 0;
@@ -55,10 +55,7 @@ export default class Player extends GameItem {
     isContinuing() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_Q);
     }
-    startQuestYes() {
-        return this.keyboard.isKeyTyped(KeyListener.KEY_Y);
-    }
-    refuseQuestNo() {
+    isIgnoring() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_N);
     }
     answerQuestA() {
@@ -70,14 +67,14 @@ export default class Player extends GameItem {
     answerQuestC() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_C);
     }
+    answerQuestD() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_D);
+    }
     isFighting() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_F);
     }
     isResponding() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_Y);
-    }
-    answerQuestD() {
-        return this.keyboard.isKeyTyped(KeyListener.KEY_D);
     }
     collidesWith(other) {
         return this.xPos < other.getXPos() + other.getImage().width
@@ -93,29 +90,17 @@ export default class Player extends GameItem {
                 console.log('INTERACTION WITH THE npc:)');
                 if (element.questCompleted() && element.getProgression() === 4) {
                     this.dialogueBox.setDisplay(false);
-                    this.yesornoquestprompt.setDisplay(true);
-                    element.setProgression(element.getProgression() + 1);
-                    console.log(element.getProgression());
+                    this.yesOrNoQuestPrompt.setCurrentPrompt(element.getYesorNoText());
+                    this.yesOrNoQuestPrompt.setDisplay(true);
+                    element.progressFurther();
                 }
-                else if (element.questCompleted() && element.getProgression() === 3) {
-                    element.talkToPlayer(3, this.dialogueBox);
-                    element.setProgression(element.getProgression() + 1);
-                    console.log(element.getProgression());
-                }
-                else if (element.questCompleted() && element.getProgression() === 2) {
-                    element.talkToPlayer(2, this.dialogueBox);
-                    element.setProgression(element.getProgression() + 1);
-                    console.log(element.getProgression());
-                }
-                else if (element.questCompleted() && element.getProgression() === 1) {
-                    element.talkToPlayer(1, this.dialogueBox);
-                    element.setProgression(element.getProgression() + 1);
-                    console.log(element.getProgression());
-                }
-                else if (element.getProgression() < 1) {
-                    element.talkToPlayer(element.getProgression(), this.dialogueBox);
-                    element.setProgression(element.getProgression() + 1);
-                    console.log(element.getProgression());
+                else {
+                    for (let i = 0; i < element.getDialogue().length; i += 1) {
+                        if (i === element.getProgression()) {
+                            element.talkToPlayer(i, this.dialogueBox);
+                        }
+                    }
+                    element.progressFurther();
                 }
                 collides = false;
             }
@@ -124,18 +109,92 @@ export default class Player extends GameItem {
     }
     questWith(npcs) {
         let collides = true;
-        if (this.startQuestYes) {
-            npcs.forEach((element) => {
-                if (this.collidesWith(element)) {
+        npcs.forEach((element) => {
+            if (this.collidesWith(element)) {
+                this.questBox.setQuestList(element.getQuestDialogue());
+                console.log('quest WITH THE npc:)');
+                if (this.isResponding() && element.getProgression() > 4) {
+                    this.yesOrNoQuestPrompt.setDisplay(false);
                     this.questBox.setDisplay(true);
-                    this.dialogueBox.setDisplay(false);
-                    console.log('quest WITH THE npc:)');
-                    collides = false;
                 }
-            });
+                if (this.isIgnoring() && element.getProgression() > 4) {
+                    this.yesOrNoQuestPrompt.setDisplay(false);
+                    element.setProgression(0);
+                }
+                collides = false;
+            }
             return collides;
-        }
+        });
         return false;
+    }
+    questAnswer(npcs) {
+        npcs.forEach((npc) => {
+            if (this.collidesWith(npc)) {
+                let rightGuess = false;
+                let continueQuest = false;
+                if (this.answerQuestA()) {
+                    console.log('This is skipped');
+                    if (this.checkForRightAnswer(npc, 'A') === false) {
+                        continueQuest = true;
+                    }
+                    else {
+                        rightGuess = true;
+                        continueQuest = true;
+                    }
+                }
+                else if (this.answerQuestB()) {
+                    if (this.checkForRightAnswer(npc, 'B') === false) {
+                        continueQuest = true;
+                    }
+                    else {
+                        rightGuess = true;
+                        continueQuest = true;
+                    }
+                }
+                else if (this.answerQuestC()) {
+                    if (this.checkForRightAnswer(npc, 'C') === false) {
+                        continueQuest = true;
+                    }
+                    else {
+                        rightGuess = true;
+                        continueQuest = true;
+                    }
+                }
+                else if (this.answerQuestD()) {
+                    if (this.checkForRightAnswer(npc, 'D') === false) {
+                        continueQuest = true;
+                    }
+                    else {
+                        rightGuess = true;
+                        continueQuest = true;
+                    }
+                }
+                if (continueQuest) {
+                    if (rightGuess) {
+                        this.dialogueBox.setDialogueList(npc.getQuestResponseText());
+                        this.dialogueBox.setCurrentDialogue(1);
+                        this.dialogueBox.setDisplay(true);
+                        console.log('This is fudd');
+                        this.questBox.setDisplay(false);
+                        npc.questCompleted();
+                    }
+                    else {
+                        this.dialogueBox.setDialogueList(npc.getQuestResponseText());
+                        this.dialogueBox.setCurrentDialogue(0);
+                        this.dialogueBox.setDisplay(true);
+                        console.log('This is starting');
+                    }
+                }
+            }
+        });
+    }
+    checkForRightAnswer(npc, input) {
+        let rightOrWrong = false;
+        if (npc.getRightAnswer() === input) {
+            rightOrWrong = true;
+        }
+        console.log(rightOrWrong);
+        return rightOrWrong;
     }
     increaseSpeed(size) {
         this.xVel += size;

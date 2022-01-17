@@ -1,18 +1,19 @@
-import Baker from './Baker.js';
 import DislplayItem from './DislplayItem.js';
 import Game from './Game.js';
+import GameItem from './GameItem.js';
 
-export default class YesorNoQuestPrompt extends DislplayItem {
+export default class YesorNoQuestPrompt extends GameItem {
+  private currentPrompt: string;
+  
   /**
    * Constructing the dialogue box
    *
    * @param game the game
-   * @param baker baker
    * @param xPos the x position
    * @param yPos the y position
    */
-  constructor(game: Game, baker: Baker, xPos: number, yPos: number) {
-    super('./assets/img/yesornobox.png', baker, game, xPos, yPos);
+  constructor(game: Game, xPos: number, yPos: number) {
+    super('./assets/img/yesornobox.png', game, xPos, yPos);
     this.textXPos = xPos + 20;
     this.textYPos = yPos + 35;
   }
@@ -43,6 +44,6 @@ export default class YesorNoQuestPrompt extends DislplayItem {
    * Method to write the text in the box to the screen
    */
   public writeTextToBox(): void {
-    this.game.writeTextToCanvas(this.baker.getYesorNoTextBaker(), 26, this.textXPos, this.textYPos, 'center', 'black');
+    this.game.writeTextToCanvas(this.currentPrompt, 26, this.textXPos, this.textYPos, 'center', 'black');
   }
 }

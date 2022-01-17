@@ -3,14 +3,22 @@ import NPC from './NPC.js';
 export default class BlackSmith extends NPC {
   /**
    * Constructor for the blacksmith class
+   *
+   * @param canvas the game canvas
    */
-  public constructor() {
-    super('./assets/img/blacksmith.jpeg', 1100, 100);
+  public constructor(canvas: HTMLCanvasElement) {
+    super('', canvas.width / 11, canvas.height - 260);
     this.progression = 0;
     this.name = 'BlackSmith';
     this.completed = true;
     this.dialogue = [];
     this.dialogueFactory();
+
+    this.questDialogue = [];
+    this.yesOrNoOption = 'Do you want to start the blacksmith quest? Yes No';
+    // TO DO: Change the quest responses to fit their own quest
+    this.questResponse = ['Mhhh let me check, I don`t think they did it.', 'Mhhh let me check, Ah you found the thief'];
+    this.rightAnswer = 'A';
   }
 
   /**
@@ -21,7 +29,7 @@ export default class BlackSmith extends NPC {
     console.log(this.dialogue);
   }
 
-  // public giveReward(): void {
-
-  // }
+  public giveReward(): void {
+    console.log('You did it!');
+  }
 }

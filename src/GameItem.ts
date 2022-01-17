@@ -9,6 +9,8 @@ export default abstract class GameItem {
   protected yPos: number;
 
   protected sprite: Sprite;
+  
+  protected canvas: HTMLCanvasElement;
 
   /**
    * Creates a new GameItem on a random position

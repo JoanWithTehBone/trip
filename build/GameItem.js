@@ -5,6 +5,7 @@ export default class GameItem {
     xPos;
     yPos;
     sprite;
+    canvas;
     constructor(imageSrc, maxX, maxY) {
         this.img = Game.loadNewImage(imageSrc);
         this.xPos = maxX;

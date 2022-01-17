@@ -1,4 +1,3 @@
-import Baker from './Baker.js';
 import DislplayItem from './DislplayItem.js';
 import Game from './Game.js';
 
@@ -13,12 +12,11 @@ export default class DialogueBox extends DislplayItem {
    * Constructing the dialogue box
    *
    * @param game the game
-   * @param baker baker
    * @param xPos the x position
    * @param yPos the y position
    */
-  constructor(game: Game, baker : Baker, xPos: number, yPos: number) {
-    super('./assets/img/dialogue.png', baker, game, xPos, yPos);
+  constructor(game: Game, xPos: number, yPos: number) {
+    super('./assets/img/dialogue.png', game, xPos, yPos);
     this.textXPos = xPos + 200;
     this.textYPos = yPos + 45;
   }

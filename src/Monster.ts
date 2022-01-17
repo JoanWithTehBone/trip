@@ -14,7 +14,7 @@ export default class Monster extends NPC {
    * @param canvas the game canvas
    */
   constructor(canvas: HTMLCanvasElement) {
-    super('./assets/img/shark_monster.jpg', canvas.width / 2, canvas.height / 2);
+    super('./assets/img/golem.png', canvas.width / 2, canvas.height / 2);
     this.progression = 0;
     this.name = 'Monster';
     this.completed = true;
@@ -96,5 +96,13 @@ export default class Monster extends NPC {
    */
   public setBaseYPos(yPosition: number): void {
     this.baseYPos = yPosition;
+  }
+
+  /**
+   * Function to give a reward for ompleting a quest
+   */
+  // eslint-disable-next-line class-methods-use-this
+  public giveReward(): void {
+    console.log('You did it!');
   }
 }

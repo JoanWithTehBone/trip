@@ -1,7 +1,7 @@
 import DialogueBox from './DialogueBox.js';
 import Game from './Game.js';
-import GameOver from './GameOver.js';
-import GameWon from './GameWon.js';
+import GameLose from './GameLose.js';
+import GameWonFight from './GameWonFight.js';
 import KeyListener from './KeyListener.js';
 import Monster from './Monster.js';
 import NPC from './NPC.js';
@@ -162,11 +162,11 @@ export default class MonsterFight extends Scene {
 
     // Move to level clear screen
     if (this.hasWon()) {
-      return new GameWon(this.game);
+      return new GameWonFight(this.game);
     }
 
     if (this.hasLost()) {
-      return new GameOver(this.game);
+      return new GameLose(this.game);
     }
 
     return null;

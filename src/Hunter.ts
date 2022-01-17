@@ -3,15 +3,22 @@ import NPC from './NPC.js';
 export default class Hunter extends NPC {
   /**
    * Constructor for the hunter class
+   *
+   * @param canvas the game canvas
    */
-  public constructor() {
-    super('./assets/img/hunter.jpeg', 1100, 700);
+  public constructor(canvas: HTMLCanvasElement) {
+    super('', canvas.width / 2.05, canvas.height / 4.5);
     // Progression of the dialogue
     this.progression = 0;
     this.name = 'Hunter';
     this.completed = true;
     this.dialogue = [];
     this.dialogueFactory();
+
+    this.questDialogue = [];
+    this.yesOrNoOption = 'Do you want to start the hunter quest? Yes No';
+    this.questResponse = ['Mhhh let me check, I don`t think they did it.', 'Mhhh let me check, Ah you found the thief'];
+    this.rightAnswer = 'D';
   }
 
   /**
@@ -22,7 +29,7 @@ export default class Hunter extends NPC {
     console.log(this.dialogue);
   }
 
-  // public giveReward(): void {
-
-  // }
+  public giveReward(): void {
+    console.log('You did it!');
+  }
 }
