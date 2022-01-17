@@ -1,21 +1,10 @@
+import DislplayItem from './DislplayItem.js';
 import Game from './Game.js';
 import GameItem from './GameItem.js';
 
 export default class YesorNoQuestPrompt extends GameItem {
-  private display: boolean;
-
-  private xPosition: number;
-
-  private yPosition: number;
-
-  private textXPos: number;
-
-  private textYPos: number;
-
-  private game: Game;
-
   private currentPrompt: string;
-
+  
   /**
    * Constructing the dialogue box
    *
@@ -24,16 +13,9 @@ export default class YesorNoQuestPrompt extends GameItem {
    * @param yPos the y position
    */
   constructor(game: Game, xPos: number, yPos: number) {
-    super('./assets/img/yesornobox.png', xPos, yPos);
-    this.display = false;
-    // Positioning
-    this.xPosition = xPos;
-    this.yPosition = yPos;
+    super('./assets/img/yesornobox.png', game, xPos, yPos);
     this.textXPos = xPos + 20;
     this.textYPos = yPos + 35;
-
-    this.currentPrompt = '';
-    this.game = game;
   }
 
   /**
@@ -63,50 +45,5 @@ export default class YesorNoQuestPrompt extends GameItem {
    */
   public writeTextToBox(): void {
     this.game.writeTextToCanvas(this.currentPrompt, 26, this.textXPos, this.textYPos, 'center', 'black');
-  }
-
-  /**
-   * Sets the display to be shown or not to be shown
-   *
-   * @param active Sets the new state of displaying
-   */
-  public setDisplay(active: boolean): void {
-    this.display = active;
-  }
-
-  /**
-   * Get display state
-   *
-   * @returns the display value [true or false]
-   */
-  public getDisplay(): boolean {
-    return this.display;
-  }
-
-  /**
-   * Gets the xPosition of the text inside of the textbox
-   *
-   * @returns xPosition of the text inside of the textbox
-   */
-  public getTextXPos(): number {
-    return this.textXPos;
-  }
-
-  /**
-   * Gets the yPosition of the text inside of the textbox
-   *
-   * @returns yPosition of the text inside of the textbox
-   */
-  public getTextYPos(): number {
-    return this.textYPos;
-  }
-
-  /**
-   * Sets the current prompt for the YesOrNoQuestPrompt
-   *
-   * @param currentPrompt the current line of text that needs to be displayed in the prompt
-   */
-  public setCurrentPrompt(currentPrompt: string): void {
-    this.currentPrompt = currentPrompt;
   }
 }

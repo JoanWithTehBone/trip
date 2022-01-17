@@ -71,13 +71,13 @@ export default class MonsterFight extends Scene {
    */
   public changeMonsterPos(): void {
     this.newXPos = Game.randomNumber(
-      (1 + this.monster.getImageWidth()),
-      this.game.canvas.width - this.monster.getImageWidth(),
+      (1 + this.monster.getImage().width),
+      this.game.canvas.width - this.monster.getImage().width,
     );
 
     this.newYPos = Game.randomNumber(
-      (1 + this.monster.getImageHeight()),
-      this.game.canvas.height - this.monster.getImageHeight(),
+      (1 + this.monster.getImage().height),
+      this.game.canvas.height - this.monster.getImage().height,
     );
   }
 

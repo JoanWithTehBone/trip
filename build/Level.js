@@ -7,6 +7,7 @@ import Hunter from './Hunter.js';
 import MonsterFight from './MonsterFight.js';
 import QuestBox from './QuestBox.js';
 import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
+import FlyingDragonBaby from './FlyingDragonBaby.js';
 export default class Level extends Scene {
     player;
     dialogueBox;
@@ -16,6 +17,8 @@ export default class Level extends Scene {
     blacksmith;
     hunter;
     npcs;
+    gameitem;
+    flyingDragonBaby;
     keyboard;
     keyArray;
     answerArray;
@@ -24,6 +27,7 @@ export default class Level extends Scene {
         this.baker = new Baker(game.canvas);
         this.blacksmith = new BlackSmith(game.canvas);
         this.hunter = new Hunter(game.canvas);
+        this.flyingDragonBaby = new FlyingDragonBaby(game.canvas);
         this.dialogueBox = new DialogueBox(this.game, this.game.canvas.width / 2 - 600, (this.game.canvas.height / 5) * 3.7);
         this.questBox = new QuestBox(this.game, this.game.canvas.width / 2 - 500, (this.game.canvas.height / 8) * 0.5);
         this.yesorNoQuestPrompt = new YesorNoQuestPrompt(this.game, this.game.canvas.width / 2 - 300, (this.game.canvas.height / 8) * 3);
@@ -39,6 +43,8 @@ export default class Level extends Scene {
     }
     update() {
         this.keyboard.onFrameStart();
+        this.flyingDragonBaby.move();
+        this.flyingDragonBaby.outOfCanvas(this.game.canvas);
         if (this.player.isPressing()) {
             this.player.interactWith(this.npcs);
         }
@@ -59,7 +65,8 @@ export default class Level extends Scene {
         this.baker.draw(this.game.ctx);
         this.blacksmith.draw(this.game.ctx);
         this.hunter.draw(this.game.ctx);
-        this.player.draw(this.game.ctx);
+        this.player.getSprite().drawSprite(this.game.ctx, this.player);
+        this.flyingDragonBaby.draw(this.game.ctx);
         this.questBox.drawBox(this.game.ctx);
         this.dialogueBox.drawBox(this.game.ctx);
         this.yesorNoQuestPrompt.drawBox(this.game.ctx);

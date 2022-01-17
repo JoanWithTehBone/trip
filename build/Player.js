@@ -7,8 +7,8 @@ export default class Player extends GameItem {
     questBox;
     yesOrNoQuestPrompt;
     keyboard;
-    constructor(xPos, yPos, dialogueBox, questBox, yesOrNoQuestPrompt) {
-        super('./assets/img/player.png', xPos, yPos);
+    constructor(xPos, yPos, dialogueBox, questBox, yesornoquestprompt) {
+        super('./assets/img/testplayer.png', xPos, yPos);
         this.xVel = 3;
         this.yVel = 3;
         this.keyboard = new KeyListener();
@@ -77,9 +77,9 @@ export default class Player extends GameItem {
         return this.keyboard.isKeyTyped(KeyListener.KEY_Y);
     }
     collidesWith(other) {
-        return this.xPos < other.getXPos() + other.getImageWidth()
+        return this.xPos < other.getXPos() + other.getImage().width
             && this.xPos + this.img.width > other.getXPos()
-            && this.yPos < other.getYPos() + other.getImageHeight()
+            && this.yPos < other.getYPos() + other.getImage().height
             && this.yPos + this.img.height > other.getYPos();
     }
     interactWith(npcs) {
