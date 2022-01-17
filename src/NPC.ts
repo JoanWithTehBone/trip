@@ -150,4 +150,13 @@ export default abstract class NPC extends GameItem {
   public getRightAnswer(): string {
     return this.rightAnswer;
   }
+
+  /**
+   * Sets the completion of the quest
+   *
+   * @param value a boolean that is either true or false
+   */
+  public setCompletion(value: boolean): void {
+    this.completed = value;
+  }
 }

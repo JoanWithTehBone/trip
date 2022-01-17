@@ -208,7 +208,7 @@ export default class Player extends GameItem {
         console.log('INTERACTION WITH THE npc:)');
         // When the quest is completed and the 4th line of dialogue has been set,
         // show the yes or no prompt.
-        if (element.questCompleted() && element.getProgression() === 4) {
+        if (element.getProgression() === (element.getDialogue().length - 1)) {
           // Dialogue Box should become invisible, and the YesOrNo prompt pops up.
           // Also sets the current prompt and quest respectively
           this.dialogueBox.setDisplay(false);
@@ -247,14 +247,14 @@ export default class Player extends GameItem {
         this.questBox.setQuestList(element.getQuestDialogue());
         console.log('quest WITH THE npc:)');
         // When the player answers yes on the yes-or-no prompt, run this function
-        if (this.isResponding() && element.getProgression() > 4) {
+        if (this.isResponding() && element.getProgression() === element.getDialogue().length) {
           // Remove the yes-or-no prompt from the screen and show the questbox
           this.yesOrNoQuestPrompt.setDisplay(false);
           this.questBox.setDisplay(true);
         }
 
         // When the player answers no on the yes-or-no prompt, run this function
-        if (this.isIgnoring() && element.getProgression() > 4) {
+        if (this.isIgnoring() && element.getProgression() === element.getDialogue().length) {
           // Remove the yes-or-no prompt from the screen and reset the dialogue.
           this.yesOrNoQuestPrompt.setDisplay(false);
           element.setProgression(0);
@@ -314,13 +314,18 @@ export default class Player extends GameItem {
             this.dialogueBox.setDisplay(true);
             console.log('This is fudd');
             this.questBox.setDisplay(false);
-            npc.questCompleted();
+            npc.setCompletion(true);
           } else {
             this.dialogueBox.setDialogueList(npc.getQuestResponseText());
             this.dialogueBox.setCurrentDialogue(0);
             this.dialogueBox.setDisplay(true);
             console.log('This is starting');
           }
+        }
+
+        if (npc.questCompleted()) {
+          this.dialogueBox.setDialogueList()
+          npc.giveReward();
         }
       }
     });

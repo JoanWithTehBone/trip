@@ -63,5 +63,8 @@ export default class NPC extends GameItem {
     getRightAnswer() {
         return this.rightAnswer;
     }
+    setCompletion(value) {
+        this.completed = value;
+    }
 }
 //# sourceMappingURL=NPC.js.map

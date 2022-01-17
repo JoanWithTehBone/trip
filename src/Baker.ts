@@ -10,7 +10,7 @@ export default class Baker extends NPC {
     super('', (canvas.width / 5) * 4.05, canvas.height / 2.5);
     this.progression = 0;
     this.name = 'Baker';
-    this.completed = true;
+    this.completed = false;
     this.dialogue = [];
     this.questDialogue = [];
     this.yesOrNoOption = 'Do you want to start the baker quest? Yes No';
