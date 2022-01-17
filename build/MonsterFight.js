@@ -1,6 +1,6 @@
 import Game from './Game.js';
-import GameOver from './GameOver.js';
-import GameWon from './GameWon.js';
+import GameLose from './GameLose.js';
+import GameWonFight from './GameWonFight.js';
 import Monster from './Monster.js';
 import Scene from './Scene.js';
 export default class MonsterFight extends Scene {
@@ -78,10 +78,10 @@ export default class MonsterFight extends Scene {
             console.log('Ok');
         }
         if (this.hasWon()) {
-            return new GameWon(this.game);
+            return new GameWonFight(this.game);
         }
         if (this.hasLost()) {
-            return new GameOver(this.game);
+            return new GameLose(this.game);
         }
         return null;
     }

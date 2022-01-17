@@ -3,7 +3,7 @@ import KeyListener from './KeyListener.js';
 import Scene from './Scene.js';
 import Start from './Start.js';
 
-export default class GameOver extends Scene {
+export default abstract class GameOverScene extends Scene {
   private shouldStart: boolean;
 
   private keyboard: KeyListener;
@@ -23,7 +23,7 @@ export default class GameOver extends Scene {
    * Handles any user input that has happened since the last call
    */
   public processInput(): void {
-    if (this.keyboard.isKeyDown(KeyListener.KEY_C)) {
+    if (this.keyboard.isKeyDown(KeyListener.KEY_R)) {
       this.shouldStart = true;
     }
   }
@@ -52,15 +52,5 @@ export default class GameOver extends Scene {
   /**
    * Draw the game so the player can see what happened
    */
-  public render(): void {
-    // Clear the screen
-    this.game.ctx.clearRect(0, 0, this.game.canvas.width, this.game.canvas.height);
-    // Show score
-    const centerX = this.game.canvas.width / 2;
-    this.game.writeTextToCanvas('Game Over', 128, centerX, 250, 'center', 'red');
-    // const msg = `${this.game.getUser().getName()} score: ${this.game.getUser().getScore()}`;
-    // this.game.writeTextToCanvas(msg, 48, centerX, 450, 'center', 'yellow');
-    this.game.writeTextToCanvas("Type 'c' to continue", 48, centerX,
-      550, 'center', 'white');
-  }
+  public abstract render(): void ;
 }

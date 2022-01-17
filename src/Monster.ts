@@ -98,6 +98,10 @@ export default class Monster extends NPC {
     this.baseYPos = yPosition;
   }
 
+  /**
+   * Function to give a reward for ompleting a quest
+   */
+  // eslint-disable-next-line class-methods-use-this
   public giveReward(): void {
     console.log('You did it!');
   }
