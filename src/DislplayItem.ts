@@ -1,9 +1,10 @@
-import Baker from './Baker.js';
 import Game from './Game.js';
 import GameItem from './GameItem.js';
 
 export default abstract class DislplayItem extends GameItem {
   protected display: boolean;
+
+  protected currentDialogue : number;
 
   protected imageSource: HTMLImageElement;
 
@@ -17,22 +18,20 @@ export default abstract class DislplayItem extends GameItem {
 
   protected game: Game;
 
-  protected baker: Baker;
-
   /**
    * The constructor of the DisplayItem abstract class That extends teh gameitem glass
    * it is specifiet to fit basics for the display functions in the game
    *
    * @param imageSrc the string to lead to image source
-   * @param baker the baker NPC
    * @param game the game class
    * @param yPosition the positions of the npc
    * @param xPosition the positions of the npc
    */
-  constructor(imageSrc: string, baker: Baker, game: Game, yPosition: number,
+  constructor(imageSrc: string, game: Game, yPosition: number,
     xPosition: number) {
     super(imageSrc, xPosition, yPosition);
     this.display = false;
+    this.game = game;
   }
 
   /**

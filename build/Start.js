@@ -25,7 +25,7 @@ export default class Start extends Scene {
         this.game.ctx.clearRect(0, 0, this.game.canvas.width, this.game.canvas.height);
         const centerX = this.game.canvas.width / 2;
         this.game.writeTextToCanvas('TRIP', 128, centerX, 250, 'center', 'red');
-        this.game.writeTextToCanvas("Type 's' to start", 48, centerX, 550, 'center', 'white');
+        this.game.writeTextToCanvas("Type 'S' to Start", 48, centerX, 550, 'center', 'white');
     }
 }
 //# sourceMappingURL=Start.js.map

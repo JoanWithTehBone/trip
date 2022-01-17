@@ -2,8 +2,6 @@ import DislplayItem from './DislplayItem.js';
 import Game from './Game.js';
 
 export default class DialogueBox extends DislplayItem {
-  private currentDialogue: number;
-
   private dialogueList: string[];
 
   private questList: string[];
@@ -17,6 +15,8 @@ export default class DialogueBox extends DislplayItem {
    */
   constructor(game: Game, xPos: number, yPos: number) {
     super('./assets/img/dialogue.png', game, xPos, yPos);
+    this.xPosition = xPos;
+    this.yPosition = yPos;
     this.textXPos = xPos + 200;
     this.textYPos = yPos + 45;
   }

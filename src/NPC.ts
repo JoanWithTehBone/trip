@@ -17,7 +17,7 @@ export default abstract class NPC extends GameItem {
 
   protected yesOrNoOption: string;
 
-  protected questResponse: string [];
+  protected questResponse: string[];
 
   protected rightAnswer: string;
 
@@ -111,7 +111,7 @@ export default abstract class NPC extends GameItem {
    *
    * @returns the text of the Question that is in the constructor
    */
-  public getYesorNoText() : string {
+  public getYesorNoText(): string {
     return this.yesOrNoOption;
   }
 
@@ -120,7 +120,7 @@ export default abstract class NPC extends GameItem {
    *
    * @returns the text of the Question that is in the constructor
    */
-  public getQuestResponseText() : string[] {
+  public getQuestResponseText(): string[] {
     return this.questResponse;
   }
 
