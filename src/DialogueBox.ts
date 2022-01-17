@@ -1,3 +1,4 @@
+import Baker from './Baker.js';
 import Game from './Game.js';
 import GameItem from './GameItem.js';
 
@@ -20,15 +21,18 @@ export default class DialogueBox extends GameItem {
 
   private game: Game;
 
+  private baker : Baker;
+
   /**
    * Constructing the dialogue box
    *
    * @param game the game
+   * @param baker baker
    * @param xPos the x position
    * @param yPos the y position
    */
-  constructor(game: Game, xPos: number, yPos: number) {
-    super('', xPos, yPos);
+  constructor(game: Game, baker : Baker, xPos: number, yPos: number) {
+    super('./assets/img/dialogue.png', xPos, yPos);
     this.display = false;
     // Positioning
     this.xPosition = xPos;
@@ -37,6 +41,7 @@ export default class DialogueBox extends GameItem {
     this.textYPos = yPos + 45;
 
     this.game = game;
+    this.baker = baker;
   }
 
   /**
@@ -49,12 +54,14 @@ export default class DialogueBox extends GameItem {
    *  - Add continue prompt to show how to continue.
    *
    * @param ctx CanvasRenderingContext
+
    */
   public drawBox(ctx: CanvasRenderingContext2D): void {
     if (this.display) {
       ctx.clearRect(this.xPosition, this.yPosition, 1200, 200);
       // Drawing a white rectangle on the canvas background
-      ctx.fillRect(this.xPosition, this.yPosition, 1200, 200);
+      // ctx.fillRect(this.xPosition, this.yPosition, 1200, 200);
+      ctx.drawImage(this.img, this.xPosition, this.yPosition);
       // console.log(this.npc.getProgression());
       this.writeTextToBox(this.currentDialogue);
     }

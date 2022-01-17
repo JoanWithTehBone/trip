@@ -1,4 +1,5 @@
 import Game from './Game.js';
+import Sprite from './Sprite.js';
 
 export default abstract class GameItem {
   protected img: HTMLImageElement;
@@ -6,6 +7,8 @@ export default abstract class GameItem {
   protected xPos: number;
 
   protected yPos: number;
+
+  protected sprite: Sprite;
 
   /**
    * Creates a new GameItem on a random position
@@ -18,6 +21,7 @@ export default abstract class GameItem {
     this.img = Game.loadNewImage(imageSrc);
     this.xPos = maxX;
     this.yPos = maxY;
+    this.sprite = new Sprite(this);
   }
 
   /**
@@ -26,16 +30,7 @@ export default abstract class GameItem {
    * @param ctx the rendering context to draw on
    */
   public draw(ctx: CanvasRenderingContext2D): void {
-    ctx.drawImage(this.img, 0, 0, 64, 50, this.xPos, this.yPos, 160, 128);
-  }
-
-  /**
-   * getImageHeight
-   *
-   * @returns the current height of the image.
-   */
-  public getImageHeight(): number {
-    return this.img.height;
+    ctx.drawImage(this.img, this.xPos, this.yPos);
   }
 
   /**
@@ -43,8 +38,8 @@ export default abstract class GameItem {
    *
    * @returns the current width of the image.
    */
-  public getImageWidth(): number {
-    return this.img.width;
+  public getImage(): HTMLImageElement {
+    return this.img;
   }
 
   /**
@@ -57,11 +52,38 @@ export default abstract class GameItem {
   }
 
   /**
+   * getXPos
+   *
+   * @param xPosition of the gameitem
+   */
+  public setXPos(xPosition : number): void {
+    this.xPos = xPosition;
+  }
+
+  /**
    * getYPos
    *
    * @returns the current Y-position
    */
   public getYPos(): number {
     return this.yPos;
+  }
+
+  /**
+   * setXPos
+   *
+   * @param yPosition this y position
+   */
+  public setYPos(yPosition : number): void {
+    this.yPos = yPosition;
+  }
+
+  /**
+   * get the sprite called in here
+   *
+   * @returns the sprite
+   */
+  public getSprite() : Sprite {
+    return this.sprite;
   }
 }

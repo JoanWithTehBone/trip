@@ -35,7 +35,7 @@ export default class Player extends GameItem {
     questBox: QuestBox,
     yesornoquestprompt : YesorNoQuestPrompt,
   ) {
-    super('./assets/img/platerspritesheet.png', xPos, yPos);
+    super('./assets/img/testplayer.png', xPos, yPos);
 
     this.xVel = 3;
     this.yVel = 3;
@@ -120,7 +120,7 @@ export default class Player extends GameItem {
    * @returns true if the player is continuing up
    */
   public isContinuing(): boolean {
-    return this.keyboard.isKeyTyped(KeyListener.KEY_C);
+    return this.keyboard.isKeyTyped(KeyListener.KEY_Q);
   }
 
   /**
@@ -165,6 +165,21 @@ export default class Player extends GameItem {
 
   /**
    *
+   * @returns true if the player is fighting the monster
+   */
+  public isFighting(): boolean {
+    return this.keyboard.isKeyTyped(KeyListener.KEY_F);
+  }
+
+  /**
+   *
+   * @returns true if the player is responding to a dialogue prompt
+   */
+  public isResponding(): boolean {
+    return this.keyboard.isKeyTyped(KeyListener.KEY_Y);
+  }
+
+  /**
    * @returns true if the player is continuing up
    */
   public answerQuestD(): boolean {
@@ -177,9 +192,9 @@ export default class Player extends GameItem {
    * @returns true if this object collides with the specified other object
    */
   public collidesWith(other: NPC): boolean {
-    return this.xPos < other.getXPos() + other.getImageWidth()
+    return this.xPos < other.getXPos() + other.getImage().width
       && this.xPos + this.img.width > other.getXPos()
-      && this.yPos < other.getYPos() + other.getImageHeight()
+      && this.yPos < other.getYPos() + other.getImage().height
       && this.yPos + this.img.height > other.getYPos();
   }
 
@@ -241,9 +256,10 @@ export default class Player extends GameItem {
       npcs.forEach((element) => {
         if (this.collidesWith(element)) {
           this.questBox.setDisplay(true);
+          this.dialogueBox.setDisplay(false);
           console.log('quest WITH THE npc:)');
           // if (element.getProgression() + 1 >= element.getQuest().length) {
-          element.questingToPlayer(0, this.questBox);
+          // element.questingToPlayer(0, this.questBox);
           // } else if (element.questCompleted()) {
           //   element.questingToPlayer(2, this.questBox);
           //   element.setProgression(element.getProgression() + 1);
@@ -267,5 +283,14 @@ export default class Player extends GameItem {
   public increaseSpeed(size: number): void {
     this.xVel += size;
     this.yVel += size;
+  }
+
+  /**
+   * Get the dialogue box details
+   *
+   * @returns the dialogue box
+   */
+  public getDialogueBox(): DialogueBox {
+    return this.dialogueBox;
   }
 }

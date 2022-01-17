@@ -9,19 +9,21 @@ export default class DialogueBox extends GameItem {
     dialogueList;
     questList;
     game;
-    constructor(game, xPos, yPos) {
-        super('', xPos, yPos);
+    baker;
+    constructor(game, baker, xPos, yPos) {
+        super('./assets/img/dialogue.png', xPos, yPos);
         this.display = false;
         this.xPosition = xPos;
         this.yPosition = yPos;
         this.textXPos = xPos + 200;
         this.textYPos = yPos + 45;
         this.game = game;
+        this.baker = baker;
     }
     drawBox(ctx) {
         if (this.display) {
             ctx.clearRect(this.xPosition, this.yPosition, 1200, 200);
-            ctx.fillRect(this.xPosition, this.yPosition, 1200, 200);
+            ctx.drawImage(this.img, this.xPosition, this.yPosition);
             this.writeTextToBox(this.currentDialogue);
         }
     }

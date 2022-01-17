@@ -8,7 +8,7 @@ export default class Player extends GameItem {
     yesornoquestprompt;
     keyboard;
     constructor(xPos, yPos, dialogueBox, questBox, yesornoquestprompt) {
-        super('./assets/img/platerspritesheet.png', xPos, yPos);
+        super('./assets/img/testplayer.png', xPos, yPos);
         this.xVel = 3;
         this.yVel = 3;
         this.keyboard = new KeyListener();
@@ -53,7 +53,7 @@ export default class Player extends GameItem {
         return this.keyboard.isKeyTyped(KeyListener.KEY_SPACE);
     }
     isContinuing() {
-        return this.keyboard.isKeyTyped(KeyListener.KEY_C);
+        return this.keyboard.isKeyTyped(KeyListener.KEY_Q);
     }
     startQuestYes() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_Y);
@@ -70,13 +70,19 @@ export default class Player extends GameItem {
     answerQuestC() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_C);
     }
+    isFighting() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_F);
+    }
+    isResponding() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_Y);
+    }
     answerQuestD() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_D);
     }
     collidesWith(other) {
-        return this.xPos < other.getXPos() + other.getImageWidth()
+        return this.xPos < other.getXPos() + other.getImage().width
             && this.xPos + this.img.width > other.getXPos()
-            && this.yPos < other.getYPos() + other.getImageHeight()
+            && this.yPos < other.getYPos() + other.getImage().height
             && this.yPos + this.img.height > other.getYPos();
     }
     interactWith(npcs) {
@@ -122,8 +128,8 @@ export default class Player extends GameItem {
             npcs.forEach((element) => {
                 if (this.collidesWith(element)) {
                     this.questBox.setDisplay(true);
+                    this.dialogueBox.setDisplay(false);
                     console.log('quest WITH THE npc:)');
-                    element.questingToPlayer(0, this.questBox);
                     collides = false;
                 }
             });
@@ -134,6 +140,9 @@ export default class Player extends GameItem {
     increaseSpeed(size) {
         this.xVel += size;
         this.yVel += size;
+    }
+    getDialogueBox() {
+        return this.dialogueBox;
     }
 }
 //# sourceMappingURL=Player.js.map

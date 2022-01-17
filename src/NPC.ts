@@ -15,7 +15,9 @@ export default abstract class NPC extends GameItem {
 
   protected quest: boolean;
 
-  protected yesornooption : string;
+  protected yesornooptionbaker : string;
+
+  protected questResponseBaker : string [];
 
   /**
    * Constructor of the NPC abstract class

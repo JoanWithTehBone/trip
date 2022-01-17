@@ -5,8 +5,6 @@ import GameItem from './GameItem.js';
 export default class YesorNoQuestPrompt extends GameItem {
   private display: boolean;
 
-  private currentDialogue: number;
-
   private xPosition: number;
 
   private yPosition: number;
@@ -14,8 +12,6 @@ export default class YesorNoQuestPrompt extends GameItem {
   private textXPos: number;
 
   private textYPos: number;
-
-  private questList: string[];
 
   private game: Game;
 
@@ -30,7 +26,7 @@ export default class YesorNoQuestPrompt extends GameItem {
    * @param yPos the y position
    */
   constructor(game: Game, baker: Baker, xPos: number, yPos: number) {
-    super('', xPos, yPos);
+    super('./assets/img/yesornobox.png', xPos, yPos);
     this.display = false;
     // Positioning
     this.xPosition = xPos;
@@ -57,7 +53,8 @@ export default class YesorNoQuestPrompt extends GameItem {
     if (this.display) {
       ctx.clearRect(this.xPosition, this.yPosition, 600, 250);
       // Drawing a white rectangle on the canvas background
-      ctx.fillRect(this.xPosition, this.yPosition, 600, 250);
+      // ctx.fillRect(this.xPosition, this.yPosition, 600, 250);
+      ctx.drawImage(this.img, this.xPosition, this.yPosition);
       // console.log(this.npc.getProgression());
       this.writeTextToBox();
     }
@@ -67,7 +64,7 @@ export default class YesorNoQuestPrompt extends GameItem {
    * Method to write the text in the box to the screen
    */
   public writeTextToBox(): void {
-    this.game.writeTextToCanvas(this.baker.getYesorNoText(), 26, this.textXPos, this.textYPos, 'center', 'black');
+    this.game.writeTextToCanvas(this.baker.getYesorNoTextBaker(), 26, this.textXPos, this.textYPos, 'center', 'black');
   }
 
   /**
@@ -104,23 +101,5 @@ export default class YesorNoQuestPrompt extends GameItem {
    */
   public getTextYPos(): number {
     return this.textYPos;
-  }
-
-  /**
-   * Sets the current integer of the dialogue index
-   *
-   * @param currentDialogue the current integer of dialogue -> currentindex
-   */
-  public setCurrentDialogue(currentDialogue: number): void {
-    this.currentDialogue = currentDialogue;
-  }
-
-  /**
-   * Sets the dialogue of the current character
-   *
-   * @param list the current list of dialogue
-   */
-  public setQuestList(list: string[]): void {
-    this.questList = list;
   }
 }
