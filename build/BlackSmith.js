@@ -4,7 +4,7 @@ export default class BlackSmith extends NPC {
         super('', canvas.width / 11, canvas.height - 260);
         this.progression = 0;
         this.name = 'BlackSmith';
-        this.completed = true;
+        this.completed = false;
         this.dialogue = [];
         this.dialogueFactory();
         this.questDialogue = [];

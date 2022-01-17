@@ -88,7 +88,7 @@ export default class Player extends GameItem {
             if (this.collidesWith(element)) {
                 this.dialogueBox.setDisplay(true);
                 console.log('INTERACTION WITH THE npc:)');
-                if (element.questCompleted() && element.getProgression() === 4) {
+                if (element.getProgression() === (element.getDialogue().length - 1)) {
                     this.dialogueBox.setDisplay(false);
                     this.yesOrNoQuestPrompt.setCurrentPrompt(element.getYesorNoText());
                     this.yesOrNoQuestPrompt.setDisplay(true);
@@ -113,11 +113,11 @@ export default class Player extends GameItem {
             if (this.collidesWith(element)) {
                 this.questBox.setQuestList(element.getQuestDialogue());
                 console.log('quest WITH THE npc:)');
-                if (this.isResponding() && element.getProgression() > 4) {
+                if (this.isResponding() && element.getProgression() === element.getDialogue().length) {
                     this.yesOrNoQuestPrompt.setDisplay(false);
                     this.questBox.setDisplay(true);
                 }
-                if (this.isIgnoring() && element.getProgression() > 4) {
+                if (this.isIgnoring() && element.getProgression() === element.getDialogue().length) {
                     this.yesOrNoQuestPrompt.setDisplay(false);
                     element.setProgression(0);
                 }
@@ -176,7 +176,7 @@ export default class Player extends GameItem {
                         this.dialogueBox.setDisplay(true);
                         console.log('This is fudd');
                         this.questBox.setDisplay(false);
-                        npc.questCompleted();
+                        npc.setCompletion(true);
                     }
                     else {
                         this.dialogueBox.setDialogueList(npc.getQuestResponseText());
@@ -184,6 +184,9 @@ export default class Player extends GameItem {
                         this.dialogueBox.setDisplay(true);
                         console.log('This is starting');
                     }
+                }
+                if (npc.questCompleted()) {
+                    npc.giveReward();
                 }
             }
         });
