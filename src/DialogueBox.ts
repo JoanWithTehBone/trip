@@ -1,27 +1,13 @@
 import Baker from './Baker.js';
+import DislplayItem from './DislplayItem.js';
 import Game from './Game.js';
-import GameItem from './GameItem.js';
 
-export default class DialogueBox extends GameItem {
-  private display: boolean;
-
+export default class DialogueBox extends DislplayItem {
   private currentDialogue: number;
-
-  private xPosition: number;
-
-  private yPosition: number;
-
-  private textXPos: number;
-
-  private textYPos: number;
 
   private dialogueList: string[];
 
   private questList: string[];
-
-  private game: Game;
-
-  private baker : Baker;
 
   /**
    * Constructing the dialogue box
@@ -32,16 +18,7 @@ export default class DialogueBox extends GameItem {
    * @param yPos the y position
    */
   constructor(game: Game, baker : Baker, xPos: number, yPos: number) {
-    super('./assets/img/dialogue.png', xPos, yPos);
-    this.display = false;
-    // Positioning
-    this.xPosition = xPos;
-    this.yPosition = yPos;
-    this.textXPos = xPos + 200;
-    this.textYPos = yPos + 45;
-
-    this.game = game;
-    this.baker = baker;
+    super('./assets/img/dialogue.png', baker, game, xPos, yPos, false, xPos + 200, yPos + 45);
   }
 
   /**
@@ -54,7 +31,6 @@ export default class DialogueBox extends GameItem {
    *  - Add continue prompt to show how to continue.
    *
    * @param ctx CanvasRenderingContext
-
    */
   public drawBox(ctx: CanvasRenderingContext2D): void {
     if (this.display) {
@@ -74,42 +50,6 @@ export default class DialogueBox extends GameItem {
    */
   public writeTextToBox(currentDialogue: number): void {
     this.game.writeTextToCanvas(this.dialogueList[currentDialogue], 26, this.textXPos, this.textYPos, 'center', 'black');
-  }
-
-  /**
-   * Sets the display to be shown or not to be shown
-   *
-   * @param active Sets the new state of displaying
-   */
-  public setDisplay(active: boolean): void {
-    this.display = active;
-  }
-
-  /**
-   * Get display state
-   *
-   * @returns the display value [true or false]
-   */
-  public getDisplay(): boolean {
-    return this.display;
-  }
-
-  /**
-   * Gets the xPosition of the text inside of the textbox
-   *
-   * @returns xPosition of the text inside of the textbox
-   */
-  public getTextXPos(): number {
-    return this.textXPos;
-  }
-
-  /**
-   * Gets the yPosition of the text inside of the textbox
-   *
-   * @returns yPosition of the text inside of the textbox
-   */
-  public getTextYPos(): number {
-    return this.textYPos;
   }
 
   /**
