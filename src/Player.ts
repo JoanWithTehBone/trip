@@ -38,8 +38,9 @@ export default class Player extends GameItem {
   ) {
     super('./assets/img/testplayer.png', xPos, yPos);
 
-    this.xVel = 3;
-    this.yVel = 3;
+    this.xVel = 2;
+    this.yVel = 2;
+    this.currentAnimation = 'idle-down';
     this.keyboard = new KeyListener();
 
     this.dialogueBox = dialogueBox;
@@ -63,6 +64,7 @@ export default class Player extends GameItem {
     // Moving right
     if (this.keyboard.isKeyDown(KeyListener.KEY_RIGHT) && this.xPos < maxX) {
       this.xPos += this.xVel;
+      this.getSprite().setAnimation('walk-right');
       // Limit to the max value
       if (this.xPos > maxX) {
         this.xPos = maxX;
@@ -72,6 +74,7 @@ export default class Player extends GameItem {
     // Moving left
     if (this.keyboard.isKeyDown(KeyListener.KEY_LEFT) && this.xPos > minX) {
       this.xPos -= this.xVel;
+      this.getSprite().setAnimation('walk-left');
       // Limit to the max value
       if (this.xPos < minX) {
         this.xPos = minX;
@@ -81,6 +84,7 @@ export default class Player extends GameItem {
     // Moving up
     if (this.keyboard.isKeyDown(KeyListener.KEY_UP) && this.yPos > minY) {
       this.yPos -= this.yVel;
+      this.getSprite().setAnimation('walk-up');
       if (this.yPos < minY) {
         this.yPos = minY;
       }
@@ -89,6 +93,7 @@ export default class Player extends GameItem {
     // Moving down
     if (this.keyboard.isKeyDown(KeyListener.KEY_DOWN) && this.yPos < maxY) {
       this.yPos += this.yVel;
+      this.getSprite().setAnimation('walk-down');
       if (this.yPos > maxY) {
         this.yPos = maxY;
       }
