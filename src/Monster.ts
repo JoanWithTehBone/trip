@@ -14,7 +14,7 @@ export default class Monster extends NPC {
    * @param canvas the game canvas
    */
   constructor(canvas: HTMLCanvasElement) {
-    super('./assets/img/golem.png', canvas.width / 2, canvas.height / 2);
+    super('./assets/img/MonsterImages/golem.png', canvas.width / 2, canvas.height / 2);
     this.progression = 0;
     this.name = 'Monster';
     this.completed = true;
