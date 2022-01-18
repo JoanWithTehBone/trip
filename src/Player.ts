@@ -4,6 +4,7 @@ import NPC from './NPC.js';
 import DialogueBox from './DialogueBox.js';
 import QuestBox from './QuestBox.js';
 import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
+import Game from './Game.js';
 
 export default class Player extends GameItem {
   private xVel: number;
@@ -331,14 +332,15 @@ export default class Player extends GameItem {
    * Method that arranges the convo's after the quest has been completed
    *
    * @param npcs The list of NPCS that can be collided with
+   * @param game The game that needs to be used for the rewards
    */
-  public afterQuest(npcs: NPC[]): void {
+  public afterQuest(npcs: NPC[], game: Game): void {
     npcs.forEach((npc): void => {
       if (this.collidesWith(npc)) {
         if (npc.questCompleted()) {
           npc.talkToPlayer(npc.getDialogue().length - 1, this.dialogueBox);
           console.log(npc.getProgression());
-          npc.giveReward();
+          npc.giveReward(game);
         }
       }
     });

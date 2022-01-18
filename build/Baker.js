@@ -20,8 +20,13 @@ export default class Baker extends NPC {
     questFactory() {
         this.questDialogue.push('Quest prompt: When I was having a cake tasting party, one of my costumers stole my carrot cake recipe. They all left a comment on my blog post where I asked who did it. Only one of the customers is telling the truth and the others are lying. Can you help me figure out who stole the recipe? These are their comments:');
     }
-    giveReward() {
-        console.log('You did it!');
+    giveReward(game) {
+        if (!(this.rewardGiven)) {
+            console.log('You did it!');
+            const stats = game.getPlayerStats();
+            stats.setHP(stats.getHP() + 5);
+            this.rewardGiven = true;
+        }
     }
 }
 //# sourceMappingURL=Baker.js.map

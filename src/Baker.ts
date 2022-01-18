@@ -1,3 +1,4 @@
+import Game from './Game.js';
 import NPC from './NPC.js';
 
 export default class Baker extends NPC {
@@ -35,9 +36,6 @@ export default class Baker extends NPC {
     console.log(this.dialogue);
   }
 
-  // public giveReward(): void {
-  // }
-
   /**
    *
    */
@@ -45,7 +43,18 @@ export default class Baker extends NPC {
     this.questDialogue.push('Quest prompt: When I was having a cake tasting party, one of my costumers stole my carrot cake recipe. They all left a comment on my blog post where I asked who did it. Only one of the customers is telling the truth and the others are lying. Can you help me figure out who stole the recipe? These are their comments:');
   }
 
-  public giveReward(): void {
-    console.log('You did it!');
+  /**
+   * Method that gives the reward to the player if it wasn't already given.
+   *
+   * @param game to get when we want to edit stats
+   */
+  public giveReward(game: Game): void {
+    if (!(this.rewardGiven)) {
+      console.log('You did it!');
+      const stats = game.getPlayerStats();
+
+      stats.setHP(stats.getHP() + 5);
+      this.rewardGiven = true;
+    }
   }
 }

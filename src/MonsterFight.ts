@@ -146,6 +146,7 @@ export default class MonsterFight extends Scene {
     npcs.forEach((npc: NPC) => {
       if (npc.questCompleted()) {
         this.talkChance += 25;
+        this.monster.giveReward();
       }
     });
 

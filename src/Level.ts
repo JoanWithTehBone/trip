@@ -129,7 +129,7 @@ export default class Level extends Scene {
     // Then it starts the Dialogue Lines
     if (this.player.isPressing()) {
       this.player.interactWith(this.npcs);
-      this.player.afterQuest(this.npcs);
+      this.player.afterQuest(this.npcs, this.game);
     }
 
     // Checks if the player continues the conversation and gets rid of the dialogue box

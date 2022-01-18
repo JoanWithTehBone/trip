@@ -2,6 +2,7 @@ import GameItem from './GameItem.js';
 export default class NPC extends GameItem {
     name;
     completed;
+    rewardGiven;
     progression;
     dialogue;
     questDialogue;
@@ -9,6 +10,7 @@ export default class NPC extends GameItem {
     yesOrNoOption;
     questResponse;
     rightAnswer;
+    user;
     constructor(imageSrc, maxX, maxY) {
         super(imageSrc, maxX, maxY);
     }
@@ -33,11 +35,7 @@ export default class NPC extends GameItem {
         }
     }
     questCompleted() {
-        if (this.completed) {
-            this.giveReward();
-            return true;
-        }
-        return false;
+        return this.completed;
     }
     getProgression() {
         return this.progression;

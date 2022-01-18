@@ -189,13 +189,13 @@ export default class Player extends GameItem {
             }
         });
     }
-    afterQuest(npcs) {
+    afterQuest(npcs, game) {
         npcs.forEach((npc) => {
             if (this.collidesWith(npc)) {
                 if (npc.questCompleted()) {
                     npc.talkToPlayer(npc.getDialogue().length - 1, this.dialogueBox);
                     console.log(npc.getProgression());
-                    npc.giveReward();
+                    npc.giveReward(game);
                 }
             }
         });

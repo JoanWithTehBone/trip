@@ -16,8 +16,13 @@ export default class Hunter extends NPC {
         this.dialogue.push('Hello, I am the town hunter', 'I was sent some strange looking animal tracks.', 'The nearby town says that they could belong to a monster.', 'Do you want to help me solve this problem?', 'Thanks for helping me out, take this sword as a reward and have a nice day!');
         console.log(this.dialogue);
     }
-    giveReward() {
-        console.log('You did it!');
+    giveReward(game) {
+        if (!(this.rewardGiven)) {
+            console.log('You did it!');
+            const stats = game.getPlayerStats();
+            stats.setATK(stats.getATK() + 2);
+            this.rewardGiven = true;
+        }
     }
 }
 //# sourceMappingURL=Hunter.js.map

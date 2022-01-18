@@ -1,3 +1,4 @@
+import Game from './Game.js';
 import NPC from './NPC.js';
 import UserData from './UserData.js';
 export default class Monster extends NPC {
@@ -13,7 +14,7 @@ export default class Monster extends NPC {
         this.dialogueFactory();
         this.baseXPos = canvas.width / 2;
         this.baseYPos = canvas.height / 2;
-        this.monsterStats = new UserData(20, 5, 3);
+        this.monsterStats = new UserData(20, 4, 3);
     }
     dialogueFactory() {
         this.dialogue.push('Raargh!', 'Prepare to die villain!', 'Raargh!', 'Oh wait, you are not a villain?', 'You have helped the people?', 'Sounds like I got the wrong person then, sorry friend!');
@@ -52,7 +53,16 @@ export default class Monster extends NPC {
         this.baseYPos = yPosition;
     }
     giveReward() {
-        console.log('You did it!');
+        const randomStatIncrease = Game.randomNumber(1, 3);
+        if (randomStatIncrease === 1) {
+            this.monsterStats.setHP(this.monsterStats.getHP() + 5);
+        }
+        else if (randomStatIncrease === 2) {
+            this.monsterStats.setATK(this.monsterStats.getATK() + 1);
+        }
+        else {
+            this.monsterStats.setDEF(this.monsterStats.getDEF() + 1);
+        }
     }
 }
 //# sourceMappingURL=Monster.js.map

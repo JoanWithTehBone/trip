@@ -1,11 +1,15 @@
 import DialogueBox from './DialogueBox.js';
+import Game from './Game.js';
 import GameItem from './GameItem.js';
 import QuestBox from './QuestBox.js';
+import UserData from './UserData.js';
 
 export default abstract class NPC extends GameItem {
   protected name: string;
 
   protected completed: boolean;
+
+  protected rewardGiven: boolean;
 
   protected progression: number;
 
@@ -21,6 +25,8 @@ export default abstract class NPC extends GameItem {
 
   protected rightAnswer: string;
 
+  protected user: UserData;
+
   /**
    * Constructor of the NPC abstract class
    *
@@ -31,9 +37,10 @@ export default abstract class NPC extends GameItem {
   public constructor(imageSrc: string, maxX: number, maxY: number) {
     super(imageSrc, maxX, maxY);
   }
+
   public abstract dialogueFactory(): void;
 
-  public abstract giveReward(): void;
+  public abstract giveReward(game: Game): void;
 
   /**
    * Method that displays the NPCS dialogue to the screen so the player can read it.
@@ -74,11 +81,7 @@ export default abstract class NPC extends GameItem {
    * @returns If quest is completed
    */
   public questCompleted(): boolean {
-    if (this.completed) {
-      this.giveReward();
-      return true;
-    }
-    return false;
+    return this.completed;
   }
 
   /**
