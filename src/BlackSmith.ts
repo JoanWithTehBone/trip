@@ -1,3 +1,4 @@
+import Game from './Game.js';
 import NPC from './NPC.js';
 
 export default class BlackSmith extends NPC {
@@ -29,7 +30,18 @@ export default class BlackSmith extends NPC {
     console.log(this.dialogue);
   }
 
-  public giveReward(): void {
-    console.log('You did it!');
+  /**
+   * Method that gives the reward to the player if it wasn't already given.
+   *
+   * @param game to get when we want to edit stats
+   */
+  public giveReward(game: Game): void {
+    if (!(this.rewardGiven)) {
+      console.log('You did it!');
+      const stats = game.getPlayerStats();
+
+      stats.setDEF(stats.getDEF() + 1);
+      this.rewardGiven = true;
+    }
   }
 }

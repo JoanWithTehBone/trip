@@ -47,12 +47,13 @@ export default class Level extends Scene {
         this.flyingDragonBaby.outOfCanvas(this.game.canvas);
         if (this.player.isPressing()) {
             this.player.interactWith(this.npcs);
+            this.player.afterQuest(this.npcs, this.game);
         }
         if (this.player.isContinuing()) {
             this.dialogueBox.setDisplay(false);
         }
         if (this.player.isFighting()) {
-            return new MonsterFight(this.game, this.player);
+            return new MonsterFight(this.game, this.player, this.npcs);
         }
         this.player.questWith(this.npcs);
         if (this.questBox.getDisplay()) {

@@ -1,7 +1,6 @@
 import DislplayItem from './DislplayItem.js';
 export default class DialogueBox extends DislplayItem {
     dialogueList;
-    questList;
     constructor(game, xPos, yPos) {
         super('./assets/img/dialogue.png', game, xPos, yPos);
         this.xPosition = xPos;
@@ -24,9 +23,6 @@ export default class DialogueBox extends DislplayItem {
     }
     setDialogueList(list) {
         this.dialogueList = list;
-    }
-    setQuestList(list) {
-        this.questList = list;
     }
 }
 //# sourceMappingURL=DialogueBox.js.map

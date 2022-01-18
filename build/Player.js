@@ -177,6 +177,7 @@ export default class Player extends GameItem {
                         console.log('This is fudd');
                         this.questBox.setDisplay(false);
                         npc.setCompletion(true);
+                        console.log(npc.questCompleted());
                     }
                     else {
                         this.dialogueBox.setDialogueList(npc.getQuestResponseText());
@@ -185,8 +186,16 @@ export default class Player extends GameItem {
                         console.log('This is starting');
                     }
                 }
+            }
+        });
+    }
+    afterQuest(npcs, game) {
+        npcs.forEach((npc) => {
+            if (this.collidesWith(npc)) {
                 if (npc.questCompleted()) {
-                    npc.giveReward();
+                    npc.talkToPlayer(npc.getDialogue().length - 1, this.dialogueBox);
+                    console.log(npc.getProgression());
+                    npc.giveReward(game);
                 }
             }
         });
@@ -198,6 +207,23 @@ export default class Player extends GameItem {
         }
         console.log(rightOrWrong);
         return rightOrWrong;
+    }
+    monsterConversation(monster, talk) {
+        if (this.collidesWith(monster)) {
+            console.log('TOuching the monster');
+            this.dialogueBox.setDisplay(true);
+            if (talk) {
+                for (let i = 0; i < monster.getDialogue().length; i += 1) {
+                    if (i === monster.getProgression()) {
+                        monster.talkToPlayer(i, this.dialogueBox);
+                    }
+                }
+                monster.progressFurther();
+            }
+            else {
+                monster.talkToPlayer(0, this.dialogueBox);
+            }
+        }
     }
     increaseSpeed(size) {
         this.xVel += size;

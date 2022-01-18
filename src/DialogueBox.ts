@@ -4,8 +4,6 @@ import Game from './Game.js';
 export default class DialogueBox extends DislplayItem {
   private dialogueList: string[];
 
-  private questList: string[];
-
   /**
    * Constructing the dialogue box
    *
@@ -68,14 +66,5 @@ export default class DialogueBox extends DislplayItem {
    */
   public setDialogueList(list: string[]): void {
     this.dialogueList = list;
-  }
-
-  /**
-   * Sets the qdialogue of the current character
-   *
-   * @param list the current list of dialogue
-   */
-  public setQuestList(list: string[]): void {
-    this.questList = list;
   }
 }

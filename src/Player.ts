@@ -4,6 +4,7 @@ import NPC from './NPC.js';
 import DialogueBox from './DialogueBox.js';
 import QuestBox from './QuestBox.js';
 import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
+import Game from './Game.js';
 
 export default class Player extends GameItem {
   private xVel: number;
@@ -315,6 +316,7 @@ export default class Player extends GameItem {
             console.log('This is fudd');
             this.questBox.setDisplay(false);
             npc.setCompletion(true);
+            console.log(npc.questCompleted());
           } else {
             this.dialogueBox.setDialogueList(npc.getQuestResponseText());
             this.dialogueBox.setCurrentDialogue(0);
@@ -322,10 +324,23 @@ export default class Player extends GameItem {
             console.log('This is starting');
           }
         }
+      }
+    });
+  }
 
+  /**
+   * Method that arranges the convo's after the quest has been completed
+   *
+   * @param npcs The list of NPCS that can be collided with
+   * @param game The game that needs to be used for the rewards
+   */
+  public afterQuest(npcs: NPC[], game: Game): void {
+    npcs.forEach((npc): void => {
+      if (this.collidesWith(npc)) {
         if (npc.questCompleted()) {
-          this.dialogueBox.setDialogueList()
-          npc.giveReward();
+          npc.talkToPlayer(npc.getDialogue().length - 1, this.dialogueBox);
+          console.log(npc.getProgression());
+          npc.giveReward(game);
         }
       }
     });
@@ -348,6 +363,31 @@ export default class Player extends GameItem {
     }
     console.log(rightOrWrong);
     return rightOrWrong;
+  }
+
+  /**
+   * A method that lets you have a conversation with the monster
+   *
+   * @param monster the monster that needs to be talked with
+   * @param talk checks if the monster is able to talk or not
+   */
+  public monsterConversation(monster: NPC, talk: boolean): void {
+    if (this.collidesWith(monster)) {
+      console.log('TOuching the monster');
+      this.dialogueBox.setDisplay(true);
+      if (talk) {
+        // For each dialogue in the NPC, checks if the quest is completed.
+        // After calls the respective talk function and progresses further
+        for (let i = 0; i < monster.getDialogue().length; i += 1) {
+          if (i === monster.getProgression()) {
+            monster.talkToPlayer(i, this.dialogueBox);
+          }
+        }
+        monster.progressFurther();
+      } else {
+        monster.talkToPlayer(0, this.dialogueBox);
+      }
+    }
   }
 
   /**

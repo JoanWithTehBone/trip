@@ -129,6 +129,7 @@ export default class Level extends Scene {
     // Then it starts the Dialogue Lines
     if (this.player.isPressing()) {
       this.player.interactWith(this.npcs);
+      this.player.afterQuest(this.npcs, this.game);
     }
 
     // Checks if the player continues the conversation and gets rid of the dialogue box
@@ -138,7 +139,7 @@ export default class Level extends Scene {
 
     // Dev button to go to the monster fight: "F"
     if (this.player.isFighting()) {
-      return new MonsterFight(this.game, this.player);
+      return new MonsterFight(this.game, this.player, this.npcs);
     }
 
     this.player.questWith(this.npcs);
@@ -146,6 +147,7 @@ export default class Level extends Scene {
     if (this.questBox.getDisplay()) {
       this.player.questAnswer(this.npcs);
     }
+
     // Create an answer for the quest CHECK
     // Create a function that returns the correct answer
     // if (this.isRightAnswer()) {

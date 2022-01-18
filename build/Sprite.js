@@ -32,8 +32,6 @@ export default class Sprite {
     drawSprite(ctx, gameitem) {
         const xP = gameitem.getXPos();
         const yP = gameitem.getYPos();
-        console.log('sprite is drawn');
-        console.log(this.getFrame());
         const [frameX, frameY] = this.getFrame();
         ctx.drawImage(this.image, frameX * 32, frameY * 32, 32, 32, xP, yP, 128, 128);
     }
