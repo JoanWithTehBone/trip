@@ -53,7 +53,7 @@ export default class Level extends Scene {
             this.dialogueBox.setDisplay(false);
         }
         if (this.player.isFighting()) {
-            return new MonsterFight(this.game, this.player);
+            return new MonsterFight(this.game, this.player, this.npcs);
         }
         this.player.questWith(this.npcs);
         if (this.questBox.getDisplay()) {

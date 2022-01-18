@@ -9,10 +9,12 @@ export default class MonsterFight extends Scene {
     monster;
     user;
     dialogueBox;
-    monsterFightArray;
     newXPos;
     newYPos;
-    constructor(game, player) {
+    talkChance;
+    offChance;
+    doesMonsterTalk;
+    constructor(game, player, npcs) {
         super(game);
         this.player = player;
         this.monster = new Monster(game.canvas);
@@ -22,8 +24,10 @@ export default class MonsterFight extends Scene {
         this.dialogueBox = this.player.getDialogueBox();
         console.log(this.newXPos);
         console.log(this.newYPos);
-        this.monsterFightArray = [];
-        this.monsterFightArray.push(this.monster);
+        this.talkChance = 10;
+        this.offChance = Game.randomNumber(1, 100);
+        this.doesMonsterTalk = this.talkWithMonster(npcs);
+        console.log(this.doesMonsterTalk);
         this.keyboard = this.player.getKeys();
     }
     fightWithMonster() {
@@ -62,10 +66,21 @@ export default class MonsterFight extends Scene {
         this.monster.move(xPos, yPos);
         this.monster.draw(this.game.ctx);
     }
+    talkWithMonster(npcs) {
+        npcs.forEach((npc) => {
+            if (npc.questCompleted()) {
+                this.talkChance += 25;
+            }
+        });
+        if (this.talkChance >= this.offChance) {
+            return true;
+        }
+        return false;
+    }
     update() {
         this.keyboard.onFrameStart();
         if (this.player.isPressing()) {
-            this.player.interactWith(this.monsterFightArray);
+            this.player.monsterConversation(this.monster, this.doesMonsterTalk);
         }
         if (this.player.isContinuing()) {
             this.dialogueBox.setDisplay(false);

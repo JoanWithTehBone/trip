@@ -364,6 +364,31 @@ export default class Player extends GameItem {
   }
 
   /**
+   * A method that lets you have a conversation with the monster
+   *
+   * @param monster the monster that needs to be talked with
+   * @param talk checks if the monster is able to talk or not
+   */
+  public monsterConversation(monster: NPC, talk: boolean): void {
+    if (this.collidesWith(monster)) {
+      console.log('TOuching the monster');
+      this.dialogueBox.setDisplay(true);
+      if (talk) {
+        // For each dialogue in the NPC, checks if the quest is completed.
+        // After calls the respective talk function and progresses further
+        for (let i = 0; i < monster.getDialogue().length; i += 1) {
+          if (i === monster.getProgression()) {
+            monster.talkToPlayer(i, this.dialogueBox);
+          }
+        }
+        monster.progressFurther();
+      } else {
+        monster.talkToPlayer(0, this.dialogueBox);
+      }
+    }
+  }
+
+  /**
    * Increases the speed
    *
    * @param size the amount of speed to add

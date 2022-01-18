@@ -139,7 +139,7 @@ export default class Level extends Scene {
 
     // Dev button to go to the monster fight: "F"
     if (this.player.isFighting()) {
-      return new MonsterFight(this.game, this.player);
+      return new MonsterFight(this.game, this.player, this.npcs);
     }
 
     this.player.questWith(this.npcs);

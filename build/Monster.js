@@ -8,7 +8,7 @@ export default class Monster extends NPC {
         super('./assets/img/golem.png', canvas.width / 2, canvas.height / 2);
         this.progression = 0;
         this.name = 'Monster';
-        this.completed = true;
+        this.completed = false;
         this.dialogue = [];
         this.dialogueFactory();
         this.baseXPos = canvas.width / 2;
@@ -16,7 +16,7 @@ export default class Monster extends NPC {
         this.monsterStats = new UserData(20, 5, 3);
     }
     dialogueFactory() {
-        this.dialogue.push('Press F to fight the monster', 'Press T to talk with the monster', 'Raargh!', 'Oh hey, you seem like a nice guy! Wanna be friends? :)');
+        this.dialogue.push('Raargh!', 'Prepare to die villain!', 'Raargh!', 'Oh wait, you are not a villain?', 'You have helped the people?', 'Sounds like I got the wrong person then, sorry friend!');
         console.log(this.dialogue);
     }
     move(charXPos, charYPos) {
