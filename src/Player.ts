@@ -69,6 +69,9 @@ export default class Player extends GameItem {
       if (this.xPos > maxX) {
         this.xPos = maxX;
       }
+    } else if (this.keyboard.isKeyTyped(KeyListener.KEY_RIGHT)
+    && !this.keyboard.isKeyDown(KeyListener.KEY_RIGHT)) {
+      this.getSprite().setAnimation('idle-right');
     }
 
     // Moving left
@@ -79,6 +82,9 @@ export default class Player extends GameItem {
       if (this.xPos < minX) {
         this.xPos = minX;
       }
+    } else if (this.keyboard.isKeyTyped(KeyListener.KEY_LEFT)
+    && !this.keyboard.isKeyDown(KeyListener.KEY_LEFT)) {
+      this.getSprite().setAnimation('idle-left');
     }
 
     // Moving up
@@ -88,6 +94,9 @@ export default class Player extends GameItem {
       if (this.yPos < minY) {
         this.yPos = minY;
       }
+    } else if (this.keyboard.isKeyTyped(KeyListener.KEY_UP)
+    && !this.keyboard.isKeyDown(KeyListener.KEY_UP)) {
+      this.getSprite().setAnimation('idle-up');
     }
 
     // Moving down
@@ -97,6 +106,9 @@ export default class Player extends GameItem {
       if (this.yPos > maxY) {
         this.yPos = maxY;
       }
+    } else if (this.keyboard.isKeyTyped(KeyListener.KEY_DOWN)
+    && !this.keyboard.isKeyDown(KeyListener.KEY_DOWN)) {
+      this.getSprite().setAnimation('idle-down');
     }
   }
 

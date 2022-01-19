@@ -29,12 +29,20 @@ export default class Player extends GameItem {
                 this.xPos = maxX;
             }
         }
+        else if (this.keyboard.isKeyTyped(KeyListener.KEY_RIGHT)
+            && !this.keyboard.isKeyDown(KeyListener.KEY_RIGHT)) {
+            this.getSprite().setAnimation('idle-right');
+        }
         if (this.keyboard.isKeyDown(KeyListener.KEY_LEFT) && this.xPos > minX) {
             this.xPos -= this.xVel;
             this.getSprite().setAnimation('walk-left');
             if (this.xPos < minX) {
                 this.xPos = minX;
             }
+        }
+        else if (this.keyboard.isKeyTyped(KeyListener.KEY_LEFT)
+            && !this.keyboard.isKeyDown(KeyListener.KEY_LEFT)) {
+            this.getSprite().setAnimation('idle-left');
         }
         if (this.keyboard.isKeyDown(KeyListener.KEY_UP) && this.yPos > minY) {
             this.yPos -= this.yVel;
@@ -43,12 +51,20 @@ export default class Player extends GameItem {
                 this.yPos = minY;
             }
         }
+        else if (this.keyboard.isKeyTyped(KeyListener.KEY_UP)
+            && !this.keyboard.isKeyDown(KeyListener.KEY_UP)) {
+            this.getSprite().setAnimation('idle-up');
+        }
         if (this.keyboard.isKeyDown(KeyListener.KEY_DOWN) && this.yPos < maxY) {
             this.yPos += this.yVel;
             this.getSprite().setAnimation('walk-down');
             if (this.yPos > maxY) {
                 this.yPos = maxY;
             }
+        }
+        else if (this.keyboard.isKeyTyped(KeyListener.KEY_DOWN)
+            && !this.keyboard.isKeyDown(KeyListener.KEY_DOWN)) {
+            this.getSprite().setAnimation('idle-down');
         }
     }
     getKeys() {
