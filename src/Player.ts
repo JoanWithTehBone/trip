@@ -4,7 +4,11 @@ import NPC from './NPC.js';
 import DialogueBox from './DialogueBox.js';
 import QuestBox from './QuestBox.js';
 import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
+
 import Game from './Game.js';
+
+import Controls from './Controls.js';
+
 
 export default class Player extends GameItem {
   private xVel: number;
@@ -17,6 +21,8 @@ export default class Player extends GameItem {
 
   private yesOrNoQuestPrompt: YesorNoQuestPrompt;
 
+  private controls: Controls;
+
   // KeyboardListener so the player can move
   private keyboard: KeyListener;
 
@@ -27,14 +33,21 @@ export default class Player extends GameItem {
    * @param yPos yPostition of the player
    * @param dialogueBox BOX
    * @param questBox quest box
+
    * @param yesOrNoQuestPrompt prompt for quest
+   * @param controls the controls
+
    */
   public constructor(
     xPos: number,
     yPos: number,
     dialogueBox: DialogueBox,
     questBox: QuestBox,
+
     yesOrNoQuestPrompt: YesorNoQuestPrompt,
+
+    controls: Controls,
+
   ) {
     super('./assets/img/testplayer.png', xPos, yPos);
 
@@ -194,6 +207,20 @@ export default class Player extends GameItem {
    */
   public isResponding(): boolean {
     return this.keyboard.isKeyTyped(KeyListener.KEY_Y);
+  }
+
+  /**
+   * @returns true if the player is continuing up
+   */
+  public answerQuestD(): boolean {
+    return this.keyboard.isKeyTyped(KeyListener.KEY_D);
+  }
+
+  /**
+   * @returns true if the player is continuing up
+   */
+  public openControls(): boolean {
+    return this.keyboard.isKeyTyped(KeyListener.KEY_O);
   }
 
   /**
