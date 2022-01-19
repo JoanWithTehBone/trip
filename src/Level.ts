@@ -12,6 +12,7 @@ import MonsterFight from './MonsterFight.js';
 import QuestBox from './QuestBox.js';
 import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
 import FlyingDragonBaby from './FlyingDragonBaby.js';
+import Controls from './Controls.js';
 
 export default class Level extends Scene {
   // Player
@@ -22,6 +23,8 @@ export default class Level extends Scene {
   private questBox: QuestBox;
 
   private yesorNoQuestPrompt: YesorNoQuestPrompt;
+
+  private controls: Controls;
 
   // NPCS
   private baker: Baker;
@@ -165,6 +168,16 @@ export default class Level extends Scene {
     // If answer is correct, continue
     // If answer is wrong, redo the quest
 
+    if (this.player.openControls()) {
+      if (this.controls.getDisplay()) {
+        this.controls.setDisplay(false);
+      } else {
+        this.controls.setDisplay(true);
+      }
+    }
+    // if (this.controls.getDisplay() && (this.player.openControls())) {
+    //   this.controls.setDisplay(false);
+    // }
     return null;
   }
 

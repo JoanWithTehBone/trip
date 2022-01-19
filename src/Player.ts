@@ -7,6 +7,8 @@ import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
 
 import Game from './Game.js';
 
+import Controls from './Controls.js';
+
 export default class Player extends GameItem {
   private xVel: number;
 
@@ -29,6 +31,7 @@ export default class Player extends GameItem {
    * @param dialogueBox BOX
    * @param questBox quest box
    * @param yesOrNoQuestPrompt prompt for quest
+   * @param controls the controls
    */
   public constructor(
     xPos: number,
