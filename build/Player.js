@@ -99,6 +99,9 @@ export default class Player extends GameItem {
     answerQuestD() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_D);
     }
+    answerQuestE() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_E);
+    }
     isFighting() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_F);
     }
@@ -202,6 +205,15 @@ export default class Player extends GameItem {
                 }
                 else if (this.answerQuestD()) {
                     if (this.checkForRightAnswer(npc, 'D') === false) {
+                        continueQuest = true;
+                    }
+                    else {
+                        rightGuess = true;
+                        continueQuest = true;
+                    }
+                }
+                else if (this.answerQuestE()) {
+                    if (this.checkForRightAnswer(npc, 'E') === false) {
                         continueQuest = true;
                     }
                     else {

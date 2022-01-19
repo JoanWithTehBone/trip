@@ -194,6 +194,13 @@ export default class Player extends GameItem {
   }
 
   /**
+   * @returns true if the player is continuing up
+   */
+  public answerQuestE(): boolean {
+    return this.keyboard.isKeyTyped(KeyListener.KEY_E);
+  }
+
+  /**
    *
    * @returns true if the player is fighting the monster
    */
@@ -347,6 +354,13 @@ export default class Player extends GameItem {
           }
         } else if (this.answerQuestD()) {
           if (this.checkForRightAnswer(npc, 'D') === false) {
+            continueQuest = true;
+          } else {
+            rightGuess = true;
+            continueQuest = true;
+          }
+        } else if (this.answerQuestE()) {
+          if (this.checkForRightAnswer(npc, 'E') === false) {
             continueQuest = true;
           } else {
             rightGuess = true;
