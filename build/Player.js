@@ -6,8 +6,9 @@ export default class Player extends GameItem {
     dialogueBox;
     questBox;
     yesornoquestprompt;
+    controls;
     keyboard;
-    constructor(xPos, yPos, dialogueBox, questBox, yesornoquestprompt) {
+    constructor(xPos, yPos, dialogueBox, questBox, yesornoquestprompt, controls) {
         super('./assets/img/testplayer.png', xPos, yPos);
         this.xVel = 3;
         this.yVel = 3;
@@ -78,6 +79,9 @@ export default class Player extends GameItem {
     }
     answerQuestD() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_D);
+    }
+    openControls() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_O);
     }
     collidesWith(other) {
         return this.xPos < other.getXPos() + other.getImage().width
