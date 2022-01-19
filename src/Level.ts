@@ -12,6 +12,7 @@ import MonsterFight from './MonsterFight.js';
 import QuestBox from './QuestBox.js';
 import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
 import FlyingDragonBaby from './FlyingDragonBaby.js';
+import Controls from './Controls.js';
 
 export default class Level extends Scene {
   // Player
@@ -22,6 +23,10 @@ export default class Level extends Scene {
   private questBox: QuestBox;
 
   private yesorNoQuestPrompt: YesorNoQuestPrompt;
+
+
+  private controls: Controls;
+
 
   // NPCS
   private baker: Baker;
@@ -77,6 +82,13 @@ export default class Level extends Scene {
       (this.game.canvas.height / 8) * 3, // yPostition
     );
 
+    // Create the controls
+    this.controls = new Controls(
+      this.game,
+      this.game.canvas.width / 2 - 300, // xPosition
+      (this.game.canvas.height / 8) * 3, // yPostition
+    );
+
     // Create a new array of NPCS to pass on
     this.npcs = [];
     this.npcs.push(this.baker, this.blacksmith, this.hunter);
@@ -88,6 +100,7 @@ export default class Level extends Scene {
       this.dialogueBox,
       this.questBox,
       this.yesorNoQuestPrompt,
+      this.controls,
     );
     this.keyboard = this.player.getKeys();
 
@@ -139,10 +152,25 @@ export default class Level extends Scene {
 
     // Dev button to go to the monster fight: "F"
     if (this.player.isFighting()) {
+
       return new MonsterFight(this.game, this.player, this.npcs);
+
+      return new MonsterFight(this.game, this.player);
+    }
+    // when the player is in collision with the baker and answers yes upon the yesnoprompt when
+    // the progression is on 5(the prompt) so that you can't open the questbox in between dialogue
+    if (this.player.startQuestYes() && this.baker.getProgression() === 5
+      && this.player.collidesWith(this.baker)) {
+      // dialoguebox and the yesnoprompt gets removed from screen, the quest begins/shows on screen.
+      this.yesorNoQuestPrompt.setDisplay(false);
+      // this.player.questWith(this.npcs);
+      this.questBox.setDisplay(true);
+      // PROBLEM the text pops up but also the dialogue box underneath?
+
     }
 
     this.player.questWith(this.npcs);
+
 
     if (this.questBox.getDisplay()) {
       this.player.questAnswer(this.npcs);
@@ -164,6 +192,29 @@ export default class Level extends Scene {
     // Then loop through all the answers and check if it was pressed.
     // If answer is correct, continue
     // If answer is wrong, redo the quest
+=======
+    // if the quest box is displayed and A or B or D is clicked the dialogeubox
+    // and the fail text will pop up
+    // PROBLEM there is no reaction to the button
+    if (this.questBox.getDisplay() && (this.player.answerQuestA()
+      || this.player.answerQuestB() || this.player.answerQuestD())) {
+      this.dialogueBox.setDialogueList(this.baker.getquestResponseTextBaker());
+      this.dialogueBox.setCurrentDialogue(0);
+      this.questBox.setDisplay(false);
+      this.dialogueBox.setDisplay(true);
+    }
+
+    if (this.player.openControls()) {
+      if (this.controls.getDisplay()) {
+        this.controls.setDisplay(false);
+      } else {
+        this.controls.setDisplay(true);
+      }
+    }
+    // if (this.controls.getDisplay() && (this.player.openControls())) {
+    //   this.controls.setDisplay(false);
+    // }
+
 
     return null;
   }
@@ -186,5 +237,19 @@ export default class Level extends Scene {
     this.questBox.drawBox(this.game.ctx);
     this.dialogueBox.drawBox(this.game.ctx);
     this.yesorNoQuestPrompt.drawBox(this.game.ctx);
+
+
+    this.controls.drawBox(this.game.ctx);
+    this.interact();
+  }
+
+  private interact() {
+    const score = `Score: ${this.game.getPlayerStats().getScore()}`;
+    this.game.writeTextToCanvas(score, 36, 120, 50);
+
+    // Show HP
+    const hp = `HP: ${this.game.getPlayerStats().getHP()}`;
+    this.game.writeTextToCanvas(hp, 36, 120, 100);
+
   }
 }

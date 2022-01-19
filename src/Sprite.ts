@@ -13,12 +13,6 @@ export default class Sprite {
 
   private image: HTMLImageElement;
 
-  private shadow: HTMLImageElement;
-
-  private useShadow: boolean;
-
-  private isShadowLoaded: boolean;
-
   private isLoaded: boolean;
 
   /**
@@ -30,16 +24,6 @@ export default class Sprite {
   public constructor(gameitem: GameItem) {
     // Set up the Image
     this.image = gameitem.getImage();
-
-    // Shadow
-    // this.shadow = new Image();
-    // this.useShadow = true; // config.useShadow || false
-    // if (this.useShadow) {
-    //   this.shadow.src = '/images/characters/shadow.png';
-    // }
-    // this.shadow.onload = () => {
-    //   this.isShadowLoaded = true;
-    // };
 
     // Configure animations and initial state
     this.animations = {
