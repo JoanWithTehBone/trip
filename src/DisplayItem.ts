@@ -1,7 +1,7 @@
 import Game from './Game.js';
 import GameItem from './GameItem.js';
 
-export default abstract class DislplayItem extends GameItem {
+export default abstract class DisplayItem extends GameItem {
   protected display: boolean;
 
   protected currentDialogue : number;
@@ -46,12 +46,7 @@ export default abstract class DislplayItem extends GameItem {
    */
   public abstract drawBox(ctx: CanvasRenderingContext2D): void;
 
-  /**
-   * Method to write the text in the box to the screen
-   *
-   * @param currentDialogue the current integer of dialogue -> currentindex
-   */
-  public abstract writeTextToBox(currentDialogue: number): void;
+  // TODO can likely have the code here now since it's runnung the same image pattern per character
 
   /**
    * Sets the display to be shown or not to be shown

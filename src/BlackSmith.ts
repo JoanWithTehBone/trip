@@ -16,11 +16,13 @@ export default class BlackSmith extends NPC {
     this.completed = false;
     this.dialogue = [];
     this.dialogueFactory();
-
-    this.questDialogue = [];
-    this.yesOrNoOption = 'Do you want to start the blacksmith quest? Yes No';
+    this.questDialogue = Game.loadNewImage('./assets/img/BlacksmithImages/BlacksmithQuest.png');
+    this.yesOrNoOption = Game.loadNewImage('./assets/img/BlacksmithImages/BlacksmithYNPrompt.png');
     // TO DO: Change the quest responses to fit their own quest
-    this.questResponse = ['Mhhh let me check, I don`t think they did it.', 'Mhhh let me check, Ah you found the thief'];
+    this.questResponse = [
+      Game.loadNewImage('./assets/img/BlacksmithImages/BlacksmithQWrong.png'),
+      Game.loadNewImage('./assets/img/BlacksmithImages/BlacksmithQCorrect.png'),
+    ];
     this.rightAnswer = 'A';
   }
 
@@ -28,7 +30,14 @@ export default class BlackSmith extends NPC {
    * Factory for creating the dialogue of the blacksmith
    */
   public dialogueFactory(): void {
-    this.dialogue.push('Hey there, I am the blacksmith.', 'I fancy making a sword or two', 'Have you ever held one?', 'Hehe, go now. I have work to do.');
+    this.dialogue.push(
+      Game.loadNewImage('./assets/img/BlacksmithImages/BlacksmithD1.png'),
+      Game.loadNewImage('./assets/img/BlacksmithImages/BlacksmithD2.png'),
+      Game.loadNewImage('./assets/img/BlacksmithImages/BlacksmithD3.png'),
+      Game.loadNewImage('./assets/img/BlacksmithImages/BlacksmithD4.png'),
+      Game.loadNewImage('./assets/img/BlacksmithImages/BlacksmithD5.png'),
+      Game.loadNewImage('./assets/img/BlacksmithImages/BlacksmithD6.png'),
+    );
     console.log(this.dialogue);
   }
 

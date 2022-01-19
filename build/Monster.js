@@ -17,7 +17,7 @@ export default class Monster extends NPC {
         this.monsterStats = new UserData(20, 4, 3);
     }
     dialogueFactory() {
-        this.dialogue.push('Raargh!', 'Prepare to die villain!', 'Raargh!', 'Oh wait, you are not a villain?', 'You have helped the people?', 'Sounds like I got the wrong person then, sorry friend!');
+        this.dialogue.push(Game.loadNewImage('./assets/img/MonsterImages/MonsterD1.png'), Game.loadNewImage('./assets/img/MonsterImages/MonsterD2.png'), Game.loadNewImage('./assets/img/MonsterImages/MonsterD3.png'), Game.loadNewImage('./assets/img/MonsterImages/MonsterD4.png'), Game.loadNewImage('./assets/img/MonsterImages/MonsterD5.png'));
         console.log(this.dialogue);
     }
     move(charXPos, charYPos) {

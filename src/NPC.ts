@@ -13,15 +13,15 @@ export default abstract class NPC extends GameItem {
 
   protected progression: number;
 
-  protected dialogue: string[];
+  protected dialogue: HTMLImageElement[];
 
-  protected questDialogue: string[];
+  protected questDialogue: HTMLImageElement;
 
   protected quest: boolean;
 
-  protected yesOrNoOption: string;
+  protected yesOrNoOption: HTMLImageElement;
 
-  protected questResponse: string[];
+  protected questResponse: HTMLImageElement[];
 
   protected rightAnswer: string;
 
@@ -61,18 +61,10 @@ export default abstract class NPC extends GameItem {
 
   /**
    *
-   * @param questIndex index number
    * @param questBox box
    */
-  public questingToPlayer(questIndex: number, questBox: QuestBox): void {
+  public questingToPlayer(questBox: QuestBox): void {
     questBox.setQuestList(this.questDialogue);
-    for (let i = 0; i < this.questDialogue.length; i += 0) {
-      if (questIndex === i) {
-        if (questBox.getDisplay()) {
-          questBox.setCurrentDialogue(i);
-        }
-      }
-    }
   }
 
   /**
@@ -114,7 +106,7 @@ export default abstract class NPC extends GameItem {
    *
    * @returns the text of the Question that is in the constructor
    */
-  public getYesorNoText(): string {
+  public getYesorNoText(): HTMLImageElement {
     return this.yesOrNoOption;
   }
 
@@ -123,7 +115,7 @@ export default abstract class NPC extends GameItem {
    *
    * @returns the text of the Question that is in the constructor
    */
-  public getQuestResponseText(): string[] {
+  public getQuestResponseImage(): HTMLImageElement[] {
     return this.questResponse;
   }
 
@@ -132,7 +124,7 @@ export default abstract class NPC extends GameItem {
    *
    * @returns Progression of the child
    */
-  public getDialogue(): string[] {
+  public getDialogue(): HTMLImageElement[] {
     return this.dialogue;
   }
 
@@ -141,7 +133,7 @@ export default abstract class NPC extends GameItem {
    *
    * @returns Progression of the child
    */
-  public getQuestDialogue(): string[] {
+  public getQuestDialogue(): HTMLImageElement {
     return this.questDialogue;
   }
 

@@ -1,5 +1,5 @@
-import DislplayItem from './DislplayItem.js';
-export default class YesorNoQuestPrompt extends DislplayItem {
+import DisplayItem from './DisplayItem.js';
+export default class YesorNoQuestPrompt extends DisplayItem {
     currentPrompt;
     constructor(game, xPos, yPos) {
         super('./assets/img/yesornobox.png', game, xPos, yPos);
@@ -11,12 +11,8 @@ export default class YesorNoQuestPrompt extends DislplayItem {
     drawBox(ctx) {
         if (this.display) {
             ctx.clearRect(this.xPosition, this.yPosition, 600, 250);
-            ctx.drawImage(this.img, this.xPosition, this.yPosition);
-            this.writeTextToBox();
+            ctx.drawImage(this.currentPrompt, this.xPosition, this.yPosition);
         }
-    }
-    writeTextToBox() {
-        this.game.writeTextToCanvas(this.currentPrompt, 26, this.textXPos, this.textYPos, 'center', 'black');
     }
     setCurrentPrompt(currentPrompt) {
         this.currentPrompt = currentPrompt;

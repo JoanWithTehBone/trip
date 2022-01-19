@@ -1,8 +1,8 @@
-import DislplayItem from './DislplayItem.js';
+import DisplayItem from './DisplayItem.js';
 import Game from './Game.js';
 
-export default class DialogueBox extends DislplayItem {
-  private dialogueList: string[];
+export default class DialogueBox extends DisplayItem {
+  private dialogueList: HTMLImageElement[];
 
   /**
    * Constructing the dialogue box
@@ -12,11 +12,11 @@ export default class DialogueBox extends DislplayItem {
    * @param yPos the y position
    */
   constructor(game: Game, xPos: number, yPos: number) {
-    super('./assets/img/dialogue.png', game, xPos, yPos);
+    super('', game, xPos, yPos);
     this.xPosition = xPos;
     this.yPosition = yPos;
-    this.textXPos = xPos + 200;
-    this.textYPos = yPos + 45;
+    // this.textXPos = xPos + 200;
+    // this.textYPos = yPos + 45;
   }
 
   /**
@@ -35,19 +35,9 @@ export default class DialogueBox extends DislplayItem {
       ctx.clearRect(this.xPosition, this.yPosition, 1200, 200);
       // Drawing a white rectangle on the canvas background
       // ctx.fillRect(this.xPosition, this.yPosition, 1200, 200);
-      ctx.drawImage(this.img, this.xPosition, this.yPosition);
+      ctx.drawImage(this.dialogueList[this.currentDialogue], this.xPosition, this.yPosition);
       // console.log(this.npc.getProgression());
-      this.writeTextToBox(this.currentDialogue);
     }
-  }
-
-  /**
-   * Method to write the text in the box to the screen
-   *
-   * @param currentDialogue the current integer of dialogue -> currentindex
-   */
-  public writeTextToBox(currentDialogue: number): void {
-    this.game.writeTextToCanvas(this.dialogueList[currentDialogue], 26, this.textXPos, this.textYPos, 'center', 'black');
   }
 
   /**
@@ -64,7 +54,7 @@ export default class DialogueBox extends DislplayItem {
    *
    * @param list the current list of dialogue
    */
-  public setDialogueList(list: string[]): void {
+  public setDialogueList(list: HTMLImageElement[]): void {
     this.dialogueList = list;
   }
 }
