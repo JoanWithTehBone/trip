@@ -1,6 +1,4 @@
 export default class UserData {
-  private score: number;
-
   private level: number;
 
   // Variables for the player stats:
@@ -24,31 +22,11 @@ export default class UserData {
      * stats in Monster.ts file
      */
     this.level = 1;
-    // TODO Might change to instead count the number of completed quests
-    this.score = 0;
 
     // Initializing the variables
     this.hp = health;
     this.atk = attack;
     this.def = defense;
-  }
-
-  /**
-   * getScore
-   *
-   * @returns the score
-   */
-  public getScore(): number {
-    return this.score;
-  }
-
-  /**
-   * addScore
-   *
-   * @param points the amount of points to add to the score
-   */
-  public addScore(points: number): void {
-    this.score += points;
   }
 
   /**

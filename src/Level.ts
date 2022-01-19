@@ -24,7 +24,9 @@ export default class Level extends Scene {
 
   private yesorNoQuestPrompt: YesorNoQuestPrompt;
 
+
   private controls: Controls;
+
 
   // NPCS
   private baker: Baker;
@@ -42,6 +44,10 @@ export default class Level extends Scene {
   // Keyboard
   private keyboard: KeyListener;
 
+  private keyArray: boolean[];
+
+  private answerArray: string[];
+
   /**
    * Creates a new instance of this class
    *
@@ -50,15 +56,14 @@ export default class Level extends Scene {
   public constructor(game: Game) {
     super(game);
     // Create Characters
-    this.baker = new Baker();
-    this.blacksmith = new BlackSmith();
-    this.hunter = new Hunter();
+    this.baker = new Baker(game.canvas);
+    this.blacksmith = new BlackSmith(game.canvas);
+    this.hunter = new Hunter(game.canvas);
     this.flyingDragonBaby = new FlyingDragonBaby(game.canvas);
 
     // Create DialogueBox
     this.dialogueBox = new DialogueBox(
       this.game,
-      this.baker,
       this.game.canvas.width / 2 - 600, // xPosition
       (this.game.canvas.height / 5) * 3.7, // yPosition
     );
@@ -66,7 +71,6 @@ export default class Level extends Scene {
     // Create the QuestBox
     this.questBox = new QuestBox(
       this.game,
-      this.baker,
       this.game.canvas.width / 2 - 500, // xPosition
       (this.game.canvas.height / 8) * 0.5, // yPostition
     );
@@ -74,7 +78,6 @@ export default class Level extends Scene {
     // Create the Yes or no prompt box
     this.yesorNoQuestPrompt = new YesorNoQuestPrompt(
       this.game,
-      this.baker,
       this.game.canvas.width / 2 - 300, // xPosition
       (this.game.canvas.height / 8) * 3, // yPostition
     );
@@ -100,6 +103,9 @@ export default class Level extends Scene {
       this.controls,
     );
     this.keyboard = this.player.getKeys();
+
+    this.answerArray = ['A', 'B', 'C', 'D'];
+    this.keyArray = [false, false, false, false];
   }
 
   /**
@@ -132,16 +138,23 @@ export default class Level extends Scene {
     // checks if the dragon baby is out of the canvas
     this.flyingDragonBaby.outOfCanvas(this.game.canvas);
 
+    // Checks if the player is presing the interact button and gets rid of the questBox
+    // Then it starts the Dialogue Lines
     if (this.player.isPressing()) {
-      this.questBox.setDisplay(false);
       this.player.interactWith(this.npcs);
+      this.player.afterQuest(this.npcs, this.game);
     }
 
+    // Checks if the player continues the conversation and gets rid of the dialogue box
     if (this.player.isContinuing()) {
       this.dialogueBox.setDisplay(false);
     }
 
+    // Dev button to go to the monster fight: "F"
     if (this.player.isFighting()) {
+
+      return new MonsterFight(this.game, this.player, this.npcs);
+
       return new MonsterFight(this.game, this.player);
     }
     // when the player is in collision with the baker and answers yes upon the yesnoprompt when
@@ -153,27 +166,33 @@ export default class Level extends Scene {
       // this.player.questWith(this.npcs);
       this.questBox.setDisplay(true);
       // PROBLEM the text pops up but also the dialogue box underneath?
+
     }
 
-    // when the player is in collision with the baker and answers no upon the yesnoprompt
-    if (this.player.refuseQuestNo() && this.player.collidesWith(this.baker)) {
-      // the yes no prompt gets removed and the progression (of dialogue) get set to 0
-      // so the dialogue start over upon interacting with npc again.
-      this.yesorNoQuestPrompt.setDisplay(false);
-      this.baker.setProgression(0);
-    } // PROBLEM remove the dialogue box except if added in here then dialogue box will also
-    // remove even when not on the yesnoprompt upon clicking Key_N
+    this.player.questWith(this.npcs);
 
-    // if The questbox is displayed and C is clicked the dialoguebox
-    // and the completed text will pop up
-    // PROBLEM there is no reaction to the button
-    if (this.questBox.getDisplay() && this.player.answerQuestC()) {
-      this.dialogueBox.setDialogueList(this.baker.getquestResponseTextBaker());
-      this.dialogueBox.setCurrentDialogue(1);
-      this.questBox.setDisplay(false);
-      this.dialogueBox.setDisplay(true);
+
+    if (this.questBox.getDisplay()) {
+      this.player.questAnswer(this.npcs);
     }
 
+    // Create an answer for the quest CHECK
+    // Create a function that returns the correct answer
+    // if (this.isRightAnswer()) {
+    //   this.dialogueBox.setDialogueList(this.baker.getQuestResponseText());
+    //   this.dialogueBox.setCurrentDialogue(1);
+    //   this.questBox.setDisplay(false);
+    //   this.dialogueBox.setDisplay(true);
+    // } else {
+    //   this.dialogueBox.setDialogueList(this.baker.getQuestResponseText());
+    //   this.dialogueBox.setCurrentDialogue(0);
+    //   this.questBox.setDisplay(false);
+    //   this.dialogueBox.setDisplay(true);
+    // }
+    // Then loop through all the answers and check if it was pressed.
+    // If answer is correct, continue
+    // If answer is wrong, redo the quest
+=======
     // if the quest box is displayed and A or B or D is clicked the dialogeubox
     // and the fail text will pop up
     // PROBLEM there is no reaction to the button
@@ -196,6 +215,7 @@ export default class Level extends Scene {
     //   this.controls.setDisplay(false);
     // }
 
+
     return null;
   }
 
@@ -206,16 +226,19 @@ export default class Level extends Scene {
     // Clear the screen
     this.game.ctx.clearRect(0, 0, this.game.canvas.width, this.game.canvas.height);
 
+    // Draws the invisible icons of the houses to the screen
     this.baker.draw(this.game.ctx);
     this.blacksmith.draw(this.game.ctx);
     this.hunter.draw(this.game.ctx);
-    // this.player.draw(this.game.ctx);
+
     this.player.getSprite().drawSprite(this.game.ctx, this.player);
     this.flyingDragonBaby.draw(this.game.ctx);
 
     this.questBox.drawBox(this.game.ctx);
     this.dialogueBox.drawBox(this.game.ctx);
     this.yesorNoQuestPrompt.drawBox(this.game.ctx);
+
+
     this.controls.drawBox(this.game.ctx);
     this.interact();
   }
@@ -227,5 +250,6 @@ export default class Level extends Scene {
     // Show HP
     const hp = `HP: ${this.game.getPlayerStats().getHP()}`;
     this.game.writeTextToCanvas(hp, 36, 120, 100);
+
   }
 }

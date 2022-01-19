@@ -1,43 +1,21 @@
-import GameItem from './GameItem.js';
-export default class YesorNoQuestPrompt extends GameItem {
-    display;
-    xPosition;
-    yPosition;
-    textXPos;
-    textYPos;
-    game;
-    baker;
-    constructor(game, baker, xPos, yPos) {
-        super('./assets/img/yesornobox.png', xPos, yPos);
-        this.display = false;
+import DisplayItem from './DisplayItem.js';
+export default class YesorNoQuestPrompt extends DisplayItem {
+    currentPrompt;
+    constructor(game, xPos, yPos) {
+        super('./assets/img/yesornobox.png', game, xPos, yPos);
         this.xPosition = xPos;
         this.yPosition = yPos;
         this.textXPos = xPos + 20;
         this.textYPos = yPos + 35;
-        this.game = game;
-        this.baker = baker;
     }
     drawBox(ctx) {
         if (this.display) {
             ctx.clearRect(this.xPosition, this.yPosition, 600, 250);
-            ctx.drawImage(this.img, this.xPosition, this.yPosition);
-            this.writeTextToBox();
+            ctx.drawImage(this.currentPrompt, this.xPosition, this.yPosition);
         }
     }
-    writeTextToBox() {
-        this.game.writeTextToCanvas(this.baker.getYesorNoTextBaker(), 26, this.textXPos, this.textYPos, 'center', 'black');
-    }
-    setDisplay(active) {
-        this.display = active;
-    }
-    getDisplay() {
-        return this.display;
-    }
-    getTextXPos() {
-        return this.textXPos;
-    }
-    getTextYPos() {
-        return this.textYPos;
+    setCurrentPrompt(currentPrompt) {
+        this.currentPrompt = currentPrompt;
     }
 }
 //# sourceMappingURL=YesorNoQuestPrompt.js.map

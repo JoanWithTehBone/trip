@@ -4,7 +4,11 @@ import NPC from './NPC.js';
 import DialogueBox from './DialogueBox.js';
 import QuestBox from './QuestBox.js';
 import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
+
+import Game from './Game.js';
+
 import Controls from './Controls.js';
+
 
 export default class Player extends GameItem {
   private xVel: number;
@@ -15,7 +19,7 @@ export default class Player extends GameItem {
 
   private questBox: QuestBox;
 
-  private yesornoquestprompt : YesorNoQuestPrompt;
+  private yesOrNoQuestPrompt: YesorNoQuestPrompt;
 
   private controls: Controls;
 
@@ -29,26 +33,32 @@ export default class Player extends GameItem {
    * @param yPos yPostition of the player
    * @param dialogueBox BOX
    * @param questBox quest box
-   * @param yesornoquestprompt prompt for quest
+
+   * @param yesOrNoQuestPrompt prompt for quest
    * @param controls the controls
+
    */
   public constructor(
     xPos: number,
     yPos: number,
     dialogueBox: DialogueBox,
     questBox: QuestBox,
-    yesornoquestprompt : YesorNoQuestPrompt,
+
+    yesOrNoQuestPrompt: YesorNoQuestPrompt,
+
     controls: Controls,
+
   ) {
     super('./assets/img/testplayer.png', xPos, yPos);
 
-    this.xVel = 3;
-    this.yVel = 3;
+    this.xVel = 2;
+    this.yVel = 2;
+    this.currentAnimation = 'idle-down';
     this.keyboard = new KeyListener();
 
     this.dialogueBox = dialogueBox;
     this.questBox = questBox;
-    this.yesornoquestprompt = yesornoquestprompt;
+    this.yesOrNoQuestPrompt = yesOrNoQuestPrompt;
   }
 
   /**
@@ -67,35 +77,51 @@ export default class Player extends GameItem {
     // Moving right
     if (this.keyboard.isKeyDown(KeyListener.KEY_RIGHT) && this.xPos < maxX) {
       this.xPos += this.xVel;
+      this.getSprite().setAnimation('walk-right');
       // Limit to the max value
       if (this.xPos > maxX) {
         this.xPos = maxX;
       }
+    } else if (this.keyboard.isKeyTyped(KeyListener.KEY_RIGHT)
+    && !this.keyboard.isKeyDown(KeyListener.KEY_RIGHT)) {
+      this.getSprite().setAnimation('idle-right');
     }
 
     // Moving left
     if (this.keyboard.isKeyDown(KeyListener.KEY_LEFT) && this.xPos > minX) {
       this.xPos -= this.xVel;
+      this.getSprite().setAnimation('walk-left');
       // Limit to the max value
       if (this.xPos < minX) {
         this.xPos = minX;
       }
+    } else if (this.keyboard.isKeyTyped(KeyListener.KEY_LEFT)
+    && !this.keyboard.isKeyDown(KeyListener.KEY_LEFT)) {
+      this.getSprite().setAnimation('idle-left');
     }
 
     // Moving up
     if (this.keyboard.isKeyDown(KeyListener.KEY_UP) && this.yPos > minY) {
       this.yPos -= this.yVel;
+      this.getSprite().setAnimation('walk-up');
       if (this.yPos < minY) {
         this.yPos = minY;
       }
+    } else if (this.keyboard.isKeyTyped(KeyListener.KEY_UP)
+    && !this.keyboard.isKeyDown(KeyListener.KEY_UP)) {
+      this.getSprite().setAnimation('idle-up');
     }
 
     // Moving down
     if (this.keyboard.isKeyDown(KeyListener.KEY_DOWN) && this.yPos < maxY) {
       this.yPos += this.yVel;
+      this.getSprite().setAnimation('walk-down');
       if (this.yPos > maxY) {
         this.yPos = maxY;
       }
+    } else if (this.keyboard.isKeyTyped(KeyListener.KEY_DOWN)
+    && !this.keyboard.isKeyDown(KeyListener.KEY_DOWN)) {
+      this.getSprite().setAnimation('idle-down');
     }
   }
 
@@ -132,15 +158,7 @@ export default class Player extends GameItem {
    *
    * @returns true if the player is continuing up
    */
-  public startQuestYes(): boolean {
-    return this.keyboard.isKeyTyped(KeyListener.KEY_Y);
-  }
-
-  /**
-   *
-   * @returns true if the player is continuing up
-   */
-  public refuseQuestNo(): boolean {
+  public isIgnoring(): boolean {
     return this.keyboard.isKeyTyped(KeyListener.KEY_N);
   }
 
@@ -166,6 +184,13 @@ export default class Player extends GameItem {
    */
   public answerQuestC(): boolean {
     return this.keyboard.isKeyTyped(KeyListener.KEY_C);
+  }
+
+  /**
+   * @returns true if the player is continuing up
+   */
+  public answerQuestD(): boolean {
+    return this.keyboard.isKeyTyped(KeyListener.KEY_D);
   }
 
   /**
@@ -219,36 +244,34 @@ export default class Player extends GameItem {
    * @returns if the character is interacting with an NPC
    */
   public interactWith(npcs: NPC[]): boolean {
+    // Create an collides statement to return to the level
     let collides: boolean = true;
+    let questDone: boolean = false;
     npcs.forEach((element) => {
-      if (this.collidesWith(element)) {
+      // For every NPC, whenever it collides with the player, show the dialogue box
+      if (!(questDone) && this.collidesWith(element)) {
         this.dialogueBox.setDisplay(true);
         console.log('INTERACTION WITH THE npc:)');
-        if (element.questCompleted() && element.getProgression() === 4) {
+        // When the quest is completed and the 4th line of dialogue has been set,
+        // show the yes or no prompt.
+        if (element.getProgression() === (element.getDialogue().length - 2)) {
+          // Dialogue Box should become invisible, and the YesOrNo prompt pops up.
+          // Also sets the current prompt and quest respectively
           this.dialogueBox.setDisplay(false);
-          this.yesornoquestprompt.setDisplay(true);
-          element.setProgression(element.getProgression() + 1);
-          console.log(element.getProgression());
-          // if (this.startQuestYes()) {
-          //   this.questBox.setDisplay(true);
-          //   console.log('closed');
-          // }
-        } else if (element.questCompleted() && element.getProgression() === 3) {
-          element.talkToPlayer(3, this.dialogueBox);
-          element.setProgression(element.getProgression() + 1);
-          console.log(element.getProgression());
-        } else if (element.questCompleted() && element.getProgression() === 2) {
-          element.talkToPlayer(2, this.dialogueBox);
-          element.setProgression(element.getProgression() + 1);
-          console.log(element.getProgression());
-        } else if (element.questCompleted() && element.getProgression() === 1) {
-          element.talkToPlayer(1, this.dialogueBox);
-          element.setProgression(element.getProgression() + 1);
-          console.log(element.getProgression());
-        } else if (element.getProgression() < 1) {
-          element.talkToPlayer(element.getProgression(), this.dialogueBox);
-          element.setProgression(element.getProgression() + 1);
-          console.log(element.getProgression());
+          this.yesOrNoQuestPrompt.setCurrentPrompt(element.getYesorNoText());
+          this.yesOrNoQuestPrompt.setDisplay(true);
+
+          questDone = true;
+          element.progressFurther();
+        } else {
+          // For each dialogue in the NPC, checks if the quest is completed.
+          // After calls the respective talk function and progresses further
+          for (let i = 0; i < element.getDialogue().length; i += 1) {
+            if (i === element.getProgression()) {
+              element.talkToPlayer(i, this.dialogueBox);
+            }
+          }
+          element.progressFurther();
         }
         collides = false;
       }
@@ -263,28 +286,159 @@ export default class Player extends GameItem {
    * @returns boolean
    */
   public questWith(npcs: NPC[]): boolean {
+    // Create an collides statement to return to the level
     let collides: boolean = true;
-    if (this.startQuestYes) {
-      npcs.forEach((element) => {
-        if (this.collidesWith(element)) {
+    // For each npc, we check if it collides with the player. If so, run the functions.
+    npcs.forEach((element) => {
+      if (this.collidesWith(element)) {
+        this.questBox.setQuestList(element.getQuestDialogue());
+        console.log('quest WITH THE npc:)');
+        // When the player answers yes on the yes-or-no prompt, run this function
+        if (this.isResponding() && element.getProgression() === element.getDialogue().length - 1) {
+          // Remove the yes-or-no prompt from the screen and show the questbox
+          this.yesOrNoQuestPrompt.setDisplay(false);
           this.questBox.setDisplay(true);
-          this.dialogueBox.setDisplay(false);
-          console.log('quest WITH THE npc:)');
-          // if (element.getProgression() + 1 >= element.getQuest().length) {
-          // element.questingToPlayer(0, this.questBox);
-          // } else if (element.questCompleted()) {
-          //   element.questingToPlayer(2, this.questBox);
-          //   element.setProgression(element.getProgression() + 1);
-          // } else if (element.getProgression() < 2) {
-          //   element.questingToPlayer(element.getProgression(), this.questBox);
-          //   element.setProgression(element.getProgression() + 1);
-          // }
-          collides = false;
         }
-      });
+
+        // When the player answers no on the yes-or-no prompt, run this function
+        if (this.isIgnoring() && element.getProgression() === element.getDialogue().length - 1) {
+          // Remove the yes-or-no prompt from the screen and reset the dialogue.
+          this.yesOrNoQuestPrompt.setDisplay(false);
+          element.setProgression(0);
+        }
+        collides = false;
+      }
       return collides;
-    }
+    });
     return false;
+  }
+
+  /**
+   * Function that handles the answering of the quest
+   *
+   * @param npcs the array of NPC passed into the function
+   */
+  public questAnswer(npcs: NPC[]): void {
+    npcs.forEach((npc): void => {
+      if (this.collidesWith(npc)) {
+        let rightGuess = false;
+        let continueQuest = false;
+        if (this.answerQuestA()) {
+          console.log('This is skipped');
+          if (this.checkForRightAnswer(npc, 'A') === false) {
+            continueQuest = true;
+          } else {
+            rightGuess = true;
+            continueQuest = true;
+          }
+        } else if (this.answerQuestB()) {
+          if (this.checkForRightAnswer(npc, 'B') === false) {
+            continueQuest = true;
+          } else {
+            rightGuess = true;
+            continueQuest = true;
+          }
+        } else if (this.answerQuestC()) {
+          if (this.checkForRightAnswer(npc, 'C') === false) {
+            continueQuest = true;
+          } else {
+            rightGuess = true;
+            continueQuest = true;
+          }
+        } else if (this.answerQuestD()) {
+          if (this.checkForRightAnswer(npc, 'D') === false) {
+            continueQuest = true;
+          } else {
+            rightGuess = true;
+            continueQuest = true;
+          }
+        }
+
+        if (continueQuest) {
+          if (rightGuess) {
+            this.dialogueBox.setDialogueList(npc.getQuestResponseImage());
+            this.dialogueBox.setCurrentDialogue(1);
+            this.dialogueBox.setDisplay(true);
+            console.log('This is fudd');
+            this.questBox.setDisplay(false);
+            npc.setCompletion(true);
+            console.log(npc.questCompleted());
+          } else {
+            this.dialogueBox.setDialogueList(npc.getQuestResponseImage());
+            this.dialogueBox.setCurrentDialogue(0);
+            this.dialogueBox.setDisplay(true);
+            console.log('This is starting');
+          }
+        }
+      }
+    });
+  }
+
+  /**
+   * Method that arranges the convo's after the quest has been completed
+   *
+   * @param npcs The list of NPCS that can be collided with
+   * @param game The game that needs to be used for the rewards
+   */
+  public afterQuest(npcs: NPC[], game: Game): void {
+    npcs.forEach((npc): void => {
+      if (this.collidesWith(npc)) {
+        if (npc.questCompleted()) {
+          if (npc.getProgression() === 6) {
+            npc.talkToPlayer(npc.getDialogue().length - 2, this.dialogueBox);
+          } else if (npc.getProgression() > 6) {
+            npc.talkToPlayer(npc.getDialogue().length - 1, this.dialogueBox);
+          }
+          console.log(npc.getProgression());
+
+          npc.giveReward(game);
+        }
+      }
+    });
+  }
+
+  /**
+   * Function that checks if the answer is either right or wrong
+   *
+   * @param npc The specific NPC whose answer needs to be checked
+   * @param input The answer that needs to be checked for
+   * @returns if the answer is right or wrong.
+   */
+  // eslint-disable-next-line class-methods-use-this
+  public checkForRightAnswer(npc: NPC, input: string): boolean {
+    let rightOrWrong = false;
+
+    if (npc.getRightAnswer() === input) {
+      // console.log('this is the right answer');
+      rightOrWrong = true;
+    }
+    console.log(rightOrWrong);
+    return rightOrWrong;
+  }
+
+  /**
+   * A method that lets you have a conversation with the monster
+   *
+   * @param monster the monster that needs to be talked with
+   * @param talk checks if the monster is able to talk or not
+   */
+  public monsterConversation(monster: NPC, talk: boolean): void {
+    if (this.collidesWith(monster)) {
+      console.log('Touching the monster');
+      this.dialogueBox.setDisplay(true);
+      if (talk) {
+        // For each dialogue in the NPC, checks if the quest is completed.
+        // After calls the respective talk function and progresses further
+        for (let i = 0; i < monster.getDialogue().length; i += 1) {
+          if (i === monster.getProgression()) {
+            monster.talkToPlayer(i, this.dialogueBox);
+          }
+        }
+        monster.progressFurther();
+      } else {
+        monster.talkToPlayer(Game.randomNumber(0, 2), this.dialogueBox);
+      }
+    }
   }
 
   /**
