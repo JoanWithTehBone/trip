@@ -4,6 +4,7 @@ import NPC from './NPC.js';
 import DialogueBox from './DialogueBox.js';
 import QuestBox from './QuestBox.js';
 import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
+import Game from './Game.js';
 
 export default class Player extends GameItem {
   private xVel: number;
@@ -35,7 +36,7 @@ export default class Player extends GameItem {
     questBox: QuestBox,
     yesOrNoQuestPrompt: YesorNoQuestPrompt,
   ) {
-    super('./assets/img/player.png', xPos, yPos);
+    super('./assets/img/testplayer.png', xPos, yPos);
 
     this.xVel = 3;
     this.yVel = 3;
@@ -184,9 +185,9 @@ export default class Player extends GameItem {
    * @returns true if this object collides with the specified other object
    */
   public collidesWith(other: NPC): boolean {
-    return this.xPos < other.getXPos() + other.getImageWidth()
+    return this.xPos < other.getXPos() + other.getImage().width
       && this.xPos + this.img.width > other.getXPos()
-      && this.yPos < other.getYPos() + other.getImageHeight()
+      && this.yPos < other.getYPos() + other.getImage().height
       && this.yPos + this.img.height > other.getYPos();
   }
 
@@ -208,7 +209,7 @@ export default class Player extends GameItem {
         console.log('INTERACTION WITH THE npc:)');
         // When the quest is completed and the 4th line of dialogue has been set,
         // show the yes or no prompt.
-        if (element.questCompleted() && element.getProgression() === 4) {
+        if (element.getProgression() === (element.getDialogue().length - 1)) {
           // Dialogue Box should become invisible, and the YesOrNo prompt pops up.
           // Also sets the current prompt and quest respectively
           this.dialogueBox.setDisplay(false);
@@ -247,14 +248,14 @@ export default class Player extends GameItem {
         this.questBox.setQuestList(element.getQuestDialogue());
         console.log('quest WITH THE npc:)');
         // When the player answers yes on the yes-or-no prompt, run this function
-        if (this.isResponding() && element.getProgression() > 4) {
+        if (this.isResponding() && element.getProgression() === element.getDialogue().length) {
           // Remove the yes-or-no prompt from the screen and show the questbox
           this.yesOrNoQuestPrompt.setDisplay(false);
           this.questBox.setDisplay(true);
         }
 
         // When the player answers no on the yes-or-no prompt, run this function
-        if (this.isIgnoring() && element.getProgression() > 4) {
+        if (this.isIgnoring() && element.getProgression() === element.getDialogue().length) {
           // Remove the yes-or-no prompt from the screen and reset the dialogue.
           this.yesOrNoQuestPrompt.setDisplay(false);
           element.setProgression(0);
@@ -314,13 +315,32 @@ export default class Player extends GameItem {
             this.dialogueBox.setDisplay(true);
             console.log('This is fudd');
             this.questBox.setDisplay(false);
-            npc.questCompleted();
+            npc.setCompletion(true);
+            console.log(npc.questCompleted());
           } else {
             this.dialogueBox.setDialogueList(npc.getQuestResponseText());
             this.dialogueBox.setCurrentDialogue(0);
             this.dialogueBox.setDisplay(true);
             console.log('This is starting');
           }
+        }
+      }
+    });
+  }
+
+  /**
+   * Method that arranges the convo's after the quest has been completed
+   *
+   * @param npcs The list of NPCS that can be collided with
+   * @param game The game that needs to be used for the rewards
+   */
+  public afterQuest(npcs: NPC[], game: Game): void {
+    npcs.forEach((npc): void => {
+      if (this.collidesWith(npc)) {
+        if (npc.questCompleted()) {
+          npc.talkToPlayer(npc.getDialogue().length - 1, this.dialogueBox);
+          console.log(npc.getProgression());
+          npc.giveReward(game);
         }
       }
     });
@@ -343,6 +363,31 @@ export default class Player extends GameItem {
     }
     console.log(rightOrWrong);
     return rightOrWrong;
+  }
+
+  /**
+   * A method that lets you have a conversation with the monster
+   *
+   * @param monster the monster that needs to be talked with
+   * @param talk checks if the monster is able to talk or not
+   */
+  public monsterConversation(monster: NPC, talk: boolean): void {
+    if (this.collidesWith(monster)) {
+      console.log('TOuching the monster');
+      this.dialogueBox.setDisplay(true);
+      if (talk) {
+        // For each dialogue in the NPC, checks if the quest is completed.
+        // After calls the respective talk function and progresses further
+        for (let i = 0; i < monster.getDialogue().length; i += 1) {
+          if (i === monster.getProgression()) {
+            monster.talkToPlayer(i, this.dialogueBox);
+          }
+        }
+        monster.progressFurther();
+      } else {
+        monster.talkToPlayer(0, this.dialogueBox);
+      }
+    }
   }
 
   /**

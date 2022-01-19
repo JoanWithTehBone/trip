@@ -8,7 +8,7 @@ export default class Player extends GameItem {
     yesOrNoQuestPrompt;
     keyboard;
     constructor(xPos, yPos, dialogueBox, questBox, yesOrNoQuestPrompt) {
-        super('./assets/img/player.png', xPos, yPos);
+        super('./assets/img/testplayer.png', xPos, yPos);
         this.xVel = 3;
         this.yVel = 3;
         this.keyboard = new KeyListener();
@@ -77,9 +77,9 @@ export default class Player extends GameItem {
         return this.keyboard.isKeyTyped(KeyListener.KEY_Y);
     }
     collidesWith(other) {
-        return this.xPos < other.getXPos() + other.getImageWidth()
+        return this.xPos < other.getXPos() + other.getImage().width
             && this.xPos + this.img.width > other.getXPos()
-            && this.yPos < other.getYPos() + other.getImageHeight()
+            && this.yPos < other.getYPos() + other.getImage().height
             && this.yPos + this.img.height > other.getYPos();
     }
     interactWith(npcs) {
@@ -88,7 +88,7 @@ export default class Player extends GameItem {
             if (this.collidesWith(element)) {
                 this.dialogueBox.setDisplay(true);
                 console.log('INTERACTION WITH THE npc:)');
-                if (element.questCompleted() && element.getProgression() === 4) {
+                if (element.getProgression() === (element.getDialogue().length - 1)) {
                     this.dialogueBox.setDisplay(false);
                     this.yesOrNoQuestPrompt.setCurrentPrompt(element.getYesorNoText());
                     this.yesOrNoQuestPrompt.setDisplay(true);
@@ -113,11 +113,11 @@ export default class Player extends GameItem {
             if (this.collidesWith(element)) {
                 this.questBox.setQuestList(element.getQuestDialogue());
                 console.log('quest WITH THE npc:)');
-                if (this.isResponding() && element.getProgression() > 4) {
+                if (this.isResponding() && element.getProgression() === element.getDialogue().length) {
                     this.yesOrNoQuestPrompt.setDisplay(false);
                     this.questBox.setDisplay(true);
                 }
-                if (this.isIgnoring() && element.getProgression() > 4) {
+                if (this.isIgnoring() && element.getProgression() === element.getDialogue().length) {
                     this.yesOrNoQuestPrompt.setDisplay(false);
                     element.setProgression(0);
                 }
@@ -176,7 +176,8 @@ export default class Player extends GameItem {
                         this.dialogueBox.setDisplay(true);
                         console.log('This is fudd');
                         this.questBox.setDisplay(false);
-                        npc.questCompleted();
+                        npc.setCompletion(true);
+                        console.log(npc.questCompleted());
                     }
                     else {
                         this.dialogueBox.setDialogueList(npc.getQuestResponseText());
@@ -188,6 +189,17 @@ export default class Player extends GameItem {
             }
         });
     }
+    afterQuest(npcs, game) {
+        npcs.forEach((npc) => {
+            if (this.collidesWith(npc)) {
+                if (npc.questCompleted()) {
+                    npc.talkToPlayer(npc.getDialogue().length - 1, this.dialogueBox);
+                    console.log(npc.getProgression());
+                    npc.giveReward(game);
+                }
+            }
+        });
+    }
     checkForRightAnswer(npc, input) {
         let rightOrWrong = false;
         if (npc.getRightAnswer() === input) {
@@ -195,6 +207,23 @@ export default class Player extends GameItem {
         }
         console.log(rightOrWrong);
         return rightOrWrong;
+    }
+    monsterConversation(monster, talk) {
+        if (this.collidesWith(monster)) {
+            console.log('TOuching the monster');
+            this.dialogueBox.setDisplay(true);
+            if (talk) {
+                for (let i = 0; i < monster.getDialogue().length; i += 1) {
+                    if (i === monster.getProgression()) {
+                        monster.talkToPlayer(i, this.dialogueBox);
+                    }
+                }
+                monster.progressFurther();
+            }
+            else {
+                monster.talkToPlayer(0, this.dialogueBox);
+            }
+        }
     }
     increaseSpeed(size) {
         this.xVel += size;

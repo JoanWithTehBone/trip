@@ -7,9 +7,11 @@ import BlackSmith from './BlackSmith.js';
 import Hunter from './Hunter.js';
 import KeyListener from './KeyListener.js';
 import NPC from './NPC.js';
+import GameItem from './GameItem.js';
 import MonsterFight from './MonsterFight.js';
 import QuestBox from './QuestBox.js';
 import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
+import FlyingDragonBaby from './FlyingDragonBaby.js';
 
 export default class Level extends Scene {
   // Player
@@ -30,6 +32,10 @@ export default class Level extends Scene {
 
   private npcs: NPC[];
 
+  private gameitem: GameItem;
+
+  private flyingDragonBaby: FlyingDragonBaby;
+
   // Keyboard
   private keyboard: KeyListener;
 
@@ -48,6 +54,7 @@ export default class Level extends Scene {
     this.baker = new Baker(game.canvas);
     this.blacksmith = new BlackSmith(game.canvas);
     this.hunter = new Hunter(game.canvas);
+    this.flyingDragonBaby = new FlyingDragonBaby(game.canvas);
 
     // Create DialogueBox
     this.dialogueBox = new DialogueBox(
@@ -113,11 +120,16 @@ export default class Level extends Scene {
   public update(): Scene {
     // this.player.onFrameStartListener();
     this.keyboard.onFrameStart();
+    // moves the dragonbaby across the screen
+    this.flyingDragonBaby.move();
+    // checks if the dragon baby is out of the canvas
+    this.flyingDragonBaby.outOfCanvas(this.game.canvas);
 
     // Checks if the player is presing the interact button and gets rid of the questBox
     // Then it starts the Dialogue Lines
     if (this.player.isPressing()) {
       this.player.interactWith(this.npcs);
+      this.player.afterQuest(this.npcs, this.game);
     }
 
     // Checks if the player continues the conversation and gets rid of the dialogue box
@@ -127,7 +139,7 @@ export default class Level extends Scene {
 
     // Dev button to go to the monster fight: "F"
     if (this.player.isFighting()) {
-      return new MonsterFight(this.game, this.player);
+      return new MonsterFight(this.game, this.player, this.npcs);
     }
 
     this.player.questWith(this.npcs);
@@ -135,6 +147,7 @@ export default class Level extends Scene {
     if (this.questBox.getDisplay()) {
       this.player.questAnswer(this.npcs);
     }
+
     // Create an answer for the quest CHECK
     // Create a function that returns the correct answer
     // if (this.isRightAnswer()) {
@@ -167,8 +180,8 @@ export default class Level extends Scene {
     this.blacksmith.draw(this.game.ctx);
     this.hunter.draw(this.game.ctx);
 
-    // Draws the player to the screen
-    this.player.draw(this.game.ctx);
+    this.player.getSprite().drawSprite(this.game.ctx, this.player);
+    this.flyingDragonBaby.draw(this.game.ctx);
 
     this.questBox.drawBox(this.game.ctx);
     this.dialogueBox.drawBox(this.game.ctx);

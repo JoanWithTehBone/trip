@@ -1,3 +1,4 @@
+import Game from './Game.js';
 import NPC from './NPC.js';
 
 export default class Hunter extends NPC {
@@ -13,13 +14,13 @@ export default class Hunter extends NPC {
     // Progression of the dialogue
     this.progression = 0;
     this.name = 'Hunter';
-    this.completed = true;
+    this.completed = false;
     this.dialogue = [];
     this.dialogueFactory();
 
     this.questDialogue = [];
     this.yesOrNoOption = 'Do you want to start the hunter quest? Yes No';
-    this.questResponse = ['Mhhh let me check, I don`t think they did it.', 'Mhhh let me check, Ah you found the thief'];
+    this.questResponse = ['These tracks seem normal to me.', 'Yes, these are definetly fake!'];
     this.rightAnswer = 'D';
   }
 
@@ -27,11 +28,28 @@ export default class Hunter extends NPC {
    * Factory for creating the dialogue of the hunter
    */
   public dialogueFactory(): void {
-    this.dialogue.push('Hey there, I am mister hunter.', 'Do you know that hunters hunt?', 'I bet you didnt.', 'A hunter must hunt, now go.');
+    this.dialogue.push(
+      'Hello, I am the town hunter',
+      'I was sent some strange looking animal tracks.',
+      'The nearby town says that they could belong to a monster.',
+      'Do you want to help me solve this problem?',
+      'Thanks for helping me out, take this sword as a reward and have a nice day!',
+    );
     console.log(this.dialogue);
   }
 
-  public giveReward(): void {
-    console.log('You did it!');
+  /**
+   * Method that gives the reward to the player if it wasn't already given.
+   *
+   * @param game to get when we want to edit stats
+   */
+  public giveReward(game: Game): void {
+    if (!(this.rewardGiven)) {
+      console.log('You did it!');
+      const stats = game.getPlayerStats();
+
+      stats.setATK(stats.getATK() + 2);
+      this.rewardGiven = true;
+    }
   }
 }

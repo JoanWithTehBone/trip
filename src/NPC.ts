@@ -1,11 +1,15 @@
 import DialogueBox from './DialogueBox.js';
+import Game from './Game.js';
 import GameItem from './GameItem.js';
 import QuestBox from './QuestBox.js';
+import UserData from './UserData.js';
 
 export default abstract class NPC extends GameItem {
   protected name: string;
 
   protected completed: boolean;
+
+  protected rewardGiven: boolean;
 
   protected progression: number;
 
@@ -17,9 +21,11 @@ export default abstract class NPC extends GameItem {
 
   protected yesOrNoOption: string;
 
-  protected questResponse: string [];
+  protected questResponse: string[];
 
   protected rightAnswer: string;
+
+  protected user: UserData;
 
   /**
    * Constructor of the NPC abstract class
@@ -31,9 +37,10 @@ export default abstract class NPC extends GameItem {
   public constructor(imageSrc: string, maxX: number, maxY: number) {
     super(imageSrc, maxX, maxY);
   }
+
   public abstract dialogueFactory(): void;
 
-  public abstract giveReward(): void;
+  public abstract giveReward(game: Game): void;
 
   /**
    * Method that displays the NPCS dialogue to the screen so the player can read it.
@@ -43,35 +50,11 @@ export default abstract class NPC extends GameItem {
    */
   public talkToPlayer(dialogueIndex: number, dialogueBox: DialogueBox): void {
     dialogueBox.setDialogueList(this.dialogue);
-    if (dialogueIndex === 0) {
-      console.log(this.dialogue[0]);
-      if (dialogueBox.getDisplay()) {
-        dialogueBox.setCurrentDialogue(0);
-      }
-    } else if (dialogueIndex === 1) {
-      console.log(this.dialogue[1]);
-      if (dialogueBox.getDisplay()) {
-        dialogueBox.setCurrentDialogue(1);
-      }
-    } else if (dialogueIndex === 2) {
-      console.log(this.dialogue[2]);
-      if (dialogueBox.getDisplay()) {
-        dialogueBox.setCurrentDialogue(2);
-      }
-    } else if (dialogueIndex === 3) {
-      console.log(this.dialogue[3]);
-      if (dialogueBox.getDisplay()) {
-        dialogueBox.setCurrentDialogue(3);
-      }
-    } else if (dialogueIndex === 4) {
-      console.log(this.dialogue[4]);
-      if (dialogueBox.getDisplay()) {
-        dialogueBox.setCurrentDialogue(4);
-      }
-    } else if (dialogueIndex === 5) {
-      console.log(this.dialogue[5]);
-      if (dialogueBox.getDisplay()) {
-        dialogueBox.setCurrentDialogue(5);
+    for (let i = 0; i < this.dialogue.length; i += 1) {
+      if (dialogueIndex === i) {
+        if (dialogueBox.getDisplay()) {
+          dialogueBox.setCurrentDialogue(i);
+        }
       }
     }
   }
@@ -83,25 +66,11 @@ export default abstract class NPC extends GameItem {
    */
   public questingToPlayer(questIndex: number, questBox: QuestBox): void {
     questBox.setQuestList(this.questDialogue);
-    if (questIndex === 0) {
-      console.log(questBox.getDisplay());
-      if (questBox.getDisplay()) {
-        questBox.setCurrentDialogue(0);
-      }
-    } else if (questIndex === 1) {
-      console.log(this.questDialogue[1]);
-      if (questBox.getDisplay()) {
-        questBox.setCurrentDialogue(1);
-      }
-    } else if (questIndex === 2) {
-      console.log(this.questDialogue[2]);
-      if (questBox.getDisplay()) {
-        questBox.setCurrentDialogue(2);
-      }
-    } else {
-      console.log(this.questDialogue[3]);
-      if (questBox.getDisplay()) {
-        questBox.setCurrentDialogue(3);
+    for (let i = 0; i < this.questDialogue.length; i += 0) {
+      if (questIndex === i) {
+        if (questBox.getDisplay()) {
+          questBox.setCurrentDialogue(i);
+        }
       }
     }
   }
@@ -112,11 +81,7 @@ export default abstract class NPC extends GameItem {
    * @returns If quest is completed
    */
   public questCompleted(): boolean {
-    if (this.completed) {
-      this.giveReward();
-      return true;
-    }
-    return false;
+    return this.completed;
   }
 
   /**
@@ -149,7 +114,7 @@ export default abstract class NPC extends GameItem {
    *
    * @returns the text of the Question that is in the constructor
    */
-  public getYesorNoText() : string {
+  public getYesorNoText(): string {
     return this.yesOrNoOption;
   }
 
@@ -158,7 +123,7 @@ export default abstract class NPC extends GameItem {
    *
    * @returns the text of the Question that is in the constructor
    */
-  public getQuestResponseText() : string[] {
+  public getQuestResponseText(): string[] {
     return this.questResponse;
   }
 
@@ -187,5 +152,14 @@ export default abstract class NPC extends GameItem {
    */
   public getRightAnswer(): string {
     return this.rightAnswer;
+  }
+
+  /**
+   * Sets the completion of the quest
+   *
+   * @param value a boolean that is either true or false
+   */
+  public setCompletion(value: boolean): void {
+    this.completed = value;
   }
 }

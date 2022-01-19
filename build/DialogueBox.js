@@ -1,22 +1,12 @@
-import GameItem from './GameItem.js';
-export default class DialogueBox extends GameItem {
-    display;
-    currentDialogue;
-    xPosition;
-    yPosition;
-    textXPos;
-    textYPos;
+import DislplayItem from './DislplayItem.js';
+export default class DialogueBox extends DislplayItem {
     dialogueList;
-    questList;
-    game;
     constructor(game, xPos, yPos) {
-        super('./assets/img/dialogue.png', xPos, yPos);
-        this.display = false;
+        super('./assets/img/dialogue.png', game, xPos, yPos);
         this.xPosition = xPos;
         this.yPosition = yPos;
         this.textXPos = xPos + 200;
         this.textYPos = yPos + 45;
-        this.game = game;
     }
     drawBox(ctx) {
         if (this.display) {
@@ -28,26 +18,11 @@ export default class DialogueBox extends GameItem {
     writeTextToBox(currentDialogue) {
         this.game.writeTextToCanvas(this.dialogueList[currentDialogue], 26, this.textXPos, this.textYPos, 'center', 'black');
     }
-    setDisplay(active) {
-        this.display = active;
-    }
-    getDisplay() {
-        return this.display;
-    }
-    getTextXPos() {
-        return this.textXPos;
-    }
-    getTextYPos() {
-        return this.textYPos;
-    }
     setCurrentDialogue(currentDialogue) {
         this.currentDialogue = currentDialogue;
     }
     setDialogueList(list) {
         this.dialogueList = list;
-    }
-    setQuestList(list) {
-        this.questList = list;
     }
 }
 //# sourceMappingURL=DialogueBox.js.map

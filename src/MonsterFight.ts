@@ -20,19 +20,26 @@ export default class MonsterFight extends Scene {
 
   private dialogueBox: DialogueBox;
 
-  private monsterFightArray: NPC[];
-
   private newXPos: number;
 
   private newYPos: number;
+
+  // Variables for the chance of the monster talking
+
+  private talkChance: number;
+
+  private offChance: number;
+
+  private doesMonsterTalk: boolean;
 
   /**
    * Constructor for the Monster Fight scene
    *
    * @param game the game class
    * @param player the player
+   * @param npcs the NPC's from the previous level
    */
-  constructor(game: Game, player: Player) {
+  constructor(game: Game, player: Player, npcs: NPC[]) {
     super(game);
 
     this.player = player;
@@ -47,9 +54,11 @@ export default class MonsterFight extends Scene {
     console.log(this.newXPos);
     console.log(this.newYPos);
 
-    // Create a new array of Monster dialogue to pass on
-    this.monsterFightArray = [];
-    this.monsterFightArray.push(this.monster);
+    // At the beginning of the fight, detemine if you can talk or not
+    this.talkChance = 10;
+    this.offChance = Game.randomNumber(1, 100);
+    this.doesMonsterTalk = this.talkWithMonster(npcs);
+    console.log(this.doesMonsterTalk);
 
     this.keyboard = this.player.getKeys();
   }
@@ -71,13 +80,13 @@ export default class MonsterFight extends Scene {
    */
   public changeMonsterPos(): void {
     this.newXPos = Game.randomNumber(
-      (1 + this.monster.getImageWidth()),
-      this.game.canvas.width - this.monster.getImageWidth(),
+      (1 + this.monster.getImage().width),
+      this.game.canvas.width - this.monster.getImage().width,
     );
 
     this.newYPos = Game.randomNumber(
-      (1 + this.monster.getImageHeight()),
-      this.game.canvas.height - this.monster.getImageHeight(),
+      (1 + this.monster.getImage().height),
+      this.game.canvas.height - this.monster.getImage().height,
     );
   }
 
@@ -127,6 +136,28 @@ export default class MonsterFight extends Scene {
   }
 
   /**
+   * Method that determines if the monster is able to talk back or not.
+   *
+   * @param npcs the NPCS from the level class
+   * @returns true if the player is able to talk with the monster.
+   */
+  public talkWithMonster(npcs: NPC[]): boolean {
+    // For each npc, check if their quest has been completed
+    npcs.forEach((npc: NPC) => {
+      if (npc.questCompleted()) {
+        this.talkChance += 25;
+        this.monster.giveReward();
+      }
+    });
+
+    // If the talkchance is bigger than the offchance, the monster should be able to talk
+    if (this.talkChance >= this.offChance) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
    * Advances the game simulation one step. It may run AI and physics (usually
    * in that order). The return value of this method determines what the `GameLoop`
    * that is animating this object will do next. If `null` is returned, the
@@ -144,7 +175,7 @@ export default class MonsterFight extends Scene {
     this.keyboard.onFrameStart();
 
     if (this.player.isPressing()) {
-      this.player.interactWith(this.monsterFightArray);
+      this.player.monsterConversation(this.monster, this.doesMonsterTalk);
     }
 
     if (this.player.isContinuing()) {
@@ -219,7 +250,7 @@ export default class MonsterFight extends Scene {
 
     // this.monster.draw(this.game.ctx);
     this.animateMovement(this.newXPos, this.newYPos);
-    this.player.draw(this.game.ctx);
+    this.player.getSprite().drawSprite(this.game.ctx, this.player);
 
     this.dialogueBox.drawBox(this.game.ctx);
 
