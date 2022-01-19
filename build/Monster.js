@@ -1,3 +1,4 @@
+import Game from './Game.js';
 import NPC from './NPC.js';
 import UserData from './UserData.js';
 export default class Monster extends NPC {
@@ -5,18 +6,18 @@ export default class Monster extends NPC {
     baseXPos;
     baseYPos;
     constructor(canvas) {
-        super('./assets/img/golem.png', canvas.width / 2, canvas.height / 2);
+        super('./assets/img/MonsterImages/golem.png', canvas.width / 2, canvas.height / 2);
         this.progression = 0;
         this.name = 'Monster';
-        this.completed = true;
+        this.completed = false;
         this.dialogue = [];
         this.dialogueFactory();
         this.baseXPos = canvas.width / 2;
         this.baseYPos = canvas.height / 2;
-        this.monsterStats = new UserData(20, 5, 3);
+        this.monsterStats = new UserData(20, 4, 3);
     }
     dialogueFactory() {
-        this.dialogue.push('Press F to fight the monster', 'Press T to talk with the monster', 'Raargh!', 'Oh hey, you seem like a nice guy! Wanna be friends? :)');
+        this.dialogue.push(Game.loadNewImage('./assets/img/MonsterImages/MonsterD1.png'), Game.loadNewImage('./assets/img/MonsterImages/MonsterD2.png'), Game.loadNewImage('./assets/img/MonsterImages/MonsterD3.png'), Game.loadNewImage('./assets/img/MonsterImages/MonsterD4.png'), Game.loadNewImage('./assets/img/MonsterImages/MonsterD5.png'));
         console.log(this.dialogue);
     }
     move(charXPos, charYPos) {
@@ -50,6 +51,18 @@ export default class Monster extends NPC {
     }
     setBaseYPos(yPosition) {
         this.baseYPos = yPosition;
+    }
+    giveReward() {
+        const randomStatIncrease = Game.randomNumber(1, 3);
+        if (randomStatIncrease === 1) {
+            this.monsterStats.setHP(this.monsterStats.getHP() + 5);
+        }
+        else if (randomStatIncrease === 2) {
+            this.monsterStats.setATK(this.monsterStats.getATK() + 1);
+        }
+        else {
+            this.monsterStats.setDEF(this.monsterStats.getDEF() + 1);
+        }
     }
 }
 //# sourceMappingURL=Monster.js.map

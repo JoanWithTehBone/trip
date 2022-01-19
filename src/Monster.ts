@@ -1,3 +1,4 @@
+import Game from './Game.js';
 import NPC from './NPC.js';
 import UserData from './UserData.js';
 
@@ -14,10 +15,10 @@ export default class Monster extends NPC {
    * @param canvas the game canvas
    */
   constructor(canvas: HTMLCanvasElement) {
-    super('./assets/img/golem.png', canvas.width / 2, canvas.height / 2);
+    super('./assets/img/MonsterImages/golem.png', canvas.width / 2, canvas.height / 2);
     this.progression = 0;
     this.name = 'Monster';
-    this.completed = true;
+    this.completed = false;
     this.dialogue = [];
     this.dialogueFactory();
 
@@ -25,14 +26,20 @@ export default class Monster extends NPC {
     this.baseYPos = canvas.height / 2;
 
     // Initialising the monster's stats
-    this.monsterStats = new UserData(20, 5, 3);
+    this.monsterStats = new UserData(20, 4, 3);
   }
 
   /**
    * Factory for creating the dialogue of the Monster
    */
   public dialogueFactory(): void {
-    this.dialogue.push('Press F to fight the monster', 'Press T to talk with the monster', 'Raargh!', 'Oh hey, you seem like a nice guy! Wanna be friends? :)');
+    this.dialogue.push(
+      Game.loadNewImage('./assets/img/MonsterImages/MonsterD1.png'),
+      Game.loadNewImage('./assets/img/MonsterImages/MonsterD2.png'),
+      Game.loadNewImage('./assets/img/MonsterImages/MonsterD3.png'),
+      Game.loadNewImage('./assets/img/MonsterImages/MonsterD4.png'),
+      Game.loadNewImage('./assets/img/MonsterImages/MonsterD5.png'),
+    );
     console.log(this.dialogue);
   }
 
@@ -96,5 +103,20 @@ export default class Monster extends NPC {
    */
   public setBaseYPos(yPosition: number): void {
     this.baseYPos = yPosition;
+  }
+
+  /**
+   * Function to give a reward for ompleting a quest
+   */
+  public giveReward(): void {
+    const randomStatIncrease = Game.randomNumber(1, 3);
+
+    if (randomStatIncrease === 1) {
+      this.monsterStats.setHP(this.monsterStats.getHP() + 5);
+    } else if (randomStatIncrease === 2) {
+      this.monsterStats.setATK(this.monsterStats.getATK() + 1);
+    } else {
+      this.monsterStats.setDEF(this.monsterStats.getDEF() + 1);
+    }
   }
 }
