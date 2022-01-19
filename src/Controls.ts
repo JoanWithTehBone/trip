@@ -49,13 +49,6 @@ export default class Controls extends GameItem {
     }
   }
 
-  // /**
-  //  * Method to write the text in the box to the screen
-  //  */
-  // public writeTextToBox(): void {
-  //   this.game.writeTextToCanvas(this.baker.getYesorNoTextBaker(), 26, this.textXPos, this.textYPos, 'center', 'black');
-  // }
-
   /**
    * Sets the display to be shown or not to be shown
    *
