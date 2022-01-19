@@ -24,15 +24,8 @@ export default class NPC extends GameItem {
             }
         }
     }
-    questingToPlayer(questIndex, questBox) {
+    questingToPlayer(questBox) {
         questBox.setQuestList(this.questDialogue);
-        for (let i = 0; i < this.questDialogue.length; i += 0) {
-            if (questIndex === i) {
-                if (questBox.getDisplay()) {
-                    questBox.setCurrentDialogue(i);
-                }
-            }
-        }
     }
     questCompleted() {
         return this.completed;
@@ -49,7 +42,7 @@ export default class NPC extends GameItem {
     getYesorNoText() {
         return this.yesOrNoOption;
     }
-    getQuestResponseText() {
+    getQuestResponseImage() {
         return this.questResponse;
     }
     getDialogue() {

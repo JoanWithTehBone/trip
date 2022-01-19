@@ -1,8 +1,8 @@
-import DislplayItem from './DislplayItem.js';
+import DisplayItem from './DisplayItem.js';
 import Game from './Game.js';
 
-export default class QuestBox extends DislplayItem {
-  private questList: string[];
+export default class QuestBox extends DisplayItem {
+  private questList: HTMLImageElement;
 
   /**
    * Constructing the dialogue box
@@ -33,19 +33,11 @@ export default class QuestBox extends DislplayItem {
   public drawBox(ctx: CanvasRenderingContext2D): void {
     if (this.display) {
       ctx.clearRect(this.xPosition, this.yPosition, 1000, 550);
-      ctx.drawImage(this.img, this.xPosition, this.yPosition);
+      ctx.drawImage(this.questList, this.xPosition, this.yPosition);
       // Drawing a white rectangle on the canvas background
       // ctx.fillRect(this.xPosition, this.yPosition, 1000, 550);
       // console.log(this.npc.getProgression());
-      this.writeTextToBox();
     }
-  }
-
-  /**
-   * Method to write the text in the box to the screen
-   */
-  public writeTextToBox(): void {
-    this.game.writeTextToCanvas(this.questList[0], 26, this.textXPos, this.textYPos, 'center', 'black');
   }
 
   /**
@@ -71,7 +63,7 @@ export default class QuestBox extends DislplayItem {
    *
    * @param list the current list of dialogue
    */
-  public setQuestList(list: string[]): void {
+  public setQuestList(list: HTMLImageElement): void {
     this.questList = list;
   }
 }
