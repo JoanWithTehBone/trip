@@ -19,8 +19,6 @@ export default abstract class NPC extends GameItem {
 
   protected quest: boolean;
 
-  protected yesOrNoOption: HTMLImageElement;
-
   protected questResponse: HTMLImageElement[];
 
   protected rightAnswer: string;
@@ -99,15 +97,6 @@ export default abstract class NPC extends GameItem {
    */
   public progressFurther(): void {
     this.progression += 1;
-  }
-
-  /**
-   * A getter for the Yes or No question
-   *
-   * @returns the text of the Question that is in the constructor
-   */
-  public getYesorNoText(): HTMLImageElement {
-    return this.yesOrNoOption;
   }
 
   /**

@@ -14,6 +14,8 @@ export default abstract class GameItem {
 
   protected currentAnimation: string;
 
+  protected yesOrNoOption: HTMLImageElement;
+
   /**
    * Creates a new GameItem on a random position
    *
@@ -98,5 +100,14 @@ export default abstract class GameItem {
    */
   public getSprite() : Sprite {
     return this.sprite;
+  }
+
+  /**
+   * A getter for the Yes or No question
+   *
+   * @returns the text of the Question that is in the constructor
+   */
+  public getYesorNoText(): HTMLImageElement {
+    return this.yesOrNoOption;
   }
 }

@@ -4,7 +4,6 @@ import NPC from './NPC.js';
 import DialogueBox from './DialogueBox.js';
 import QuestBox from './QuestBox.js';
 import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
-
 import Game from './Game.js';
 
 export default class Player extends GameItem {
@@ -218,7 +217,7 @@ export default class Player extends GameItem {
    * @param other the other GameItem
    * @returns true if this object collides with the specified other object
    */
-  public collidesWith(other: NPC): boolean {
+  public collidesWith(other: GameItem): boolean {
     return this.xPos < other.getXPos() + other.getImage().width
       && this.xPos + this.img.width > other.getXPos()
       && this.yPos < other.getYPos() + other.getImage().height
@@ -435,6 +434,17 @@ export default class Player extends GameItem {
       } else {
         monster.talkToPlayer(Game.randomNumber(0, 2), this.dialogueBox);
       }
+    }
+  }
+
+  /**
+   * Method that interacts with the current object
+   *
+   * @param object the object that is being used
+   */
+  public interactWithObject(object: GameItem): void {
+    if (this.collidesWith(object)) {
+      console.log(object.getYesorNoText());
     }
   }
 

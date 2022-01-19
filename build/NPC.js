@@ -7,7 +7,6 @@ export default class NPC extends GameItem {
     dialogue;
     questDialogue;
     quest;
-    yesOrNoOption;
     questResponse;
     rightAnswer;
     user;
@@ -38,9 +37,6 @@ export default class NPC extends GameItem {
     }
     progressFurther() {
         this.progression += 1;
-    }
-    getYesorNoText() {
-        return this.yesOrNoOption;
     }
     getQuestResponseImage() {
         return this.questResponse;

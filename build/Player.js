@@ -269,6 +269,11 @@ export default class Player extends GameItem {
             }
         }
     }
+    interactWithObject(object) {
+        if (this.collidesWith(object)) {
+            console.log(object.getYesorNoText());
+        }
+    }
     increaseSpeed(size) {
         this.xVel += size;
         this.yVel += size;

@@ -7,6 +7,7 @@ export default class GameItem {
     sprite;
     canvas;
     currentAnimation;
+    yesOrNoOption;
     constructor(imageSrc, maxX, maxY) {
         this.img = Game.loadNewImage(imageSrc);
         this.xPos = maxX;
@@ -36,6 +37,9 @@ export default class GameItem {
     }
     getSprite() {
         return this.sprite;
+    }
+    getYesorNoText() {
+        return this.yesOrNoOption;
     }
 }
 //# sourceMappingURL=GameItem.js.map

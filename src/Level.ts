@@ -12,6 +12,7 @@ import MonsterFight from './MonsterFight.js';
 import QuestBox from './QuestBox.js';
 import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
 import FlyingDragonBaby from './FlyingDragonBaby.js';
+import QuestBoard from './QuestBoard.js';
 
 export default class Level extends Scene {
   // Player
@@ -32,16 +33,12 @@ export default class Level extends Scene {
 
   private npcs: NPC[];
 
-  private gameitem: GameItem;
+  private questBoard: GameItem;
 
   private flyingDragonBaby: FlyingDragonBaby;
 
   // Keyboard
   private keyboard: KeyListener;
-
-  private keyArray: boolean[];
-
-  private answerArray: string[];
 
   /**
    * Creates a new instance of this class
@@ -55,6 +52,7 @@ export default class Level extends Scene {
     this.blacksmith = new BlackSmith(game.canvas);
     this.hunter = new Hunter(game.canvas);
     this.flyingDragonBaby = new FlyingDragonBaby(game.canvas);
+    this.questBoard = new QuestBoard(game.canvas);
 
     // Create DialogueBox
     this.dialogueBox = new DialogueBox(
@@ -90,9 +88,6 @@ export default class Level extends Scene {
       this.yesorNoQuestPrompt,
     );
     this.keyboard = this.player.getKeys();
-
-    this.answerArray = ['A', 'B', 'C', 'D', 'E'];
-    this.keyArray = [false, false, false, false, false];
   }
 
   /**
@@ -130,6 +125,7 @@ export default class Level extends Scene {
     if (this.player.isPressing()) {
       this.player.interactWith(this.npcs);
       this.player.afterQuest(this.npcs, this.game);
+      this.player.interactWithObject(this.questBoard);
     }
 
     // Checks if the player continues the conversation and gets rid of the dialogue box
@@ -182,6 +178,7 @@ export default class Level extends Scene {
 
     this.player.getSprite().drawSprite(this.game.ctx, this.player);
     this.flyingDragonBaby.draw(this.game.ctx);
+    this.questBoard.draw(this.game.ctx);
 
     this.questBox.drawBox(this.game.ctx);
     this.dialogueBox.drawBox(this.game.ctx);
