@@ -8,7 +8,9 @@ export default class Hunter extends NPC {
    * @param canvas the game canvas
    */
   public constructor(canvas: HTMLCanvasElement) {
-    super('', canvas.width / 2.05, canvas.height / 4.5);
+    super('', canvas.width / 2.4, canvas.height / 8);
+    this.img.height = 200;
+    this.img.width = 230;
     // Progression of the dialogue
     this.progression = 0;
     this.name = 'Hunter';
