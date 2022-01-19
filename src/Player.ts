@@ -7,9 +7,6 @@ import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
 
 import Game from './Game.js';
 
-import Controls from './Controls.js';
-
-
 export default class Player extends GameItem {
   private xVel: number;
 
@@ -21,8 +18,6 @@ export default class Player extends GameItem {
 
   private yesOrNoQuestPrompt: YesorNoQuestPrompt;
 
-  private controls: Controls;
-
   // KeyboardListener so the player can move
   private keyboard: KeyListener;
 
@@ -33,10 +28,7 @@ export default class Player extends GameItem {
    * @param yPos yPostition of the player
    * @param dialogueBox BOX
    * @param questBox quest box
-
    * @param yesOrNoQuestPrompt prompt for quest
-   * @param controls the controls
-
    */
   public constructor(
     xPos: number,
@@ -45,8 +37,6 @@ export default class Player extends GameItem {
     questBox: QuestBox,
 
     yesOrNoQuestPrompt: YesorNoQuestPrompt,
-
-    controls: Controls,
 
   ) {
     super('./assets/img/testplayer.png', xPos, yPos);
@@ -194,6 +184,13 @@ export default class Player extends GameItem {
   }
 
   /**
+   * @returns true if the player is continuing up
+   */
+  public answerQuestE(): boolean {
+    return this.keyboard.isKeyTyped(KeyListener.KEY_E);
+  }
+
+  /**
    *
    * @returns true if the player is fighting the monster
    */
@@ -207,13 +204,6 @@ export default class Player extends GameItem {
    */
   public isResponding(): boolean {
     return this.keyboard.isKeyTyped(KeyListener.KEY_Y);
-  }
-
-  /**
-   * @returns true if the player is continuing up
-   */
-  public answerQuestD(): boolean {
-    return this.keyboard.isKeyTyped(KeyListener.KEY_D);
   }
 
   /**
@@ -347,6 +337,13 @@ export default class Player extends GameItem {
           }
         } else if (this.answerQuestD()) {
           if (this.checkForRightAnswer(npc, 'D') === false) {
+            continueQuest = true;
+          } else {
+            rightGuess = true;
+            continueQuest = true;
+          }
+        } else if (this.answerQuestE()) {
+          if (this.checkForRightAnswer(npc, 'E') === false) {
             continueQuest = true;
           } else {
             rightGuess = true;
