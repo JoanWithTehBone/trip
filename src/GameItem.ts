@@ -12,6 +12,8 @@ export default abstract class GameItem {
 
   protected canvas: HTMLCanvasElement;
 
+  protected currentAnimation: string;
+
   /**
    * Creates a new GameItem on a random position
    *
@@ -78,6 +80,15 @@ export default abstract class GameItem {
    */
   public setYPos(yPosition : number): void {
     this.yPos = yPosition;
+  }
+
+  /**
+   * Get the currentanimation of the gameitem
+   *
+   * @returns current animation
+   */
+  public getCurrentAnimation() : string {
+    return this.currentAnimation;
   }
 
   /**

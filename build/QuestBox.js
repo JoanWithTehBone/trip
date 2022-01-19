@@ -1,5 +1,5 @@
-import DislplayItem from './DislplayItem.js';
-export default class QuestBox extends DislplayItem {
+import DisplayItem from './DisplayItem.js';
+export default class QuestBox extends DisplayItem {
     questList;
     constructor(game, xPos, yPos) {
         super('./assets/img/questbox.png', game, xPos, yPos);
@@ -11,12 +11,8 @@ export default class QuestBox extends DislplayItem {
     drawBox(ctx) {
         if (this.display) {
             ctx.clearRect(this.xPosition, this.yPosition, 1000, 550);
-            ctx.drawImage(this.img, this.xPosition, this.yPosition);
-            this.writeTextToBox();
+            ctx.drawImage(this.questList, this.xPosition, this.yPosition);
         }
-    }
-    writeTextToBox() {
-        this.game.writeTextToCanvas(this.questList[0], 26, this.textXPos, this.textYPos, 'center', 'black');
     }
     getTextYPos() {
         return this.textYPos;

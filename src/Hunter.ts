@@ -17,10 +17,12 @@ export default class Hunter extends NPC {
     this.completed = false;
     this.dialogue = [];
     this.dialogueFactory();
-
-    this.questDialogue = [];
-    this.yesOrNoOption = 'Do you want to start the hunter quest? Yes No';
-    this.questResponse = ['These tracks seem normal to me.', 'Yes, these are definetly fake!'];
+    this.questDialogue = Game.loadNewImage('./assets/img/HunterImages/HunterQuest.png');
+    this.yesOrNoOption = Game.loadNewImage('./assets/img/HunterImages/HunterYNPrompt.png');
+    this.questResponse = [
+      Game.loadNewImage('./assets/img/HunterImages/HunterQWrong.png'),
+      Game.loadNewImage('./assets/img/HunterImages/HunterQCorrect.png'),
+    ];
     this.rightAnswer = 'D';
   }
 
@@ -29,11 +31,12 @@ export default class Hunter extends NPC {
    */
   public dialogueFactory(): void {
     this.dialogue.push(
-      'Hello, I am the town hunter',
-      'I was sent some strange looking animal tracks.',
-      'The nearby town says that they could belong to a monster.',
-      'Do you want to help me solve this problem?',
-      'Thanks for helping me out, take this sword as a reward and have a nice day!',
+      Game.loadNewImage('./assets/img/HunterImages/HunterD1.png'),
+      Game.loadNewImage('./assets/img/HunterImages/HunterD2.png'),
+      Game.loadNewImage('./assets/img/HunterImages/HunterD3.png'),
+      Game.loadNewImage('./assets/img/HunterImages/HunterD4.png'),
+      Game.loadNewImage('./assets/img/HunterImages/HunterD5.png'),
+      Game.loadNewImage('./assets/img/HunterImages/HunterD6.png'),
     );
     console.log(this.dialogue);
   }

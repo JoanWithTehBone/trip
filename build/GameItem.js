@@ -6,6 +6,7 @@ export default class GameItem {
     yPos;
     sprite;
     canvas;
+    currentAnimation;
     constructor(imageSrc, maxX, maxY) {
         this.img = Game.loadNewImage(imageSrc);
         this.xPos = maxX;
@@ -29,6 +30,9 @@ export default class GameItem {
     }
     setYPos(yPosition) {
         this.yPos = yPosition;
+    }
+    getCurrentAnimation() {
+        return this.currentAnimation;
     }
     getSprite() {
         return this.sprite;
