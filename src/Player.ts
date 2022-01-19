@@ -38,8 +38,9 @@ export default class Player extends GameItem {
   ) {
     super('./assets/img/testplayer.png', xPos, yPos);
 
-    this.xVel = 3;
-    this.yVel = 3;
+    this.xVel = 2;
+    this.yVel = 2;
+    this.currentAnimation = 'idle-down';
     this.keyboard = new KeyListener();
 
     this.dialogueBox = dialogueBox;
@@ -63,35 +64,51 @@ export default class Player extends GameItem {
     // Moving right
     if (this.keyboard.isKeyDown(KeyListener.KEY_RIGHT) && this.xPos < maxX) {
       this.xPos += this.xVel;
+      this.getSprite().setAnimation('walk-right');
       // Limit to the max value
       if (this.xPos > maxX) {
         this.xPos = maxX;
       }
+    } else if (this.keyboard.isKeyTyped(KeyListener.KEY_RIGHT)
+    && !this.keyboard.isKeyDown(KeyListener.KEY_RIGHT)) {
+      this.getSprite().setAnimation('idle-right');
     }
 
     // Moving left
     if (this.keyboard.isKeyDown(KeyListener.KEY_LEFT) && this.xPos > minX) {
       this.xPos -= this.xVel;
+      this.getSprite().setAnimation('walk-left');
       // Limit to the max value
       if (this.xPos < minX) {
         this.xPos = minX;
       }
+    } else if (this.keyboard.isKeyTyped(KeyListener.KEY_LEFT)
+    && !this.keyboard.isKeyDown(KeyListener.KEY_LEFT)) {
+      this.getSprite().setAnimation('idle-left');
     }
 
     // Moving up
     if (this.keyboard.isKeyDown(KeyListener.KEY_UP) && this.yPos > minY) {
       this.yPos -= this.yVel;
+      this.getSprite().setAnimation('walk-up');
       if (this.yPos < minY) {
         this.yPos = minY;
       }
+    } else if (this.keyboard.isKeyTyped(KeyListener.KEY_UP)
+    && !this.keyboard.isKeyDown(KeyListener.KEY_UP)) {
+      this.getSprite().setAnimation('idle-up');
     }
 
     // Moving down
     if (this.keyboard.isKeyDown(KeyListener.KEY_DOWN) && this.yPos < maxY) {
       this.yPos += this.yVel;
+      this.getSprite().setAnimation('walk-down');
       if (this.yPos > maxY) {
         this.yPos = maxY;
       }
+    } else if (this.keyboard.isKeyTyped(KeyListener.KEY_DOWN)
+    && !this.keyboard.isKeyDown(KeyListener.KEY_DOWN)) {
+      this.getSprite().setAnimation('idle-down');
     }
   }
 
