@@ -1,12 +1,12 @@
 import Game from './Game.js';
 import KeyListener from './KeyListener.js';
+import Level from './Level.js';
 import Scene from './Scene.js';
-import Story from './Story.js';
 
-export default class Start extends Scene {
-  private shouldStart: boolean;
-
+export default class Story extends Scene {
   private keyboard: KeyListener;
+
+  private shouldStart: boolean;
 
   /**
    * Creates a new instance of this class
@@ -15,7 +15,6 @@ export default class Start extends Scene {
    */
   public constructor(game: Game) {
     super(game);
-    game.reset();
     this.keyboard = new KeyListener();
     this.shouldStart = false;
   }
@@ -24,7 +23,7 @@ export default class Start extends Scene {
    * Handles any user input that has happened since the last call
    */
   public processInput(): void {
-    if (this.keyboard.isKeyDown(KeyListener.KEY_S)) {
+    if (this.keyboard.isKeyDown(KeyListener.KEY_SPACE)) {
       this.shouldStart = true;
     }
   }
@@ -45,7 +44,7 @@ export default class Start extends Scene {
    */
   public update(): Scene {
     if (this.shouldStart) {
-      return new Story(this.game);
+      return new Level(this.game);
     }
     return null;
   }
@@ -56,7 +55,12 @@ export default class Start extends Scene {
   public render(): void {
     // Clear the screen
     this.game.ctx.clearRect(0, 0, this.game.canvas.width, this.game.canvas.height);
-    // Show score
-    this.game.ctx.drawImage(Game.loadNewImage('./assets/img/startscreen.png'), 0, 0, this.game.canvas.width, this.game.canvas.height);
+
+    // Draw the lose screen image:
+    this.game.ctx.drawImage(
+      Game.loadNewImage('./assets/img/StoryIntroduction.png'),
+      this.game.canvas.width / 2 - 500, // xPosition
+      (this.game.canvas.height / 8) * 0.5, // yPostition);
+    );
   }
 }

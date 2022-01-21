@@ -17,7 +17,6 @@ import Fatcat from './Fatcat.js';
 import QuestBoard from './QuestBoard.js';
 import GameItem from './GameItem.js';
 
-
 export default class Level extends Scene {
   // Player
   private player: Player;
@@ -65,7 +64,6 @@ export default class Level extends Scene {
     this.fatcat = new Fatcat();
     this.questBoard = new QuestBoard(game.canvas);
 
-
     // Create DialogueBox
     this.dialogueBox = new DialogueBox(
       this.game,
@@ -86,6 +84,12 @@ export default class Level extends Scene {
       this.game.canvas.width / 2 - 300, // xPosition
       (this.game.canvas.height / 8) * 3, // yPostition
     );
+    // Create new controls
+    this.controls = new Controls(
+      game,
+      this.game.canvas.width / 2 - 500, // xPosition
+      (this.game.canvas.height / 8) * 0.5,
+    );
 
     // Create a new array of NPCS to pass on
     this.npcs = [];
@@ -101,6 +105,8 @@ export default class Level extends Scene {
     );
 
     this.keyCommands = this.player.getKeyboard();
+
+    this.controls.setDisplay(true);
   }
 
   /**
@@ -139,15 +145,25 @@ export default class Level extends Scene {
       this.player.interactWithVillager(this.npcs);
       this.player.afterQuest(this.npcs, this.game);
       this.player.interactWithObject(this.questBoard);
+
+      // TODO: If we have the time, implement a prompt for both the cat and the slime. Until then,
+      // do not uncomment
+      // this.player.interactWithObject(this.fatcat);
+      // this.player.interactWithObject(this.slime);
     }
 
     // Checks if the player continues the conversation and gets rid of the dialogue box
     if (this.keyCommands.isContinuing()) {
       this.dialogueBox.setDisplay(false);
+      this.controls.setDisplay(false);
+    }
+
+    // If you press M, open the control menu.
+    if (this.keyCommands.openControls()) {
+      this.controls.setDisplay(true);
     }
 
     // If you touch the questboard and press Y, go to the monster fight
-
     if (this.keyCommands.isResponding()) {
       if (this.player.collidesWith(this.questBoard)) {
         return new MonsterFight(this.game, this.player, this.npcs);
@@ -164,7 +180,6 @@ export default class Level extends Scene {
     if (this.questBox.getDisplay()) {
       this.player.questAnswer(this.npcs);
     }
-
 
     // Create an answer for the quest CHECK
     // Create a function that returns the correct answer
@@ -183,7 +198,7 @@ export default class Level extends Scene {
     // If answer is correct, continue
     // If answer is wrong, redo the quest
 
-    if (this.player.openControls()) {
+    if (this.keyCommands.openControls()) {
       if (this.controls.getDisplay()) {
         this.controls.setDisplay(false);
       } else {
@@ -218,6 +233,7 @@ export default class Level extends Scene {
     this.questBox.drawBox(this.game.ctx);
     this.dialogueBox.drawBox(this.game.ctx);
     this.yesOrNoQuestPrompt.drawBox(this.game.ctx);
+    this.controls.drawBox(this.game.ctx);
   }
 
   /**

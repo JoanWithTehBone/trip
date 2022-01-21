@@ -101,6 +101,6 @@ export default class KeyCommands {
    * @returns true if the player is continuing up
    */
   public openControls(): boolean {
-    return this.keyboard.isKeyTyped(KeyListener.KEY_O);
+    return this.keyboard.isKeyTyped(KeyListener.KEY_M);
   }
 }

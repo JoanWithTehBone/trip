@@ -8,30 +8,25 @@ import MonsterFight from './MonsterFight.js';
 import QuestBox from './QuestBox.js';
 import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
 import FlyingDragonBaby from './FlyingDragonBaby.js';
+import Controls from './Controls.js';
 import Slime from './Slime.js';
 import Fatcat from './Fatcat.js';
 import QuestBoard from './QuestBoard.js';
-
 export default class Level extends Scene {
     player;
-  
+    slime;
+    fatcat;
     dialogueBox;
     questBox;
-    yesorNoQuestPrompt;
+    yesOrNoQuestPrompt;
     controls;
-  
     baker;
     blacksmith;
     hunter;
     npcs;
-  
     flyingDragonBaby;
-    slime;
-    fatcat;
-    questBoard;
-  
     keyCommands;
-    
+    questBoard;
     constructor(game) {
         super(game);
         this.baker = new Baker(game.canvas);
@@ -44,10 +39,12 @@ export default class Level extends Scene {
         this.dialogueBox = new DialogueBox(this.game, this.game.canvas.width / 2 - 600, (this.game.canvas.height / 5) * 3.7);
         this.questBox = new QuestBox(this.game, this.game.canvas.width / 2 - 500, (this.game.canvas.height / 8) * 0.5);
         this.yesOrNoQuestPrompt = new YesorNoQuestPrompt(this.game, this.game.canvas.width / 2 - 300, (this.game.canvas.height / 8) * 3);
+        this.controls = new Controls(game, this.game.canvas.width / 2 - 500, (this.game.canvas.height / 8) * 0.5);
         this.npcs = [];
         this.npcs.push(this.baker, this.blacksmith, this.hunter);
         this.player = new Player(game.canvas.width / 2, game.canvas.height / 2, this.dialogueBox, this.questBox, this.yesOrNoQuestPrompt);
         this.keyCommands = this.player.getKeyboard();
+        this.controls.setDisplay(true);
     }
     processInput() {
         this.player.move(this.game.canvas);
@@ -63,6 +60,10 @@ export default class Level extends Scene {
         }
         if (this.keyCommands.isContinuing()) {
             this.dialogueBox.setDisplay(false);
+            this.controls.setDisplay(false);
+        }
+        if (this.keyCommands.openControls()) {
+            this.controls.setDisplay(true);
         }
         if (this.keyCommands.isResponding()) {
             if (this.player.collidesWith(this.questBoard)) {
@@ -77,7 +78,7 @@ export default class Level extends Scene {
         if (this.questBox.getDisplay()) {
             this.player.questAnswer(this.npcs);
         }
-        if (this.player.openControls()) {
+        if (this.keyCommands.openControls()) {
             if (this.controls.getDisplay()) {
                 this.controls.setDisplay(false);
             }
@@ -100,6 +101,7 @@ export default class Level extends Scene {
         this.questBox.drawBox(this.game.ctx);
         this.dialogueBox.drawBox(this.game.ctx);
         this.yesOrNoQuestPrompt.drawBox(this.game.ctx);
+        this.controls.drawBox(this.game.ctx);
     }
     getPlayer() {
         return this.player;

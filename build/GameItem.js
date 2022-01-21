@@ -13,11 +13,7 @@ export default class GameItem {
     currentAnimation;
     yesOrNoOption;
     questDialogue;
-
     constructor(widthCut, heightCut, imageSrc, maxX, maxY, currentAnimationFrameLimit, sizeSprite) {
-
-    
-    // constructor(imageSrc, maxX, maxY) {
         this.img = Game.loadNewImage(imageSrc);
         this.xPos = maxX;
         this.yPos = maxY;
