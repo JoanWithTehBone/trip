@@ -1,11 +1,11 @@
 import Game from './Game.js';
 import GameLose from './GameLose.js';
 import GameWonFight from './GameWonFight.js';
+import GameWonTalk from './GameWonTalk.js';
 import Monster from './Monster.js';
 import Scene from './Scene.js';
 export default class MonsterFight extends Scene {
     player;
-    keyboard;
     monster;
     user;
     dialogueBox;
@@ -14,6 +14,7 @@ export default class MonsterFight extends Scene {
     talkChance;
     offChance;
     doesMonsterTalk;
+    keyCommands;
     constructor(game, player, npcs) {
         super(game);
         this.player = player;
@@ -28,7 +29,7 @@ export default class MonsterFight extends Scene {
         this.offChance = Game.randomNumber(1, 100);
         this.doesMonsterTalk = this.talkWithMonster(npcs);
         console.log(this.doesMonsterTalk);
-        this.keyboard = this.player.getKeys();
+        this.keyCommands = this.player.getKeyboard();
     }
     fightWithMonster() {
         console.log('In Progress');
@@ -79,19 +80,22 @@ export default class MonsterFight extends Scene {
         return false;
     }
     update() {
-        this.keyboard.onFrameStart();
-        if (this.player.isPressing()) {
-            this.player.monsterConversation(this.monster, this.doesMonsterTalk);
+        this.keyCommands.getKeys().onFrameStart();
+        if (this.keyCommands.isPressing()) {
+            this.player.talkToMonster(this.monster, this.doesMonsterTalk);
         }
-        if (this.player.isContinuing()) {
+        if (this.keyCommands.isContinuing()) {
             this.dialogueBox.setDisplay(false);
         }
-        if (this.player.isFighting()) {
+        if (this.keyCommands.isFighting()) {
             console.log('I fight thee monster!');
             this.fightWithMonster();
         }
-        if (this.player.isResponding()) {
+        if (this.keyCommands.isResponding()) {
             console.log('Ok');
+        }
+        if (this.monster.getProgression() >= 6) {
+            return new GameWonTalk(this.game);
         }
         if (this.hasWon()) {
             return new GameWonFight(this.game);

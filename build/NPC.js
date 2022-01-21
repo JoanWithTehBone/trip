@@ -5,9 +5,7 @@ export default class NPC extends GameItem {
     rewardGiven;
     progression;
     dialogue;
-    questDialogue;
     quest;
-    yesOrNoOption;
     questResponse;
     rightAnswer;
     user;
@@ -39,17 +37,11 @@ export default class NPC extends GameItem {
     progressFurther() {
         this.progression += 1;
     }
-    getYesorNoText() {
-        return this.yesOrNoOption;
-    }
     getQuestResponseImage() {
         return this.questResponse;
     }
     getDialogue() {
         return this.dialogue;
-    }
-    getQuestDialogue() {
-        return this.questDialogue;
     }
     getRightAnswer() {
         return this.rightAnswer;

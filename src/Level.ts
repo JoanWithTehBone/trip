@@ -5,9 +5,8 @@ import DialogueBox from './DialogueBox.js';
 import Baker from './Baker.js';
 import BlackSmith from './BlackSmith.js';
 import Hunter from './Hunter.js';
-import KeyListener from './KeyListener.js';
+import KeyCommands from './KeyCommands.js';
 import NPC from './NPC.js';
-import GameItem from './GameItem.js';
 import MonsterFight from './MonsterFight.js';
 import QuestBox from './QuestBox.js';
 import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
@@ -15,6 +14,9 @@ import FlyingDragonBaby from './FlyingDragonBaby.js';
 import Controls from './Controls.js';
 import Slime from './Slime.js';
 import Fatcat from './Fatcat.js';
+import QuestBoard from './QuestBoard.js';
+import GameItem from './GameItem.js';
+
 
 export default class Level extends Scene {
   // Player
@@ -28,7 +30,7 @@ export default class Level extends Scene {
 
   private questBox: QuestBox;
 
-  private yesorNoQuestPrompt: YesorNoQuestPrompt;
+  private yesOrNoQuestPrompt: YesorNoQuestPrompt;
 
   private controls: Controls;
 
@@ -41,16 +43,11 @@ export default class Level extends Scene {
 
   private npcs: NPC[];
 
-  private gameitem: GameItem;
-
   private flyingDragonBaby: FlyingDragonBaby;
 
-  // Keyboard
-  private keyboard: KeyListener;
+  private keyCommands: KeyCommands;
 
-  private keyArray: boolean[];
-
-  private answerArray: string[];
+  private questBoard: GameItem;
 
   /**
    * Creates a new instance of this class
@@ -66,6 +63,8 @@ export default class Level extends Scene {
     this.flyingDragonBaby = new FlyingDragonBaby(game.canvas);
     this.slime = new Slime();
     this.fatcat = new Fatcat();
+    this.questBoard = new QuestBoard(game.canvas);
+
 
     // Create DialogueBox
     this.dialogueBox = new DialogueBox(
@@ -82,7 +81,7 @@ export default class Level extends Scene {
     );
 
     // Create the Yes or no prompt box
-    this.yesorNoQuestPrompt = new YesorNoQuestPrompt(
+    this.yesOrNoQuestPrompt = new YesorNoQuestPrompt(
       this.game,
       this.game.canvas.width / 2 - 300, // xPosition
       (this.game.canvas.height / 8) * 3, // yPostition
@@ -98,12 +97,10 @@ export default class Level extends Scene {
       game.canvas.height / 2,
       this.dialogueBox,
       this.questBox,
-      this.yesorNoQuestPrompt,
+      this.yesOrNoQuestPrompt,
     );
-    this.keyboard = this.player.getKeys();
 
-    this.answerArray = ['A', 'B', 'C', 'D', 'E'];
-    this.keyArray = [false, false, false, false, false];
+    this.keyCommands = this.player.getKeyboard();
   }
 
   /**
@@ -130,7 +127,7 @@ export default class Level extends Scene {
    */
   public update(): Scene {
     // this.player.onFrameStartListener();
-    this.keyboard.onFrameStart();
+    this.keyCommands.getKeys().onFrameStart();
     // moves the dragonbaby across the screen
     this.flyingDragonBaby.move();
     // checks if the dragon baby is out of the canvas
@@ -138,26 +135,36 @@ export default class Level extends Scene {
 
     // Checks if the player is presing the interact button and gets rid of the questBox
     // Then it starts the Dialogue Lines
-    if (this.player.isPressing()) {
-      this.player.interactWith(this.npcs);
+    if (this.keyCommands.isPressing()) {
+      this.player.interactWithVillager(this.npcs);
       this.player.afterQuest(this.npcs, this.game);
+      this.player.interactWithObject(this.questBoard);
     }
 
     // Checks if the player continues the conversation and gets rid of the dialogue box
-    if (this.player.isContinuing()) {
+    if (this.keyCommands.isContinuing()) {
       this.dialogueBox.setDisplay(false);
     }
 
-    // Dev button to go to the monster fight: "F"
-    if (this.player.isFighting()) {
-      return new MonsterFight(this.game, this.player, this.npcs);
+    // If you touch the questboard and press Y, go to the monster fight
+
+    if (this.keyCommands.isResponding()) {
+      if (this.player.collidesWith(this.questBoard)) {
+        return new MonsterFight(this.game, this.player, this.npcs);
+      }
+      this.player.questWithVillager(this.npcs);
     }
 
-    this.player.questWith(this.npcs);
+    // Button to get rid of any yes or no prompt
+    if (this.keyCommands.isIgnoring()) {
+      this.player.resetQuest(this.npcs);
+      this.yesOrNoQuestPrompt.setDisplay(false);
+    }
 
     if (this.questBox.getDisplay()) {
       this.player.questAnswer(this.npcs);
     }
+
 
     // Create an answer for the quest CHECK
     // Create a function that returns the correct answer
@@ -186,6 +193,7 @@ export default class Level extends Scene {
     // if (this.controls.getDisplay() && (this.player.openControls())) {
     //   this.controls.setDisplay(false);
     // }
+
     return null;
   }
 
@@ -205,9 +213,19 @@ export default class Level extends Scene {
     this.slime.getSprite().drawSprite(this.game.ctx, this.slime);
     this.player.getSprite().drawSprite(this.game.ctx, this.player);
     this.flyingDragonBaby.draw(this.game.ctx);
+    this.questBoard.draw(this.game.ctx);
 
     this.questBox.drawBox(this.game.ctx);
     this.dialogueBox.drawBox(this.game.ctx);
-    this.yesorNoQuestPrompt.drawBox(this.game.ctx);
+    this.yesOrNoQuestPrompt.drawBox(this.game.ctx);
+  }
+
+  /**
+   * Get the player details
+   *
+   * @returns the player details
+   */
+  public getPlayer(): Player {
+    return this.player;
   }
 }

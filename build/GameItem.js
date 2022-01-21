@@ -11,7 +11,13 @@ export default class GameItem {
     sprite;
     canvas;
     currentAnimation;
+    yesOrNoOption;
+    questDialogue;
+
     constructor(widthCut, heightCut, imageSrc, maxX, maxY, currentAnimationFrameLimit, sizeSprite) {
+
+    
+    // constructor(imageSrc, maxX, maxY) {
         this.img = Game.loadNewImage(imageSrc);
         this.xPos = maxX;
         this.yPos = maxY;
@@ -56,6 +62,12 @@ export default class GameItem {
     }
     getSprite() {
         return this.sprite;
+    }
+    getYesorNoText() {
+        return this.yesOrNoOption;
+    }
+    getQuestDialogue() {
+        return this.questDialogue;
     }
 }
 //# sourceMappingURL=GameItem.js.map
