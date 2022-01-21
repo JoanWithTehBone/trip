@@ -38,7 +38,7 @@ export default class KeyCommands {
         return this.keyboard.isKeyTyped(KeyListener.KEY_Y);
     }
     openControls() {
-        return this.keyboard.isKeyTyped(KeyListener.KEY_O);
+        return this.keyboard.isKeyTyped(KeyListener.KEY_M);
     }
 }
 //# sourceMappingURL=KeyCommands.js.map
