@@ -12,6 +12,7 @@ import QuestBox from './QuestBox.js';
 import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
 import FlyingDragonBaby from './FlyingDragonBaby.js';
 import QuestBoard from './QuestBoard.js';
+import GameItem from './GameItem.js';
 
 export default class Level extends Scene {
   // Player
@@ -37,8 +38,6 @@ export default class Level extends Scene {
   private keyCommands: KeyCommands;
 
   private questBoard: GameItem;
-
-
 
   /**
    * Creates a new instance of this class
@@ -135,18 +134,19 @@ export default class Level extends Scene {
     }
 
     // If you touch the questboard and press Y, go to the monster fight
-    
-    if (this.keycommands.isResponding() && this.player.collidesWith(this.questBoard)) {
-      return new MonsterFight(this.game, this.player, this.npcs);
+
+    if (this.keyCommands.isResponding()) {
+      if (this.player.collidesWith(this.questBoard)) {
+        return new MonsterFight(this.game, this.player, this.npcs);
+      }
+      this.player.questWithVillager(this.npcs);
     }
 
     // Button to get rid of any yes or no prompt
-    if (this.keycommands.isIgnoring()) {
+    if (this.keyCommands.isIgnoring()) {
+      this.player.resetQuest(this.npcs);
       this.yesOrNoQuestPrompt.setDisplay(false);
     }
-
-    this.player.questWithVillager(this.npcs);
-
 
     if (this.questBox.getDisplay()) {
       this.player.questAnswer(this.npcs);

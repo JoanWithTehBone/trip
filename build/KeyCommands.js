@@ -28,11 +28,17 @@ export default class KeyCommands {
     answerQuestD() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_D);
     }
+    answerQuestE() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_E);
+    }
     isFighting() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_F);
     }
     isResponding() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_Y);
+    }
+    openControls() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_O);
     }
 }
 //# sourceMappingURL=KeyCommands.js.map

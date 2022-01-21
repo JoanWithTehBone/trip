@@ -69,7 +69,6 @@ export default class Player extends GameItem {
             this.getSprite().setAnimation('idle-down');
         }
     }
-
     collidesWith(other) {
         return this.xPos < other.getXPos() + other.getImage().width
             && this.xPos + this.img.width > other.getXPos()
@@ -109,23 +108,25 @@ export default class Player extends GameItem {
             if (this.collidesWith(element)) {
                 this.questBox.setQuestList(element.getQuestDialogue());
                 console.log('quest WITH THE npc:)');
-
-                if (this.keyCommands.isResponding() && element.getProgression()
-                    === element.getDialogue().length - 1) {
-
+                if (element.getProgression() === element.getDialogue().length - 1) {
+                    console.log('HEll yeah it works');
                     this.questBox.setDisplay(true);
                     this.yesOrNoQuestPrompt.setDisplay(false);
-                }
-                if (this.keyCommands.isIgnoring() && element.getProgression()
-                    === element.getDialogue().length - 1) {
-                    this.yesOrNoQuestPrompt.setDisplay(false);
-                    element.setProgression(0);
                 }
                 collides = false;
             }
             return collides;
         });
         return false;
+    }
+    resetQuest(npcs) {
+        npcs.forEach((element) => {
+            if (this.collidesWith(element)) {
+                if (element.getProgression() === element.getDialogue().length - 1) {
+                    element.setProgression(0);
+                }
+            }
+        });
     }
     questAnswer(npcs) {
         npcs.forEach((npc) => {
@@ -169,7 +170,7 @@ export default class Player extends GameItem {
                         continueQuest = true;
                     }
                 }
-                else if (this.answerQuestE()) {
+                else if (this.keyCommands.answerQuestE()) {
                     if (this.checkForRightAnswer(npc, 'E') === false) {
                         continueQuest = true;
                     }

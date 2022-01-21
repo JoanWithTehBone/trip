@@ -18,12 +18,9 @@ export default class Level extends Scene {
     blacksmith;
     hunter;
     npcs;
-
     flyingDragonBaby;
     keyCommands;
     questBoard;
-    
-
     constructor(game) {
         super(game);
         this.baker = new Baker(game.canvas);
@@ -36,11 +33,8 @@ export default class Level extends Scene {
         this.yesOrNoQuestPrompt = new YesorNoQuestPrompt(this.game, this.game.canvas.width / 2 - 300, (this.game.canvas.height / 8) * 3);
         this.npcs = [];
         this.npcs.push(this.baker, this.blacksmith, this.hunter);
-
-        this.player = new Player(game.canvas.width / 2, game.canvas.height / 2, this.dialogueBox, this.questBox, this.yesorNoQuestPrompt);
+        this.player = new Player(game.canvas.width / 2, game.canvas.height / 2, this.dialogueBox, this.questBox, this.yesOrNoQuestPrompt);
         this.keyCommands = this.player.getKeyboard();
-
-
     }
     processInput() {
         this.player.move(this.game.canvas);
@@ -57,16 +51,16 @@ export default class Level extends Scene {
         if (this.keyCommands.isContinuing()) {
             this.dialogueBox.setDisplay(false);
         }
-
-        if (this.keycommands.isResponding() && this.player.collidesWith(this.questBoard)) {
-            return new MonsterFight(this.game, this.player, this.npcs);
+        if (this.keyCommands.isResponding()) {
+            if (this.player.collidesWith(this.questBoard)) {
+                return new MonsterFight(this.game, this.player, this.npcs);
+            }
+            this.player.questWithVillager(this.npcs);
         }
-        if (this.keycommands.isIgnoring()) {
+        if (this.keyCommands.isIgnoring()) {
+            this.player.resetQuest(this.npcs);
             this.yesOrNoQuestPrompt.setDisplay(false);
         }
-      
-        this.player.questWithVillager(this.npcs);
-
         if (this.questBox.getDisplay()) {
             this.player.questAnswer(this.npcs);
         }

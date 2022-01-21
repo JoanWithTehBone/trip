@@ -1,6 +1,7 @@
 import Game from './Game.js';
 import GameLose from './GameLose.js';
 import GameWonFight from './GameWonFight.js';
+import GameWonTalk from './GameWonTalk.js';
 import Monster from './Monster.js';
 import Scene from './Scene.js';
 export default class MonsterFight extends Scene {
@@ -92,6 +93,9 @@ export default class MonsterFight extends Scene {
         }
         if (this.keyCommands.isResponding()) {
             console.log('Ok');
+        }
+        if (this.monster.getProgression() >= 6) {
+            return new GameWonTalk(this.game);
         }
         if (this.hasWon()) {
             return new GameWonFight(this.game);

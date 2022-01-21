@@ -8,7 +8,7 @@ export default class QuestBoard extends GameItem {
    * @param canvas the canvas to be drawn on
    */
   public constructor(canvas: HTMLCanvasElement) {
-    super('./assets/img/baker.jpeg', (canvas.width / 2) * 1.15, (canvas.height / 2) * 0.90);
+    super('', (canvas.width / 2) * 1.15, (canvas.height / 2) * 0.90);
     this.img.height = 55;
     this.img.width = 80;
 
