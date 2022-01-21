@@ -16,7 +16,7 @@ export default class BlackSmith extends NPC {
             Game.loadNewImage('./assets/img/BlacksmithImages/BlacksmithQWrong.png'),
             Game.loadNewImage('./assets/img/BlacksmithImages/BlacksmithQCorrect.png'),
         ];
-        this.rightAnswer = 'A';
+        this.rightAnswer = 'D';
     }
     dialogueFactory() {
         this.dialogue.push(Game.loadNewImage('./assets/img/BlacksmithImages/BlacksmithD1.png'), Game.loadNewImage('./assets/img/BlacksmithImages/BlacksmithD2.png'), Game.loadNewImage('./assets/img/BlacksmithImages/BlacksmithD3.png'), Game.loadNewImage('./assets/img/BlacksmithImages/BlacksmithD4.png'), Game.loadNewImage('./assets/img/BlacksmithImages/BlacksmithD5.png'), Game.loadNewImage('./assets/img/BlacksmithImages/BlacksmithD6.png'));

@@ -69,6 +69,7 @@ export default class Player extends GameItem {
             this.getSprite().setAnimation('idle-down');
         }
     }
+
     collidesWith(other) {
         return this.xPos < other.getXPos() + other.getImage().width
             && this.xPos + this.img.width > other.getXPos()
@@ -108,10 +109,12 @@ export default class Player extends GameItem {
             if (this.collidesWith(element)) {
                 this.questBox.setQuestList(element.getQuestDialogue());
                 console.log('quest WITH THE npc:)');
+
                 if (this.keyCommands.isResponding() && element.getProgression()
                     === element.getDialogue().length - 1) {
-                    this.yesOrNoQuestPrompt.setDisplay(false);
+
                     this.questBox.setDisplay(true);
+                    this.yesOrNoQuestPrompt.setDisplay(false);
                 }
                 if (this.keyCommands.isIgnoring() && element.getProgression()
                     === element.getDialogue().length - 1) {
@@ -159,6 +162,15 @@ export default class Player extends GameItem {
                 }
                 else if (this.keyCommands.answerQuestD()) {
                     if (this.checkForRightAnswer(npc, 'D') === false) {
+                        continueQuest = true;
+                    }
+                    else {
+                        rightGuess = true;
+                        continueQuest = true;
+                    }
+                }
+                else if (this.answerQuestE()) {
+                    if (this.checkForRightAnswer(npc, 'E') === false) {
                         continueQuest = true;
                     }
                     else {
@@ -228,6 +240,13 @@ export default class Player extends GameItem {
             else {
                 monster.talkToPlayer(Game.randomNumber(0, 2), this.dialogueBox);
             }
+        }
+    }
+    interactWithObject(object) {
+        if (this.collidesWith(object)) {
+            console.log(object.getYesorNoText());
+            this.yesOrNoQuestPrompt.setCurrentPrompt(object.getYesorNoText());
+            this.yesOrNoQuestPrompt.setDisplay(true);
         }
     }
     increaseSpeed(size) {

@@ -13,6 +13,8 @@ export default class Sprite {
 
   private image: HTMLImageElement;
 
+  private isLoaded: boolean;
+
   /**
    * The sprite sheet for each gameitem will me cut up
    * and a shadow will be added + taking care for the animations
@@ -22,16 +24,6 @@ export default class Sprite {
   public constructor(gameitem: GameItem) {
     // Set up the Image
     this.image = gameitem.getImage();
-
-    // Shadow
-    // this.shadow = new Image();
-    // this.useShadow = true; // config.useShadow || false
-    // if (this.useShadow) {
-    //   this.shadow.src = '/images/characters/shadow.png';
-    // }
-    // this.shadow.onload = () => {
-    //   this.isShadowLoaded = true;
-    // };
 
     // Configure animations and initial state
     this.animations = {

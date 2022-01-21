@@ -23,7 +23,7 @@ export default class BlackSmith extends NPC {
       Game.loadNewImage('./assets/img/BlacksmithImages/BlacksmithQWrong.png'),
       Game.loadNewImage('./assets/img/BlacksmithImages/BlacksmithQCorrect.png'),
     ];
-    this.rightAnswer = 'A';
+    this.rightAnswer = 'D';
   }
 
   /**

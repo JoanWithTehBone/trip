@@ -5,6 +5,9 @@ export default class Sprite {
     animationFrameLimit;
     animationFrameProgress;
     image;
+
+    isLoaded;
+
     constructor(gameitem) {
         this.image = gameitem.getImage();
         this.animations = {

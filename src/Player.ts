@@ -35,7 +35,9 @@ export default class Player extends GameItem {
     yPos: number,
     dialogueBox: DialogueBox,
     questBox: QuestBox,
+
     yesOrNoQuestPrompt: YesorNoQuestPrompt,
+
   ) {
     super('./assets/img/testplayer.png', xPos, yPos);
 
@@ -83,6 +85,7 @@ export default class Player extends GameItem {
       if (this.xPos < minX) {
         this.xPos = minX;
       }
+
     } else if (this.keyCommands.getKeys().isKeyTyped(KeyListener.KEY_LEFT)
     && !this.keyCommands.getKeys().isKeyDown(KeyListener.KEY_LEFT)) {
       this.getSprite().setAnimation('idle-left');
@@ -95,8 +98,10 @@ export default class Player extends GameItem {
       if (this.yPos < minY) {
         this.yPos = minY;
       }
+
     } else if (this.keyCommands.getKeys().isKeyTyped(KeyListener.KEY_UP)
     && !this.keyCommands.getKeys().isKeyDown(KeyListener.KEY_UP)) {
+
       this.getSprite().setAnimation('idle-up');
     }
 
@@ -109,8 +114,17 @@ export default class Player extends GameItem {
       }
     } else if (this.keyCommands.getKeys().isKeyTyped(KeyListener.KEY_DOWN)
     && !this.keyCommands.getKeys().isKeyDown(KeyListener.KEY_DOWN)) {
+
       this.getSprite().setAnimation('idle-down');
     }
+  }
+
+
+  /**
+   * @returns true if the player is continuing up
+   */
+  public openControls(): boolean {
+    return this.keyboard.isKeyTyped(KeyListener.KEY_O);
   }
 
   /**
@@ -118,7 +132,7 @@ export default class Player extends GameItem {
    * @param other the other GameItem
    * @returns true if this object collides with the specified other object
    */
-  public collidesWith(other: NPC): boolean {
+  public collidesWith(other: GameItem): boolean {
     return this.xPos < other.getXPos() + other.getImage().width
       && this.xPos + this.img.width > other.getXPos()
       && this.yPos < other.getYPos() + other.getImage().height
@@ -187,8 +201,8 @@ export default class Player extends GameItem {
         if (this.keyCommands.isResponding() && element.getProgression()
           === element.getDialogue().length - 1) {
           // Remove the yes-or-no prompt from the screen and show the questbox
-          this.yesOrNoQuestPrompt.setDisplay(false);
           this.questBox.setDisplay(true);
+          this.yesOrNoQuestPrompt.setDisplay(false);
         }
 
         // When the player answers no on the yes-or-no prompt, run this function
@@ -239,6 +253,13 @@ export default class Player extends GameItem {
           }
         } else if (this.keyCommands.answerQuestD()) {
           if (this.checkForRightAnswer(npc, 'D') === false) {
+            continueQuest = true;
+          } else {
+            rightGuess = true;
+            continueQuest = true;
+          }
+        } else if (this.answerQuestE()) {
+          if (this.checkForRightAnswer(npc, 'E') === false) {
             continueQuest = true;
           } else {
             rightGuess = true;
@@ -339,6 +360,19 @@ export default class Player extends GameItem {
       } else {
         monster.talkToPlayer(Game.randomNumber(0, 2), this.dialogueBox);
       }
+    }
+  }
+
+  /**
+   * Method that interacts with the current object
+   *
+   * @param object the object that is being used
+   */
+  public interactWithObject(object: GameItem): void {
+    if (this.collidesWith(object)) {
+      console.log(object.getYesorNoText());
+      this.yesOrNoQuestPrompt.setCurrentPrompt(object.getYesorNoText());
+      this.yesOrNoQuestPrompt.setDisplay(true);
     }
   }
 

@@ -11,6 +11,7 @@ import MonsterFight from './MonsterFight.js';
 import QuestBox from './QuestBox.js';
 import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
 import FlyingDragonBaby from './FlyingDragonBaby.js';
+import QuestBoard from './QuestBoard.js';
 
 export default class Level extends Scene {
   // Player
@@ -20,7 +21,7 @@ export default class Level extends Scene {
 
   private questBox: QuestBox;
 
-  private yesorNoQuestPrompt: YesorNoQuestPrompt;
+  private yesOrNoQuestPrompt: YesorNoQuestPrompt;
 
   // NPCS
   private baker: Baker;
@@ -33,8 +34,11 @@ export default class Level extends Scene {
 
   private flyingDragonBaby: FlyingDragonBaby;
 
-  // Keyboard
   private keyCommands: KeyCommands;
+
+  private questBoard: GameItem;
+
+
 
   /**
    * Creates a new instance of this class
@@ -48,6 +52,7 @@ export default class Level extends Scene {
     this.blacksmith = new BlackSmith(game.canvas);
     this.hunter = new Hunter(game.canvas);
     this.flyingDragonBaby = new FlyingDragonBaby(game.canvas);
+    this.questBoard = new QuestBoard(game.canvas);
 
     // Create DialogueBox
     this.dialogueBox = new DialogueBox(
@@ -64,7 +69,7 @@ export default class Level extends Scene {
     );
 
     // Create the Yes or no prompt box
-    this.yesorNoQuestPrompt = new YesorNoQuestPrompt(
+    this.yesOrNoQuestPrompt = new YesorNoQuestPrompt(
       this.game,
       this.game.canvas.width / 2 - 300, // xPosition
       (this.game.canvas.height / 8) * 3, // yPostition
@@ -80,7 +85,7 @@ export default class Level extends Scene {
       game.canvas.height / 2,
       this.dialogueBox,
       this.questBox,
-      this.yesorNoQuestPrompt,
+      this.yesOrNoQuestPrompt,
     );
 
     this.keyCommands = this.player.getKeyboard();
@@ -121,6 +126,7 @@ export default class Level extends Scene {
     if (this.keyCommands.isPressing()) {
       this.player.interactWithVillager(this.npcs);
       this.player.afterQuest(this.npcs, this.game);
+      this.player.interactWithObject(this.questBoard);
     }
 
     // Checks if the player continues the conversation and gets rid of the dialogue box
@@ -128,12 +134,19 @@ export default class Level extends Scene {
       this.dialogueBox.setDisplay(false);
     }
 
-    // Dev button to go to the monster fight: "F"
-    if (this.keyCommands.isFighting()) {
+    // If you touch the questboard and press Y, go to the monster fight
+    
+    if (this.keycommands.isResponding() && this.player.collidesWith(this.questBoard)) {
       return new MonsterFight(this.game, this.player, this.npcs);
     }
 
+    // Button to get rid of any yes or no prompt
+    if (this.keycommands.isIgnoring()) {
+      this.yesOrNoQuestPrompt.setDisplay(false);
+    }
+
     this.player.questWithVillager(this.npcs);
+
 
     if (this.questBox.getDisplay()) {
       this.player.questAnswer(this.npcs);
@@ -156,10 +169,11 @@ export default class Level extends Scene {
 
     this.player.getSprite().drawSprite(this.game.ctx, this.player);
     this.flyingDragonBaby.draw(this.game.ctx);
+    this.questBoard.draw(this.game.ctx);
 
     this.questBox.drawBox(this.game.ctx);
     this.dialogueBox.drawBox(this.game.ctx);
-    this.yesorNoQuestPrompt.drawBox(this.game.ctx);
+    this.yesOrNoQuestPrompt.drawBox(this.game.ctx);
   }
 
   /**
