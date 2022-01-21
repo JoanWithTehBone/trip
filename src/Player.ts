@@ -1,5 +1,6 @@
 import GameItem from './GameItem.js';
 import KeyListener from './KeyListener.js';
+import KeyCommands from './KeyCommands.js';
 import NPC from './NPC.js';
 import DialogueBox from './DialogueBox.js';
 import QuestBox from './QuestBox.js';
@@ -18,7 +19,7 @@ export default class Player extends GameItem {
   private yesOrNoQuestPrompt: YesorNoQuestPrompt;
 
   // KeyboardListener so the player can move
-  private keyboard: KeyListener;
+  private keyCommands: KeyCommands;
 
   /**
    * Initialize Player
@@ -43,7 +44,7 @@ export default class Player extends GameItem {
     this.xVel = 2;
     this.yVel = 2;
     this.currentAnimation = 'idle-down';
-    this.keyboard = new KeyListener();
+    this.keyCommands = new KeyCommands();
 
     this.dialogueBox = dialogueBox;
     this.questBox = questBox;
@@ -64,146 +65,60 @@ export default class Player extends GameItem {
     const maxY = canvas.height - this.img.height;
 
     // Moving right
-    if (this.keyboard.isKeyDown(KeyListener.KEY_RIGHT) && this.xPos < maxX) {
+    if (this.keyCommands.getKeys().isKeyDown(KeyListener.KEY_RIGHT) && this.xPos < maxX) {
       this.xPos += this.xVel;
       this.getSprite().setAnimation('walk-right');
       // Limit to the max value
       if (this.xPos > maxX) {
         this.xPos = maxX;
       }
-    } else if (this.keyboard.isKeyTyped(KeyListener.KEY_RIGHT)
-      && !this.keyboard.isKeyDown(KeyListener.KEY_RIGHT)) {
+    } else if (this.keyCommands.getKeys().isKeyTyped(KeyListener.KEY_RIGHT)
+    && !this.keyCommands.getKeys().isKeyDown(KeyListener.KEY_RIGHT)) {
       this.getSprite().setAnimation('idle-right');
     }
 
     // Moving left
-    if (this.keyboard.isKeyDown(KeyListener.KEY_LEFT) && this.xPos > minX) {
+    if (this.keyCommands.getKeys().isKeyDown(KeyListener.KEY_LEFT) && this.xPos > minX) {
       this.xPos -= this.xVel;
       this.getSprite().setAnimation('walk-left');
       // Limit to the max value
       if (this.xPos < minX) {
         this.xPos = minX;
       }
-    } else if (this.keyboard.isKeyTyped(KeyListener.KEY_LEFT)
-      && !this.keyboard.isKeyDown(KeyListener.KEY_LEFT)) {
+
+    } else if (this.keyCommands.getKeys().isKeyTyped(KeyListener.KEY_LEFT)
+    && !this.keyCommands.getKeys().isKeyDown(KeyListener.KEY_LEFT)) {
       this.getSprite().setAnimation('idle-left');
     }
 
     // Moving up
-    if (this.keyboard.isKeyDown(KeyListener.KEY_UP) && this.yPos > minY) {
+    if (this.keyCommands.getKeys().isKeyDown(KeyListener.KEY_UP) && this.yPos > minY) {
       this.yPos -= this.yVel;
       this.getSprite().setAnimation('walk-up');
       if (this.yPos < minY) {
         this.yPos = minY;
       }
-    } else if (this.keyboard.isKeyTyped(KeyListener.KEY_UP)
-      && !this.keyboard.isKeyDown(KeyListener.KEY_UP)) {
+
+    } else if (this.keyCommands.getKeys().isKeyTyped(KeyListener.KEY_UP)
+    && !this.keyCommands.getKeys().isKeyDown(KeyListener.KEY_UP)) {
+
       this.getSprite().setAnimation('idle-up');
     }
 
     // Moving down
-    if (this.keyboard.isKeyDown(KeyListener.KEY_DOWN) && this.yPos < maxY) {
+    if (this.keyCommands.getKeys().isKeyDown(KeyListener.KEY_DOWN) && this.yPos < maxY) {
       this.yPos += this.yVel;
       this.getSprite().setAnimation('walk-down');
       if (this.yPos > maxY) {
         this.yPos = maxY;
       }
-    } else if (this.keyboard.isKeyTyped(KeyListener.KEY_DOWN)
-      && !this.keyboard.isKeyDown(KeyListener.KEY_DOWN)) {
+    } else if (this.keyCommands.getKeys().isKeyTyped(KeyListener.KEY_DOWN)
+    && !this.keyCommands.getKeys().isKeyDown(KeyListener.KEY_DOWN)) {
+
       this.getSprite().setAnimation('idle-down');
     }
   }
 
-  // public onFrameStartListener() {
-  //   this.keyboard.onFrameStart();
-  // }
-
-  /**
-   * Method to declare keypresses without insantiating a new keyboard
-   *
-   * @returns the keys being pressed
-   */
-  public getKeys(): KeyListener {
-    return this.keyboard;
-  }
-
-  /**
-   *
-   * @returns true if the player is pressing space
-   */
-  public isPressing(): boolean {
-    return this.keyboard.isKeyTyped(KeyListener.KEY_SPACE);
-  }
-
-  /**
-   *
-   * @returns true if the player is continuing up
-   */
-  public isContinuing(): boolean {
-    return this.keyboard.isKeyTyped(KeyListener.KEY_Q);
-  }
-
-  /**
-   *
-   * @returns true if the player is continuing up
-   */
-  public isIgnoring(): boolean {
-    return this.keyboard.isKeyTyped(KeyListener.KEY_N);
-  }
-
-  /**
-   *
-   * @returns true if the player is continuing up
-   */
-  public answerQuestA(): boolean {
-    return this.keyboard.isKeyTyped(KeyListener.KEY_A);
-  }
-
-  /**
-   *
-   * @returns true if the player is continuing up
-   */
-  public answerQuestB(): boolean {
-    return this.keyboard.isKeyTyped(KeyListener.KEY_B);
-  }
-
-  /**
-   *
-   * @returns true if the player is continuing up
-   */
-  public answerQuestC(): boolean {
-    return this.keyboard.isKeyTyped(KeyListener.KEY_C);
-  }
-
-  /**
-   * @returns true if the player is continuing up
-   */
-  public answerQuestD(): boolean {
-    return this.keyboard.isKeyTyped(KeyListener.KEY_D);
-  }
-
-  /**
-   * @returns true if the player is continuing up
-   */
-  public answerQuestE(): boolean {
-    return this.keyboard.isKeyTyped(KeyListener.KEY_E);
-  }
-
-  /**
-   *
-   * @returns true if the player is fighting the monster
-   */
-  public isFighting(): boolean {
-    return this.keyboard.isKeyTyped(KeyListener.KEY_F);
-  }
-
-  /**
-   *
-   * @returns true if the player is responding to a dialogue prompt
-   */
-  public isResponding(): boolean {
-    return this.keyboard.isKeyTyped(KeyListener.KEY_Y);
-  }
 
   /**
    * @returns true if the player is continuing up
@@ -232,7 +147,7 @@ export default class Player extends GameItem {
    * @param npcs the character in the game that need to be collided with
    * @returns if the character is interacting with an NPC
    */
-  public interactWith(npcs: NPC[]): boolean {
+  public interactWithVillager(npcs: NPC[]): boolean {
     // Create an collides statement to return to the level
     let collides: boolean = true;
     let questDone: boolean = false;
@@ -247,8 +162,8 @@ export default class Player extends GameItem {
           // Dialogue Box should become invisible, and the YesOrNo prompt pops up.
           // Also sets the current prompt and quest respectively
           this.dialogueBox.setDisplay(false);
-          this.yesOrNoQuestPrompt.setCurrentPrompt(element.getYesorNoText());
-          this.yesOrNoQuestPrompt.setDisplay(true);
+          this.getYesOrNoQuestPrompt().setCurrentPrompt(element.getYesorNoText());
+          this.getYesOrNoQuestPrompt().setDisplay(true);
 
           questDone = true;
           element.progressFurther();
@@ -274,7 +189,7 @@ export default class Player extends GameItem {
    * @param npcs the npc
    * @returns boolean
    */
-  public questWith(npcs: NPC[]): boolean {
+  public questWithVillager(npcs: NPC[]): boolean {
     // Create an collides statement to return to the level
     let collides: boolean = true;
     // For each npc, we check if it collides with the player. If so, run the functions.
@@ -283,14 +198,16 @@ export default class Player extends GameItem {
         this.questBox.setQuestList(element.getQuestDialogue());
         console.log('quest WITH THE npc:)');
         // When the player answers yes on the yes-or-no prompt, run this function
-        if (this.isResponding() && element.getProgression() === element.getDialogue().length - 1) {
+        if (this.keyCommands.isResponding() && element.getProgression()
+          === element.getDialogue().length - 1) {
           // Remove the yes-or-no prompt from the screen and show the questbox
           this.questBox.setDisplay(true);
           this.yesOrNoQuestPrompt.setDisplay(false);
         }
 
         // When the player answers no on the yes-or-no prompt, run this function
-        if (this.isIgnoring() && element.getProgression() === element.getDialogue().length - 1) {
+        if (this.keyCommands.isIgnoring() && element.getProgression()
+          === element.getDialogue().length - 1) {
           // Remove the yes-or-no prompt from the screen and reset the dialogue.
           this.yesOrNoQuestPrompt.setDisplay(false);
           element.setProgression(0);
@@ -312,7 +229,7 @@ export default class Player extends GameItem {
       if (this.collidesWith(npc)) {
         let rightGuess = false;
         let continueQuest = false;
-        if (this.answerQuestA()) {
+        if (this.keyCommands.answerQuestA()) {
           console.log('This is skipped');
           if (this.checkForRightAnswer(npc, 'A') === false) {
             continueQuest = true;
@@ -320,21 +237,21 @@ export default class Player extends GameItem {
             rightGuess = true;
             continueQuest = true;
           }
-        } else if (this.answerQuestB()) {
+        } else if (this.keyCommands.answerQuestB()) {
           if (this.checkForRightAnswer(npc, 'B') === false) {
             continueQuest = true;
           } else {
             rightGuess = true;
             continueQuest = true;
           }
-        } else if (this.answerQuestC()) {
+        } else if (this.keyCommands.answerQuestC()) {
           if (this.checkForRightAnswer(npc, 'C') === false) {
             continueQuest = true;
           } else {
             rightGuess = true;
             continueQuest = true;
           }
-        } else if (this.answerQuestD()) {
+        } else if (this.keyCommands.answerQuestD()) {
           if (this.checkForRightAnswer(npc, 'D') === false) {
             continueQuest = true;
           } else {
@@ -413,12 +330,21 @@ export default class Player extends GameItem {
   }
 
   /**
+   * Get the Yes/No promt details
+   *
+   * @returns the Yes/Np prompt details
+   */
+  public getYesOrNoQuestPrompt(): YesorNoQuestPrompt {
+    return this.yesOrNoQuestPrompt;
+  }
+
+  /**
    * A method that lets you have a conversation with the monster
    *
    * @param monster the monster that needs to be talked with
    * @param talk checks if the monster is able to talk or not
    */
-  public monsterConversation(monster: NPC, talk: boolean): void {
+  public talkToMonster(monster: NPC, talk: boolean): void {
     if (this.collidesWith(monster)) {
       console.log('Touching the monster');
       this.dialogueBox.setDisplay(true);
@@ -467,5 +393,14 @@ export default class Player extends GameItem {
    */
   public getDialogueBox(): DialogueBox {
     return this.dialogueBox;
+  }
+
+  /**
+   * Get the keyboard and key command details
+   *
+   * @returns the keyboard and key command interactions
+   */
+  public getKeyboard() : KeyCommands {
+    return this.keyCommands;
   }
 }

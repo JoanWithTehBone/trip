@@ -18,9 +18,12 @@ export default class Level extends Scene {
     blacksmith;
     hunter;
     npcs;
-    questBoard;
+
     flyingDragonBaby;
-    keyboard;
+    keyCommands;
+    questBoard;
+    
+
     constructor(game) {
         super(game);
         this.baker = new Baker(game.canvas);
@@ -33,31 +36,37 @@ export default class Level extends Scene {
         this.yesOrNoQuestPrompt = new YesorNoQuestPrompt(this.game, this.game.canvas.width / 2 - 300, (this.game.canvas.height / 8) * 3);
         this.npcs = [];
         this.npcs.push(this.baker, this.blacksmith, this.hunter);
-        this.player = new Player(game.canvas.width / 2, game.canvas.height / 2, this.dialogueBox, this.questBox, this.yesOrNoQuestPrompt);
-        this.keyboard = this.player.getKeys();
+
+        this.player = new Player(game.canvas.width / 2, game.canvas.height / 2, this.dialogueBox, this.questBox, this.yesorNoQuestPrompt);
+        this.keyCommands = this.player.getKeyboard();
+
+
     }
     processInput() {
         this.player.move(this.game.canvas);
     }
     update() {
-        this.keyboard.onFrameStart();
+        this.keyCommands.getKeys().onFrameStart();
         this.flyingDragonBaby.move();
         this.flyingDragonBaby.outOfCanvas(this.game.canvas);
-        if (this.player.isPressing()) {
-            this.player.interactWith(this.npcs);
+        if (this.keyCommands.isPressing()) {
+            this.player.interactWithVillager(this.npcs);
             this.player.afterQuest(this.npcs, this.game);
             this.player.interactWithObject(this.questBoard);
         }
-        if (this.player.isContinuing()) {
+        if (this.keyCommands.isContinuing()) {
             this.dialogueBox.setDisplay(false);
         }
-        if (this.player.isResponding() && this.player.collidesWith(this.questBoard)) {
+
+        if (this.keycommands.isResponding() && this.player.collidesWith(this.questBoard)) {
             return new MonsterFight(this.game, this.player, this.npcs);
         }
-        if (this.player.isIgnoring()) {
+        if (this.keycommands.isIgnoring()) {
             this.yesOrNoQuestPrompt.setDisplay(false);
         }
-        this.player.questWith(this.npcs);
+      
+        this.player.questWithVillager(this.npcs);
+
         if (this.questBox.getDisplay()) {
             this.player.questAnswer(this.npcs);
         }
@@ -74,6 +83,9 @@ export default class Level extends Scene {
         this.questBox.drawBox(this.game.ctx);
         this.dialogueBox.drawBox(this.game.ctx);
         this.yesOrNoQuestPrompt.drawBox(this.game.ctx);
+    }
+    getPlayer() {
+        return this.player;
     }
 }
 //# sourceMappingURL=Level.js.map
