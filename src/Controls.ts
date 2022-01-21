@@ -28,9 +28,9 @@ export default class Controls extends DisplayItem {
    */
   public drawBox(ctx: CanvasRenderingContext2D): void {
     if (this.display) {
-      ctx.clearRect(this.xPosition, this.yPosition, 1000, 600);
+      ctx.clearRect(this.xPosition, this.yPosition, 1000, 550);
       // Draw the controls prompt to the screen
-      const controlImage = Game.loadNewImage('./assets/img/controls.jpg');
+      const controlImage = Game.loadNewImage('./assets/img/controls.png');
       ctx.drawImage(controlImage, this.xPosition, this.yPosition);
       // console.log(this.npc.getProgression());
     }

@@ -1,30 +1,29 @@
 import Game from './Game.js';
 import KeyListener from './KeyListener.js';
+import Level from './Level.js';
 import Scene from './Scene.js';
-import Story from './Story.js';
-export default class Start extends Scene {
-    shouldStart;
+export default class Story extends Scene {
     keyboard;
+    shouldStart;
     constructor(game) {
         super(game);
-        game.reset();
         this.keyboard = new KeyListener();
         this.shouldStart = false;
     }
     processInput() {
-        if (this.keyboard.isKeyDown(KeyListener.KEY_S)) {
+        if (this.keyboard.isKeyDown(KeyListener.KEY_SPACE)) {
             this.shouldStart = true;
         }
     }
     update() {
         if (this.shouldStart) {
-            return new Story(this.game);
+            return new Level(this.game);
         }
         return null;
     }
     render() {
         this.game.ctx.clearRect(0, 0, this.game.canvas.width, this.game.canvas.height);
-        this.game.ctx.drawImage(Game.loadNewImage('./assets/img/startscreen.png'), 0, 0, this.game.canvas.width, this.game.canvas.height);
+        this.game.ctx.drawImage(Game.loadNewImage('./assets/img/StoryIntroduction.png'), this.game.canvas.width / 2 - 500, (this.game.canvas.height / 8) * 0.5);
     }
 }
-//# sourceMappingURL=Start.js.map
+//# sourceMappingURL=Story.js.map

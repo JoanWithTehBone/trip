@@ -12,8 +12,8 @@ export default class Controls extends DisplayItem {
     }
     drawBox(ctx) {
         if (this.display) {
-            ctx.clearRect(this.xPosition, this.yPosition, 1000, 600);
-            const controlImage = Game.loadNewImage('./assets/img/controls.jpg');
+            ctx.clearRect(this.xPosition, this.yPosition, 1000, 550);
+            const controlImage = Game.loadNewImage('./assets/img/controls.png');
             ctx.drawImage(controlImage, this.xPosition, this.yPosition);
         }
     }
