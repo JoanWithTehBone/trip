@@ -10,7 +10,7 @@ export default class NPC extends GameItem {
     rightAnswer;
     user;
     constructor(imageSrc, maxX, maxY) {
-        super(imageSrc, maxX, maxY);
+        super(null, null, imageSrc, maxX, maxY, null, null);
     }
     talkToPlayer(dialogueIndex, dialogueBox) {
         dialogueBox.setDialogueList(this.dialogue);

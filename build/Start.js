@@ -1,3 +1,4 @@
+import Game from './Game.js';
 import KeyListener from './KeyListener.js';
 import Level from './Level.js';
 import Scene from './Scene.js';
@@ -23,9 +24,7 @@ export default class Start extends Scene {
     }
     render() {
         this.game.ctx.clearRect(0, 0, this.game.canvas.width, this.game.canvas.height);
-        const centerX = this.game.canvas.width / 2;
-        this.game.writeTextToCanvas('TRIP', 128, centerX, 250, 'center', 'red');
-        this.game.writeTextToCanvas("Type 'S' to Start", 48, centerX, 550, 'center', 'white');
+        this.game.ctx.drawImage(Game.loadNewImage('./assets/img/startscreen1.png'), 0, 0, this.game.canvas.width, this.game.canvas.height);
     }
 }
 //# sourceMappingURL=Start.js.map

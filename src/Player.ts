@@ -6,6 +6,7 @@ import DialogueBox from './DialogueBox.js';
 import QuestBox from './QuestBox.js';
 import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
 import Game from './Game.js';
+import Controls from './Controls.js';
 
 export default class Player extends GameItem {
   private xVel: number;
@@ -29,6 +30,7 @@ export default class Player extends GameItem {
    * @param dialogueBox BOX
    * @param questBox quest box
    * @param yesOrNoQuestPrompt prompt for quest
+   * @param controls the controls
    */
   public constructor(
     xPos: number,
@@ -39,7 +41,7 @@ export default class Player extends GameItem {
     yesOrNoQuestPrompt: YesorNoQuestPrompt,
 
   ) {
-    super('./assets/img/testplayer.png', xPos, yPos);
+    super(32, 32, './assets/img/testplayer.png', xPos, yPos, 8, 128);
 
     this.xVel = 2;
     this.yVel = 2;

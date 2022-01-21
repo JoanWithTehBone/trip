@@ -9,7 +9,7 @@ export default class DisplayItem extends GameItem {
     textYPos;
     game;
     constructor(imageSrc, game, xPosition, yPosition) {
-        super(imageSrc, xPosition, yPosition);
+        super(null, null, imageSrc, xPosition, yPosition, null, null);
         this.display = false;
         this.game = game;
     }

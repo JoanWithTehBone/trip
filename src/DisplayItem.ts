@@ -28,7 +28,7 @@ export default abstract class DisplayItem extends GameItem {
    * @param yPosition the positions of the npc
    */
   constructor(imageSrc: string, game: Game, xPosition: number, yPosition: number) {
-    super(imageSrc, xPosition, yPosition);
+    super(null, null, imageSrc, xPosition, yPosition, null, null);
     this.display = false;
     this.game = game;
   }

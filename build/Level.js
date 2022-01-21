@@ -8,25 +8,38 @@ import MonsterFight from './MonsterFight.js';
 import QuestBox from './QuestBox.js';
 import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
 import FlyingDragonBaby from './FlyingDragonBaby.js';
+import Slime from './Slime.js';
+import Fatcat from './Fatcat.js';
 import QuestBoard from './QuestBoard.js';
+
 export default class Level extends Scene {
     player;
+  
     dialogueBox;
     questBox;
-    yesOrNoQuestPrompt;
+    yesorNoQuestPrompt;
+    controls;
+  
     baker;
     blacksmith;
     hunter;
     npcs;
+  
     flyingDragonBaby;
-    keyCommands;
+    slime;
+    fatcat;
     questBoard;
+  
+    keyCommands;
+    
     constructor(game) {
         super(game);
         this.baker = new Baker(game.canvas);
         this.blacksmith = new BlackSmith(game.canvas);
         this.hunter = new Hunter(game.canvas);
         this.flyingDragonBaby = new FlyingDragonBaby(game.canvas);
+        this.slime = new Slime();
+        this.fatcat = new Fatcat();
         this.questBoard = new QuestBoard(game.canvas);
         this.dialogueBox = new DialogueBox(this.game, this.game.canvas.width / 2 - 600, (this.game.canvas.height / 5) * 3.7);
         this.questBox = new QuestBox(this.game, this.game.canvas.width / 2 - 500, (this.game.canvas.height / 8) * 0.5);
@@ -64,6 +77,14 @@ export default class Level extends Scene {
         if (this.questBox.getDisplay()) {
             this.player.questAnswer(this.npcs);
         }
+        if (this.player.openControls()) {
+            if (this.controls.getDisplay()) {
+                this.controls.setDisplay(false);
+            }
+            else {
+                this.controls.setDisplay(true);
+            }
+        }
         return null;
     }
     render() {
@@ -71,6 +92,8 @@ export default class Level extends Scene {
         this.baker.draw(this.game.ctx);
         this.blacksmith.draw(this.game.ctx);
         this.hunter.draw(this.game.ctx);
+        this.fatcat.getSprite().drawSprite(this.game.ctx, this.fatcat);
+        this.slime.getSprite().drawSprite(this.game.ctx, this.slime);
         this.player.getSprite().drawSprite(this.game.ctx, this.player);
         this.flyingDragonBaby.draw(this.game.ctx);
         this.questBoard.draw(this.game.ctx);
