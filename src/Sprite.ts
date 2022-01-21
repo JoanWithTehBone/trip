@@ -13,8 +13,6 @@ export default class Sprite {
 
   private image: HTMLImageElement;
 
-  private isLoaded: boolean;
-
   /**
    * The sprite sheet for each gameitem will me cut up
    * and a shadow will be added + taking care for the animations
@@ -35,12 +33,13 @@ export default class Sprite {
       'walk-right': [[1, 1], [0, 1], [3, 1], [0, 1]],
       'walk-up': [[1, 2], [0, 2], [3, 2], [0, 2]],
       'walk-left': [[1, 3], [0, 3], [3, 3], [0, 3]],
+      'cat-eat': [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [0, 1], [1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [0, 2], [1, 2], [2, 2], [3, 2], [4, 2], [5, 2], [0, 3], [1, 3], [2, 3], [3, 3], [4, 3], [5, 3]],
     }; // gameitem.animations ||
     this.currentAnimation = gameitem.getCurrentAnimation() || 'idle-down';
     this.currentAnimationFrame = 0;
 
     // how many gameloop frames we wanna show this spritesheet
-    this.animationFrameLimit = 8; // gameitem.currentAnimationFrameLimit ||
+    this.animationFrameLimit = gameitem.getCurrentAnimationFrameLimit() || 8;
     // how much time is left till the next image should be shown
     this.animationFrameProgress = this.animationFrameLimit;
   }
@@ -101,18 +100,19 @@ export default class Sprite {
   public drawSprite(ctx: CanvasRenderingContext2D, gameitem: GameItem): void {
     const xP = gameitem.getXPos();
     const yP = gameitem.getYPos();
-    // console.log('sprite is drawn');
-    // console.log(this.getFrame());
+    const widthcut = gameitem.getWidthCut();
+    const heightcut = gameitem.getHeightCut();
+    const sizeSprite = gameitem.getSizeSprite();
 
     // seperate the frame so the values can be used in drawimage
     const [frameX, frameY]: number[] = this.getFrame();
 
     // cuts the first image of the spritesheet
     ctx.drawImage(this.image,
-      frameX * 32, frameY * 32, // start of cut left, right
-      32, 32, // size of the cut witdh, height
+      frameX * widthcut, frameY * heightcut, // start of cut left, right
+      widthcut, heightcut, // size of the cut witdh, height
       xP, yP, // position the object should be drawn to the canvas
-      128, 128); // size it should be draw
+      sizeSprite, sizeSprite); // size it should be draw
 
     this.updateAnimationProgress();
   }

@@ -5,14 +5,12 @@ export default class NPC extends GameItem {
     rewardGiven;
     progression;
     dialogue;
-    questDialogue;
     quest;
-    yesOrNoOption;
     questResponse;
     rightAnswer;
     user;
     constructor(imageSrc, maxX, maxY) {
-        super(imageSrc, maxX, maxY);
+        super(null, null, imageSrc, maxX, maxY, null, null);
     }
     talkToPlayer(dialogueIndex, dialogueBox) {
         dialogueBox.setDialogueList(this.dialogue);
@@ -39,17 +37,11 @@ export default class NPC extends GameItem {
     progressFurther() {
         this.progression += 1;
     }
-    getYesorNoText() {
-        return this.yesOrNoOption;
-    }
     getQuestResponseImage() {
         return this.questResponse;
     }
     getDialogue() {
         return this.dialogue;
-    }
-    getQuestDialogue() {
-        return this.questDialogue;
     }
     getRightAnswer() {
         return this.rightAnswer;

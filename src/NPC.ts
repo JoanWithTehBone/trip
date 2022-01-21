@@ -15,11 +15,7 @@ export default abstract class NPC extends GameItem {
 
   protected dialogue: HTMLImageElement[];
 
-  protected questDialogue: HTMLImageElement;
-
   protected quest: boolean;
-
-  protected yesOrNoOption: HTMLImageElement;
 
   protected questResponse: HTMLImageElement[];
 
@@ -35,7 +31,7 @@ export default abstract class NPC extends GameItem {
    * @param maxY the yPosition of the NPC on the screen
    */
   public constructor(imageSrc: string, maxX: number, maxY: number) {
-    super(imageSrc, maxX, maxY);
+    super(null, null, imageSrc, maxX, maxY, null, null);
   }
 
   public abstract dialogueFactory(): void;
@@ -106,15 +102,6 @@ export default abstract class NPC extends GameItem {
    *
    * @returns the text of the Question that is in the constructor
    */
-  public getYesorNoText(): HTMLImageElement {
-    return this.yesOrNoOption;
-  }
-
-  /**
-   * A getter for the Yes or No question
-   *
-   * @returns the text of the Question that is in the constructor
-   */
   public getQuestResponseImage(): HTMLImageElement[] {
     return this.questResponse;
   }
@@ -126,15 +113,6 @@ export default abstract class NPC extends GameItem {
    */
   public getDialogue(): HTMLImageElement[] {
     return this.dialogue;
-  }
-
-  /**
-   * Gets the progression of the NPC
-   *
-   * @returns Progression of the child
-   */
-  public getQuestDialogue(): HTMLImageElement {
-    return this.questDialogue;
   }
 
   /**

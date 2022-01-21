@@ -22,7 +22,7 @@ export default class Controls extends GameItem {
    * @param yPos the y position
    */
   constructor(game: Game, xPos: number, yPos: number) {
-    super('./assets/img/controls.jpg', xPos, yPos);
+    super(null, null, './assets/img/controls.jpg', xPos, yPos, null, null);
     this.display = false;
     // Positioning
     this.xPosition = xPos;
@@ -53,7 +53,8 @@ export default class Controls extends GameItem {
   //  * Method to write the text in the box to the screen
   //  */
   // public writeTextToBox(): void {
-  //   this.game.writeTextToCanvas(this.baker.getYesorNoTextBaker(), 26, this.textXPos, this.textYPos, 'center', 'black');
+  //   this.game.writeTextToCanvas(this.baker.getYesorNoTextBaker(),
+  // 26, this.textXPos, this.textYPos, 'center', 'black');
   // }
 
   /**

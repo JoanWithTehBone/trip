@@ -4,13 +4,23 @@ export default class GameItem {
     img;
     xPos;
     yPos;
+    widthCut;
+    heightCut;
+    currentAnimationFrameLimit;
+    sizeSprite;
     sprite;
     canvas;
     currentAnimation;
-    constructor(imageSrc, maxX, maxY) {
+    yesOrNoOption;
+    questDialogue;
+    constructor(widthCut, heightCut, imageSrc, maxX, maxY, currentAnimationFrameLimit, sizeSprite) {
         this.img = Game.loadNewImage(imageSrc);
         this.xPos = maxX;
         this.yPos = maxY;
+        this.widthCut = widthCut;
+        this.heightCut = heightCut;
+        this.currentAnimationFrameLimit = currentAnimationFrameLimit;
+        this.sizeSprite = sizeSprite;
         this.sprite = new Sprite(this);
     }
     draw(ctx) {
@@ -31,11 +41,29 @@ export default class GameItem {
     setYPos(yPosition) {
         this.yPos = yPosition;
     }
+    getWidthCut() {
+        return this.widthCut;
+    }
+    getHeightCut() {
+        return this.heightCut;
+    }
+    getCurrentAnimationFrameLimit() {
+        return this.currentAnimationFrameLimit;
+    }
+    getSizeSprite() {
+        return this.sizeSprite;
+    }
     getCurrentAnimation() {
         return this.currentAnimation;
     }
     getSprite() {
         return this.sprite;
+    }
+    getYesorNoText() {
+        return this.yesOrNoOption;
+    }
+    getQuestDialogue() {
+        return this.questDialogue;
     }
 }
 //# sourceMappingURL=GameItem.js.map

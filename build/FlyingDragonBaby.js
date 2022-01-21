@@ -5,7 +5,7 @@ export default class FlyingDragonBaby extends GameItem {
     imagearray;
     constructor(canvas) {
         const yPosition = Game.randomNumber(0, canvas.height);
-        super('./assets/img/flyingbabydragonpurple.png', 0, yPosition);
+        super(null, null, './assets/img/flyingbabydragonpurple.png', 0, yPosition, null, null);
         this.speed = Game.randomNumber(2, 6);
         this.xPos = -100;
         this.imagearray = ['./assets/img/flyingbabydragonpurple.png', './assets/img/flyingbabydragonred.png', './assets/img/flyingbabydragonyellow.png', './assets/img/flyingbabydragongreen.png', './assets/img/flyingbabydragonblue.png'];

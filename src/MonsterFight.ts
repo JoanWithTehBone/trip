@@ -2,7 +2,8 @@ import DialogueBox from './DialogueBox.js';
 import Game from './Game.js';
 import GameLose from './GameLose.js';
 import GameWonFight from './GameWonFight.js';
-import KeyListener from './KeyListener.js';
+import GameWonTalk from './GameWonTalk.js';
+import KeyCommands from './KeyCommands.js';
 import Monster from './Monster.js';
 import NPC from './NPC.js';
 import Player from './Player.js';
@@ -11,8 +12,6 @@ import UserData from './UserData.js';
 
 export default class MonsterFight extends Scene {
   private player: Player;
-
-  private keyboard: KeyListener;
 
   private monster: Monster;
 
@@ -31,6 +30,8 @@ export default class MonsterFight extends Scene {
   private offChance: number;
 
   private doesMonsterTalk: boolean;
+
+  private keyCommands: KeyCommands;
 
   /**
    * Constructor for the Monster Fight scene
@@ -60,7 +61,7 @@ export default class MonsterFight extends Scene {
     this.doesMonsterTalk = this.talkWithMonster(npcs);
     console.log(this.doesMonsterTalk);
 
-    this.keyboard = this.player.getKeys();
+    this.keyCommands = this.player.getKeyboard();
   }
 
   /**
@@ -172,25 +173,28 @@ export default class MonsterFight extends Scene {
    *   current scene, just return `null`
    */
   public update(): Scene {
-    this.keyboard.onFrameStart();
+    this.keyCommands.getKeys().onFrameStart();
 
-    if (this.player.isPressing()) {
-      this.player.monsterConversation(this.monster, this.doesMonsterTalk);
+    if (this.keyCommands.isPressing()) {
+      this.player.talkToMonster(this.monster, this.doesMonsterTalk);
     }
 
-    if (this.player.isContinuing()) {
+    if (this.keyCommands.isContinuing()) {
       this.dialogueBox.setDisplay(false);
     }
 
-    if (this.player.isFighting()) {
+    if (this.keyCommands.isFighting()) {
       console.log('I fight thee monster!');
       this.fightWithMonster();
     }
 
-    if (this.player.isResponding()) {
+    if (this.keyCommands.isResponding()) {
       console.log('Ok');
     }
 
+    if (this.monster.getProgression() >= 6) {
+      return new GameWonTalk(this.game);
+    }
     // Move to level clear screen
     if (this.hasWon()) {
       return new GameWonFight(this.game);

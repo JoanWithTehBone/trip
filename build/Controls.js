@@ -7,7 +7,7 @@ export default class Controls extends GameItem {
     textYPos;
     game;
     constructor(game, xPos, yPos) {
-        super('./assets/img/controls.jpg', xPos, yPos);
+        super(null, null, './assets/img/controls.jpg', xPos, yPos, null, null);
         this.display = false;
         this.xPosition = xPos;
         this.yPosition = yPos;
