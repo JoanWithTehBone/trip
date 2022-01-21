@@ -31,7 +31,7 @@ export default abstract class NPC extends GameItem {
    * @param maxY the yPosition of the NPC on the screen
    */
   public constructor(imageSrc: string, maxX: number, maxY: number) {
-    super(imageSrc, maxX, maxY);
+    super(null, null, imageSrc, maxX, maxY, null, null);
   }
 
   public abstract dialogueFactory(): void;

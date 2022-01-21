@@ -96,4 +96,11 @@ export default class KeyCommands {
   public isResponding(): boolean {
     return this.keyboard.isKeyTyped(KeyListener.KEY_Y);
   }
+
+  /**
+   * @returns true if the player is continuing up
+   */
+  public openControls(): boolean {
+    return this.keyboard.isKeyTyped(KeyListener.KEY_M);
+  }
 }

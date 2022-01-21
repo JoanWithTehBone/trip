@@ -1,19 +1,7 @@
+import DisplayItem from './DisplayItem.js';
 import Game from './Game.js';
-import GameItem from './GameItem.js';
 
-export default class Controls extends GameItem {
-  private display: boolean;
-
-  private xPosition: number;
-
-  private yPosition: number;
-
-  private textXPos: number;
-
-  private textYPos: number;
-
-  private game: Game;
-
+export default class Controls extends DisplayItem {
   /**
    * Constructing the dialogue box
    *
@@ -22,7 +10,7 @@ export default class Controls extends GameItem {
    * @param yPos the y position
    */
   constructor(game: Game, xPos: number, yPos: number) {
-    super('./assets/img/controls.jpg', xPos, yPos);
+    super('', game, xPos, yPos);
     this.display = false;
     // Positioning
     this.xPosition = xPos;
@@ -40,22 +28,13 @@ export default class Controls extends GameItem {
    */
   public drawBox(ctx: CanvasRenderingContext2D): void {
     if (this.display) {
-      ctx.clearRect(this.xPosition, this.yPosition, 1000, 600);
-      // Drawing a white rectangle on the canvas background
-      // ctx.fillRect(this.xPosition, this.yPosition, 600, 250);
-      ctx.drawImage(this.img, this.xPosition, this.yPosition);
+      ctx.clearRect(this.xPosition, this.yPosition, 1000, 550);
+      // Draw the controls prompt to the screen
+      const controlImage = Game.loadNewImage('./assets/img/controls.png');
+      ctx.drawImage(controlImage, this.xPosition, this.yPosition);
       // console.log(this.npc.getProgression());
-      // this.writeTextToBox();
     }
   }
-
-  // /**
-  //  * Method to write the text in the box to the screen
-  //  */
-  // public writeTextToBox(): void {
-  //   this.game.writeTextToCanvas(this.baker.getYesorNoTextBaker(),
-  // 26, this.textXPos, this.textYPos, 'center', 'black');
-  // }
 
   /**
    * Sets the display to be shown or not to be shown

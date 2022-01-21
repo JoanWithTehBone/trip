@@ -8,6 +8,14 @@ export default abstract class GameItem {
 
   protected yPos: number;
 
+  protected widthCut: number;
+
+  protected heightCut: number;
+
+  protected currentAnimationFrameLimit: number;
+
+  protected sizeSprite: number;
+
   protected sprite: Sprite;
 
   protected canvas: HTMLCanvasElement;
@@ -21,14 +29,23 @@ export default abstract class GameItem {
   /**
    * Creates a new GameItem on a random position
    *
+   * @param widthCut the width of a single spritesheetblock
+   * @param heightCut the height of a single spritesheetblock
    * @param imageSrc the src of the image
    * @param maxX the max value of the X position
    * @param maxY the max value of the X position
+   * @param currentAnimationFrameLimit the speed of the frame troughout
+   * @param sizeSprite the size it should be drawn to the screen
    */
-  public constructor(imageSrc: string, maxX: number, maxY: number) {
+  public constructor(widthCut: number, heightCut: number, imageSrc: string,
+    maxX: number, maxY: number, currentAnimationFrameLimit : number, sizeSprite: number) {
     this.img = Game.loadNewImage(imageSrc);
     this.xPos = maxX;
     this.yPos = maxY;
+    this.widthCut = widthCut;
+    this.heightCut = heightCut;
+    this.currentAnimationFrameLimit = currentAnimationFrameLimit;
+    this.sizeSprite = sizeSprite;
     this.sprite = new Sprite(this);
   }
 
@@ -84,6 +101,42 @@ export default abstract class GameItem {
    */
   public setYPos(yPosition : number): void {
     this.yPos = yPosition;
+  }
+
+  /**
+   * getYPos
+   *
+   * @returns the width of a single spritesheetblock
+   */
+  public getWidthCut(): number {
+    return this.widthCut;
+  }
+
+  /**
+   * getYPos
+   *
+   * @returns the height of a single spritesheetblock
+   */
+  public getHeightCut(): number {
+    return this.heightCut;
+  }
+
+  /**
+   * get the currerent animation frame limit which will be the speed of the animation
+   *
+   * @returns the height of a single spritesheetblock
+   */
+  public getCurrentAnimationFrameLimit(): number {
+    return this.currentAnimationFrameLimit;
+  }
+
+  /**
+   * get size sprite should be drawn on to the canvas
+   *
+   * @returns the height of a single spritesheetblock
+   */
+  public getSizeSprite(): number {
+    return this.sizeSprite;
   }
 
   /**

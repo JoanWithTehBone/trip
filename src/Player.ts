@@ -39,10 +39,10 @@ export default class Player extends GameItem {
     yesOrNoQuestPrompt: YesorNoQuestPrompt,
 
   ) {
-    super('./assets/img/testplayer.png', xPos, yPos);
+    super(32, 32, './assets/img/testplayer.png', xPos, yPos, 5, 128);
 
-    this.xVel = 2;
-    this.yVel = 2;
+    this.xVel = 3;
+    this.yVel = 3;
     this.currentAnimation = 'idle-down';
     this.keyCommands = new KeyCommands();
 
@@ -73,7 +73,7 @@ export default class Player extends GameItem {
         this.xPos = maxX;
       }
     } else if (this.keyCommands.getKeys().isKeyTyped(KeyListener.KEY_RIGHT)
-    && !this.keyCommands.getKeys().isKeyDown(KeyListener.KEY_RIGHT)) {
+      && !this.keyCommands.getKeys().isKeyDown(KeyListener.KEY_RIGHT)) {
       this.getSprite().setAnimation('idle-right');
     }
 
@@ -85,9 +85,8 @@ export default class Player extends GameItem {
       if (this.xPos < minX) {
         this.xPos = minX;
       }
-
     } else if (this.keyCommands.getKeys().isKeyTyped(KeyListener.KEY_LEFT)
-    && !this.keyCommands.getKeys().isKeyDown(KeyListener.KEY_LEFT)) {
+      && !this.keyCommands.getKeys().isKeyDown(KeyListener.KEY_LEFT)) {
       this.getSprite().setAnimation('idle-left');
     }
 
@@ -98,10 +97,8 @@ export default class Player extends GameItem {
       if (this.yPos < minY) {
         this.yPos = minY;
       }
-
     } else if (this.keyCommands.getKeys().isKeyTyped(KeyListener.KEY_UP)
-    && !this.keyCommands.getKeys().isKeyDown(KeyListener.KEY_UP)) {
-
+      && !this.keyCommands.getKeys().isKeyDown(KeyListener.KEY_UP)) {
       this.getSprite().setAnimation('idle-up');
     }
 
@@ -113,18 +110,9 @@ export default class Player extends GameItem {
         this.yPos = maxY;
       }
     } else if (this.keyCommands.getKeys().isKeyTyped(KeyListener.KEY_DOWN)
-    && !this.keyCommands.getKeys().isKeyDown(KeyListener.KEY_DOWN)) {
-
+      && !this.keyCommands.getKeys().isKeyDown(KeyListener.KEY_DOWN)) {
       this.getSprite().setAnimation('idle-down');
     }
-  }
-
-
-  /**
-   * @returns true if the player is continuing up
-   */
-  public openControls(): boolean {
-    return this.keyboard.isKeyTyped(KeyListener.KEY_O);
   }
 
   /**
@@ -198,25 +186,34 @@ export default class Player extends GameItem {
         this.questBox.setQuestList(element.getQuestDialogue());
         console.log('quest WITH THE npc:)');
         // When the player answers yes on the yes-or-no prompt, run this function
-        if (this.keyCommands.isResponding() && element.getProgression()
-          === element.getDialogue().length - 1) {
+        if (element.getProgression() === element.getDialogue().length - 1) {
           // Remove the yes-or-no prompt from the screen and show the questbox
+          console.log('HEll yeah it works');
           this.questBox.setDisplay(true);
           this.yesOrNoQuestPrompt.setDisplay(false);
-        }
-
-        // When the player answers no on the yes-or-no prompt, run this function
-        if (this.keyCommands.isIgnoring() && element.getProgression()
-          === element.getDialogue().length - 1) {
-          // Remove the yes-or-no prompt from the screen and reset the dialogue.
-          this.yesOrNoQuestPrompt.setDisplay(false);
-          element.setProgression(0);
         }
         collides = false;
       }
       return collides;
     });
     return false;
+  }
+
+  /**
+   * Method that resets the current quest
+   *
+   * @param npcs NPCS of the game
+   */
+  public resetQuest(npcs: NPC[]): void {
+    npcs.forEach((element) => {
+      if (this.collidesWith(element)) {
+        // When the player answers no on the yes-or-no prompt, run this function
+        if (element.getProgression() === element.getDialogue().length - 1) {
+          // Remove the yes-or-no prompt from the screen and reset the dialogue.
+          element.setProgression(0);
+        }
+      }
+    });
   }
 
   /**
@@ -258,7 +255,7 @@ export default class Player extends GameItem {
             rightGuess = true;
             continueQuest = true;
           }
-        } else if (this.answerQuestE()) {
+        } else if (this.keyCommands.answerQuestE()) {
           if (this.checkForRightAnswer(npc, 'E') === false) {
             continueQuest = true;
           } else {
@@ -400,7 +397,7 @@ export default class Player extends GameItem {
    *
    * @returns the keyboard and key command interactions
    */
-  public getKeyboard() : KeyCommands {
+  public getKeyboard(): KeyCommands {
     return this.keyCommands;
   }
 }

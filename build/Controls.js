@@ -1,13 +1,8 @@
-import GameItem from './GameItem.js';
-export default class Controls extends GameItem {
-    display;
-    xPosition;
-    yPosition;
-    textXPos;
-    textYPos;
-    game;
+import DisplayItem from './DisplayItem.js';
+import Game from './Game.js';
+export default class Controls extends DisplayItem {
     constructor(game, xPos, yPos) {
-        super('./assets/img/controls.jpg', xPos, yPos);
+        super('', game, xPos, yPos);
         this.display = false;
         this.xPosition = xPos;
         this.yPosition = yPos;
@@ -17,8 +12,9 @@ export default class Controls extends GameItem {
     }
     drawBox(ctx) {
         if (this.display) {
-            ctx.clearRect(this.xPosition, this.yPosition, 1000, 600);
-            ctx.drawImage(this.img, this.xPosition, this.yPosition);
+            ctx.clearRect(this.xPosition, this.yPosition, 1000, 550);
+            const controlImage = Game.loadNewImage('./assets/img/controls.png');
+            ctx.drawImage(controlImage, this.xPosition, this.yPosition);
         }
     }
     setDisplay(active) {
