@@ -2,7 +2,6 @@ import DialogueBox from './DialogueBox.js';
 import Game from './Game.js';
 import GameLose from './GameLose.js';
 import GameWonFight from './GameWonFight.js';
-import GameWonTalk from './GameWonTalk.js';
 import KeyCommands from './KeyCommands.js';
 import Monster from './Monster.js';
 import NPC from './NPC.js';
@@ -192,9 +191,6 @@ export default class MonsterFight extends Scene {
       console.log('Ok');
     }
 
-    if (this.monster.getProgression() >= 6) {
-      return new GameWonTalk(this.game);
-    }
     // Move to level clear screen
     if (this.hasWon()) {
       return new GameWonFight(this.game);

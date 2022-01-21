@@ -44,7 +44,7 @@ export default class Game {
    */
   public reset(): void {
     // Initialising the player's stats
-    this.playerStats = new UserData(1, 3, 2);
+    this.playerStats = new UserData(15, 3, 2);
   }
 
   /**
