@@ -5,7 +5,6 @@ export default class NPC extends GameItem {
     rewardGiven;
     progression;
     dialogue;
-    questDialogue;
     quest;
     questResponse;
     rightAnswer;
@@ -43,9 +42,6 @@ export default class NPC extends GameItem {
     }
     getDialogue() {
         return this.dialogue;
-    }
-    getQuestDialogue() {
-        return this.questDialogue;
     }
     getRightAnswer() {
         return this.rightAnswer;

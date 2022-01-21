@@ -16,6 +16,8 @@ export default abstract class GameItem {
 
   protected yesOrNoOption: HTMLImageElement;
 
+  protected questDialogue: HTMLImageElement;
+
   /**
    * Creates a new GameItem on a random position
    *
@@ -109,5 +111,14 @@ export default abstract class GameItem {
    */
   public getYesorNoText(): HTMLImageElement {
     return this.yesOrNoOption;
+  }
+
+  /**
+   * Gets the progression of the NPC
+   *
+   * @returns Progression of the child
+   */
+  public getQuestDialogue(): HTMLImageElement {
+    return this.questDialogue;
   }
 }

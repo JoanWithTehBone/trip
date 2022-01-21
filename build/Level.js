@@ -13,7 +13,7 @@ export default class Level extends Scene {
     player;
     dialogueBox;
     questBox;
-    yesorNoQuestPrompt;
+    yesOrNoQuestPrompt;
     baker;
     blacksmith;
     hunter;
@@ -30,10 +30,10 @@ export default class Level extends Scene {
         this.questBoard = new QuestBoard(game.canvas);
         this.dialogueBox = new DialogueBox(this.game, this.game.canvas.width / 2 - 600, (this.game.canvas.height / 5) * 3.7);
         this.questBox = new QuestBox(this.game, this.game.canvas.width / 2 - 500, (this.game.canvas.height / 8) * 0.5);
-        this.yesorNoQuestPrompt = new YesorNoQuestPrompt(this.game, this.game.canvas.width / 2 - 300, (this.game.canvas.height / 8) * 3);
+        this.yesOrNoQuestPrompt = new YesorNoQuestPrompt(this.game, this.game.canvas.width / 2 - 300, (this.game.canvas.height / 8) * 3);
         this.npcs = [];
         this.npcs.push(this.baker, this.blacksmith, this.hunter);
-        this.player = new Player(game.canvas.width / 2, game.canvas.height / 2, this.dialogueBox, this.questBox, this.yesorNoQuestPrompt);
+        this.player = new Player(game.canvas.width / 2, game.canvas.height / 2, this.dialogueBox, this.questBox, this.yesOrNoQuestPrompt);
         this.keyboard = this.player.getKeys();
     }
     processInput() {
@@ -51,8 +51,11 @@ export default class Level extends Scene {
         if (this.player.isContinuing()) {
             this.dialogueBox.setDisplay(false);
         }
-        if (this.player.isFighting()) {
+        if (this.player.isResponding() && this.player.collidesWith(this.questBoard)) {
             return new MonsterFight(this.game, this.player, this.npcs);
+        }
+        if (this.player.isIgnoring()) {
+            this.yesOrNoQuestPrompt.setDisplay(false);
         }
         this.player.questWith(this.npcs);
         if (this.questBox.getDisplay()) {
@@ -70,7 +73,7 @@ export default class Level extends Scene {
         this.questBoard.draw(this.game.ctx);
         this.questBox.drawBox(this.game.ctx);
         this.dialogueBox.drawBox(this.game.ctx);
-        this.yesorNoQuestPrompt.drawBox(this.game.ctx);
+        this.yesOrNoQuestPrompt.drawBox(this.game.ctx);
     }
 }
 //# sourceMappingURL=Level.js.map

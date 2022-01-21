@@ -72,7 +72,7 @@ export default class Player extends GameItem {
         this.xPos = maxX;
       }
     } else if (this.keyboard.isKeyTyped(KeyListener.KEY_RIGHT)
-    && !this.keyboard.isKeyDown(KeyListener.KEY_RIGHT)) {
+      && !this.keyboard.isKeyDown(KeyListener.KEY_RIGHT)) {
       this.getSprite().setAnimation('idle-right');
     }
 
@@ -85,7 +85,7 @@ export default class Player extends GameItem {
         this.xPos = minX;
       }
     } else if (this.keyboard.isKeyTyped(KeyListener.KEY_LEFT)
-    && !this.keyboard.isKeyDown(KeyListener.KEY_LEFT)) {
+      && !this.keyboard.isKeyDown(KeyListener.KEY_LEFT)) {
       this.getSprite().setAnimation('idle-left');
     }
 
@@ -97,7 +97,7 @@ export default class Player extends GameItem {
         this.yPos = minY;
       }
     } else if (this.keyboard.isKeyTyped(KeyListener.KEY_UP)
-    && !this.keyboard.isKeyDown(KeyListener.KEY_UP)) {
+      && !this.keyboard.isKeyDown(KeyListener.KEY_UP)) {
       this.getSprite().setAnimation('idle-up');
     }
 
@@ -109,7 +109,7 @@ export default class Player extends GameItem {
         this.yPos = maxY;
       }
     } else if (this.keyboard.isKeyTyped(KeyListener.KEY_DOWN)
-    && !this.keyboard.isKeyDown(KeyListener.KEY_DOWN)) {
+      && !this.keyboard.isKeyDown(KeyListener.KEY_DOWN)) {
       this.getSprite().setAnimation('idle-down');
     }
   }
@@ -285,8 +285,8 @@ export default class Player extends GameItem {
         // When the player answers yes on the yes-or-no prompt, run this function
         if (this.isResponding() && element.getProgression() === element.getDialogue().length - 1) {
           // Remove the yes-or-no prompt from the screen and show the questbox
-          this.yesOrNoQuestPrompt.setDisplay(false);
           this.questBox.setDisplay(true);
+          this.yesOrNoQuestPrompt.setDisplay(false);
         }
 
         // When the player answers no on the yes-or-no prompt, run this function
@@ -445,6 +445,8 @@ export default class Player extends GameItem {
   public interactWithObject(object: GameItem): void {
     if (this.collidesWith(object)) {
       console.log(object.getYesorNoText());
+      this.yesOrNoQuestPrompt.setCurrentPrompt(object.getYesorNoText());
+      this.yesOrNoQuestPrompt.setDisplay(true);
     }
   }
 

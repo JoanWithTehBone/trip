@@ -144,8 +144,8 @@ export default class Player extends GameItem {
                 this.questBox.setQuestList(element.getQuestDialogue());
                 console.log('quest WITH THE npc:)');
                 if (this.isResponding() && element.getProgression() === element.getDialogue().length - 1) {
-                    this.yesOrNoQuestPrompt.setDisplay(false);
                     this.questBox.setDisplay(true);
+                    this.yesOrNoQuestPrompt.setDisplay(false);
                 }
                 if (this.isIgnoring() && element.getProgression() === element.getDialogue().length - 1) {
                     this.yesOrNoQuestPrompt.setDisplay(false);
@@ -272,6 +272,8 @@ export default class Player extends GameItem {
     interactWithObject(object) {
         if (this.collidesWith(object)) {
             console.log(object.getYesorNoText());
+            this.yesOrNoQuestPrompt.setCurrentPrompt(object.getYesorNoText());
+            this.yesOrNoQuestPrompt.setDisplay(true);
         }
     }
     increaseSpeed(size) {

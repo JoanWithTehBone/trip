@@ -15,8 +15,6 @@ export default abstract class NPC extends GameItem {
 
   protected dialogue: HTMLImageElement[];
 
-  protected questDialogue: HTMLImageElement;
-
   protected quest: boolean;
 
   protected questResponse: HTMLImageElement[];
@@ -115,15 +113,6 @@ export default abstract class NPC extends GameItem {
    */
   public getDialogue(): HTMLImageElement[] {
     return this.dialogue;
-  }
-
-  /**
-   * Gets the progression of the NPC
-   *
-   * @returns Progression of the child
-   */
-  public getQuestDialogue(): HTMLImageElement {
-    return this.questDialogue;
   }
 
   /**

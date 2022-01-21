@@ -22,7 +22,7 @@ export default class Level extends Scene {
 
   private questBox: QuestBox;
 
-  private yesorNoQuestPrompt: YesorNoQuestPrompt;
+  private yesOrNoQuestPrompt: YesorNoQuestPrompt;
 
   // NPCS
   private baker: Baker;
@@ -69,7 +69,7 @@ export default class Level extends Scene {
     );
 
     // Create the Yes or no prompt box
-    this.yesorNoQuestPrompt = new YesorNoQuestPrompt(
+    this.yesOrNoQuestPrompt = new YesorNoQuestPrompt(
       this.game,
       this.game.canvas.width / 2 - 300, // xPosition
       (this.game.canvas.height / 8) * 3, // yPostition
@@ -85,7 +85,7 @@ export default class Level extends Scene {
       game.canvas.height / 2,
       this.dialogueBox,
       this.questBox,
-      this.yesorNoQuestPrompt,
+      this.yesOrNoQuestPrompt,
     );
     this.keyboard = this.player.getKeys();
   }
@@ -134,8 +134,13 @@ export default class Level extends Scene {
     }
 
     // Dev button to go to the monster fight: "F"
-    if (this.player.isFighting()) {
+    if (this.player.isResponding() && this.player.collidesWith(this.questBoard)) {
       return new MonsterFight(this.game, this.player, this.npcs);
+    }
+
+    // Button to get rid of the yes or no prompt
+    if (this.player.isIgnoring()) {
+      this.yesOrNoQuestPrompt.setDisplay(false);
     }
 
     this.player.questWith(this.npcs);
@@ -182,6 +187,6 @@ export default class Level extends Scene {
 
     this.questBox.drawBox(this.game.ctx);
     this.dialogueBox.drawBox(this.game.ctx);
-    this.yesorNoQuestPrompt.drawBox(this.game.ctx);
+    this.yesOrNoQuestPrompt.drawBox(this.game.ctx);
   }
 }

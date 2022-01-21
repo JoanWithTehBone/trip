@@ -8,6 +8,7 @@ export default class GameItem {
     canvas;
     currentAnimation;
     yesOrNoOption;
+    questDialogue;
     constructor(imageSrc, maxX, maxY) {
         this.img = Game.loadNewImage(imageSrc);
         this.xPos = maxX;
@@ -40,6 +41,9 @@ export default class GameItem {
     }
     getYesorNoText() {
         return this.yesOrNoOption;
+    }
+    getQuestDialogue() {
+        return this.questDialogue;
     }
 }
 //# sourceMappingURL=GameItem.js.map
