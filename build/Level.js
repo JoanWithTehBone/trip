@@ -17,11 +17,8 @@ export default class Level extends Scene {
     blacksmith;
     hunter;
     npcs;
-    gameitem;
     flyingDragonBaby;
-    keyboard;
-    keyArray;
-    answerArray;
+    keyCommands;
     constructor(game) {
         super(game);
         this.baker = new Baker(game.canvas);
@@ -34,28 +31,26 @@ export default class Level extends Scene {
         this.npcs = [];
         this.npcs.push(this.baker, this.blacksmith, this.hunter);
         this.player = new Player(game.canvas.width / 2, game.canvas.height / 2, this.dialogueBox, this.questBox, this.yesorNoQuestPrompt);
-        this.keyboard = this.player.getKeys();
-        this.answerArray = ['A', 'B', 'C', 'D'];
-        this.keyArray = [false, false, false, false];
+        this.keyCommands = this.player.getKeyboard();
     }
     processInput() {
         this.player.move(this.game.canvas);
     }
     update() {
-        this.keyboard.onFrameStart();
+        this.keyCommands.getKeys().onFrameStart();
         this.flyingDragonBaby.move();
         this.flyingDragonBaby.outOfCanvas(this.game.canvas);
-        if (this.player.isPressing()) {
-            this.player.interactWith(this.npcs);
+        if (this.keyCommands.isPressing()) {
+            this.player.interactWithVillager(this.npcs);
             this.player.afterQuest(this.npcs, this.game);
         }
-        if (this.player.isContinuing()) {
+        if (this.keyCommands.isContinuing()) {
             this.dialogueBox.setDisplay(false);
         }
-        if (this.player.isFighting()) {
+        if (this.keyCommands.isFighting()) {
             return new MonsterFight(this.game, this.player, this.npcs);
         }
-        this.player.questWith(this.npcs);
+        this.player.questWithVillager(this.npcs);
         if (this.questBox.getDisplay()) {
             this.player.questAnswer(this.npcs);
         }
@@ -71,6 +66,9 @@ export default class Level extends Scene {
         this.questBox.drawBox(this.game.ctx);
         this.dialogueBox.drawBox(this.game.ctx);
         this.yesorNoQuestPrompt.drawBox(this.game.ctx);
+    }
+    getPlayer() {
+        return this.player;
     }
 }
 //# sourceMappingURL=Level.js.map

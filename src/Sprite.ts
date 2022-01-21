@@ -13,14 +13,6 @@ export default class Sprite {
 
   private image: HTMLImageElement;
 
-  private shadow: HTMLImageElement;
-
-  private useShadow: boolean;
-
-  private isShadowLoaded: boolean;
-
-  private isLoaded: boolean;
-
   /**
    * The sprite sheet for each gameitem will me cut up
    * and a shadow will be added + taking care for the animations

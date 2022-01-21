@@ -5,9 +5,8 @@ import DialogueBox from './DialogueBox.js';
 import Baker from './Baker.js';
 import BlackSmith from './BlackSmith.js';
 import Hunter from './Hunter.js';
-import KeyListener from './KeyListener.js';
+import KeyCommands from './KeyCommands.js';
 import NPC from './NPC.js';
-import GameItem from './GameItem.js';
 import MonsterFight from './MonsterFight.js';
 import QuestBox from './QuestBox.js';
 import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
@@ -32,16 +31,10 @@ export default class Level extends Scene {
 
   private npcs: NPC[];
 
-  private gameitem: GameItem;
-
   private flyingDragonBaby: FlyingDragonBaby;
 
   // Keyboard
-  private keyboard: KeyListener;
-
-  private keyArray: boolean[];
-
-  private answerArray: string[];
+  private keyCommands: KeyCommands;
 
   /**
    * Creates a new instance of this class
@@ -89,10 +82,8 @@ export default class Level extends Scene {
       this.questBox,
       this.yesorNoQuestPrompt,
     );
-    this.keyboard = this.player.getKeys();
 
-    this.answerArray = ['A', 'B', 'C', 'D'];
-    this.keyArray = [false, false, false, false];
+    this.keyCommands = this.player.getKeyboard();
   }
 
   /**
@@ -119,7 +110,7 @@ export default class Level extends Scene {
    */
   public update(): Scene {
     // this.player.onFrameStartListener();
-    this.keyboard.onFrameStart();
+    this.keyCommands.getKeys().onFrameStart();
     // moves the dragonbaby across the screen
     this.flyingDragonBaby.move();
     // checks if the dragon baby is out of the canvas
@@ -127,43 +118,26 @@ export default class Level extends Scene {
 
     // Checks if the player is presing the interact button and gets rid of the questBox
     // Then it starts the Dialogue Lines
-    if (this.player.isPressing()) {
-      this.player.interactWith(this.npcs);
+    if (this.keyCommands.isPressing()) {
+      this.player.interactWithVillager(this.npcs);
       this.player.afterQuest(this.npcs, this.game);
     }
 
     // Checks if the player continues the conversation and gets rid of the dialogue box
-    if (this.player.isContinuing()) {
+    if (this.keyCommands.isContinuing()) {
       this.dialogueBox.setDisplay(false);
     }
 
     // Dev button to go to the monster fight: "F"
-    if (this.player.isFighting()) {
+    if (this.keyCommands.isFighting()) {
       return new MonsterFight(this.game, this.player, this.npcs);
     }
 
-    this.player.questWith(this.npcs);
+    this.player.questWithVillager(this.npcs);
 
     if (this.questBox.getDisplay()) {
       this.player.questAnswer(this.npcs);
     }
-
-    // Create an answer for the quest CHECK
-    // Create a function that returns the correct answer
-    // if (this.isRightAnswer()) {
-    //   this.dialogueBox.setDialogueList(this.baker.getQuestResponseText());
-    //   this.dialogueBox.setCurrentDialogue(1);
-    //   this.questBox.setDisplay(false);
-    //   this.dialogueBox.setDisplay(true);
-    // } else {
-    //   this.dialogueBox.setDialogueList(this.baker.getQuestResponseText());
-    //   this.dialogueBox.setCurrentDialogue(0);
-    //   this.questBox.setDisplay(false);
-    //   this.dialogueBox.setDisplay(true);
-    // }
-    // Then loop through all the answers and check if it was pressed.
-    // If answer is correct, continue
-    // If answer is wrong, redo the quest
 
     return null;
   }
@@ -186,5 +160,14 @@ export default class Level extends Scene {
     this.questBox.drawBox(this.game.ctx);
     this.dialogueBox.drawBox(this.game.ctx);
     this.yesorNoQuestPrompt.drawBox(this.game.ctx);
+  }
+
+  /**
+   * Get the player details
+   *
+   * @returns the player details
+   */
+  public getPlayer(): Player {
+    return this.player;
   }
 }
