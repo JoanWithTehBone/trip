@@ -11,27 +11,21 @@ import FlyingDragonBaby from './FlyingDragonBaby.js';
 import Slime from './Slime.js';
 import Fatcat from './Fatcat.js';
 import QuestBoard from './QuestBoard.js';
-
 export default class Level extends Scene {
     player;
-  
+    slime;
+    fatcat;
     dialogueBox;
     questBox;
-    yesorNoQuestPrompt;
+    yesOrNoQuestPrompt;
     controls;
-  
     baker;
     blacksmith;
     hunter;
     npcs;
-  
     flyingDragonBaby;
-    slime;
-    fatcat;
-    questBoard;
-  
     keyCommands;
-    
+    questBoard;
     constructor(game) {
         super(game);
         this.baker = new Baker(game.canvas);
@@ -77,7 +71,7 @@ export default class Level extends Scene {
         if (this.questBox.getDisplay()) {
             this.player.questAnswer(this.npcs);
         }
-        if (this.player.openControls()) {
+        if (this.keyCommands.openControls()) {
             if (this.controls.getDisplay()) {
                 this.controls.setDisplay(false);
             }

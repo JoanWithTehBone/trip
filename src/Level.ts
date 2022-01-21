@@ -17,7 +17,6 @@ import Fatcat from './Fatcat.js';
 import QuestBoard from './QuestBoard.js';
 import GameItem from './GameItem.js';
 
-
 export default class Level extends Scene {
   // Player
   private player: Player;
@@ -64,7 +63,6 @@ export default class Level extends Scene {
     this.slime = new Slime();
     this.fatcat = new Fatcat();
     this.questBoard = new QuestBoard(game.canvas);
-
 
     // Create DialogueBox
     this.dialogueBox = new DialogueBox(
@@ -147,7 +145,6 @@ export default class Level extends Scene {
     }
 
     // If you touch the questboard and press Y, go to the monster fight
-
     if (this.keyCommands.isResponding()) {
       if (this.player.collidesWith(this.questBoard)) {
         return new MonsterFight(this.game, this.player, this.npcs);
@@ -164,7 +161,6 @@ export default class Level extends Scene {
     if (this.questBox.getDisplay()) {
       this.player.questAnswer(this.npcs);
     }
-
 
     // Create an answer for the quest CHECK
     // Create a function that returns the correct answer
@@ -183,7 +179,7 @@ export default class Level extends Scene {
     // If answer is correct, continue
     // If answer is wrong, redo the quest
 
-    if (this.player.openControls()) {
+    if (this.keyCommands.openControls()) {
       if (this.controls.getDisplay()) {
         this.controls.setDisplay(false);
       } else {
