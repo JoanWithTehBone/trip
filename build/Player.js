@@ -9,7 +9,7 @@ export default class Player extends GameItem {
     yesOrNoQuestPrompt;
     keyboard;
     constructor(xPos, yPos, dialogueBox, questBox, yesOrNoQuestPrompt) {
-        super('./assets/img/testplayer.png', xPos, yPos);
+        super(32, 32, './assets/img/testplayer.png', xPos, yPos, 8, 128);
         this.xVel = 2;
         this.yVel = 2;
         this.currentAnimation = 'idle-down';

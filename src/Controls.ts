@@ -22,7 +22,7 @@ export default class Controls extends GameItem {
    * @param yPos the y position
    */
   constructor(game: Game, xPos: number, yPos: number) {
-    super('./assets/img/controls.jpg', xPos, yPos);
+    super(null, null, './assets/img/controls.jpg', xPos, yPos, null, null);
     this.display = false;
     // Positioning
     this.xPosition = xPos;

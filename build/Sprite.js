@@ -5,7 +5,6 @@ export default class Sprite {
     animationFrameLimit;
     animationFrameProgress;
     image;
-    isLoaded;
     constructor(gameitem) {
         this.image = gameitem.getImage();
         this.animations = {
@@ -17,10 +16,11 @@ export default class Sprite {
             'walk-right': [[1, 1], [0, 1], [3, 1], [0, 1]],
             'walk-up': [[1, 2], [0, 2], [3, 2], [0, 2]],
             'walk-left': [[1, 3], [0, 3], [3, 3], [0, 3]],
+            'cat-eat': [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [0, 1], [1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [0, 2], [1, 2], [2, 2], [3, 2], [4, 2], [5, 2], [0, 3], [1, 3], [2, 3], [3, 3], [4, 3], [5, 3]],
         };
         this.currentAnimation = gameitem.getCurrentAnimation() || 'idle-down';
         this.currentAnimationFrame = 0;
-        this.animationFrameLimit = 8;
+        this.animationFrameLimit = gameitem.getCurrentAnimationFrameLimit() || 8;
         this.animationFrameProgress = this.animationFrameLimit;
     }
     getFrame() {
@@ -47,8 +47,11 @@ export default class Sprite {
     drawSprite(ctx, gameitem) {
         const xP = gameitem.getXPos();
         const yP = gameitem.getYPos();
+        const widthcut = gameitem.getWidthCut();
+        const heightcut = gameitem.getHeightCut();
+        const sizeSprite = gameitem.getSizeSprite();
         const [frameX, frameY] = this.getFrame();
-        ctx.drawImage(this.image, frameX * 32, frameY * 32, 32, 32, xP, yP, 128, 128);
+        ctx.drawImage(this.image, frameX * widthcut, frameY * heightcut, widthcut, heightcut, xP, yP, sizeSprite, sizeSprite);
         this.updateAnimationProgress();
     }
 }

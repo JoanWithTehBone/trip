@@ -13,10 +13,16 @@ import QuestBox from './QuestBox.js';
 import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
 import FlyingDragonBaby from './FlyingDragonBaby.js';
 import Controls from './Controls.js';
+import Slime from './Slime.js';
+import Fatcat from './Fatcat.js';
 
 export default class Level extends Scene {
   // Player
   private player: Player;
+
+  private slime: Slime;
+
+  private fatcat: Fatcat;
 
   private dialogueBox: DialogueBox;
 
@@ -58,6 +64,8 @@ export default class Level extends Scene {
     this.blacksmith = new BlackSmith(game.canvas);
     this.hunter = new Hunter(game.canvas);
     this.flyingDragonBaby = new FlyingDragonBaby(game.canvas);
+    this.slime = new Slime();
+    this.fatcat = new Fatcat();
 
     // Create DialogueBox
     this.dialogueBox = new DialogueBox(
@@ -193,6 +201,8 @@ export default class Level extends Scene {
     this.blacksmith.draw(this.game.ctx);
     this.hunter.draw(this.game.ctx);
 
+    this.fatcat.getSprite().drawSprite(this.game.ctx, this.fatcat);
+    this.slime.getSprite().drawSprite(this.game.ctx, this.slime);
     this.player.getSprite().drawSprite(this.game.ctx, this.player);
     this.flyingDragonBaby.draw(this.game.ctx);
 
