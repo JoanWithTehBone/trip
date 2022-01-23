@@ -3,12 +3,12 @@ import KeyListener from './KeyListener.js';
 import KeyCommands from './KeyCommands.js';
 import Game from './Game.js';
 export default class Player extends GameItem {
-    xVel;
-    yVel;
     dialogueBox;
-    questBox;
-    yesOrNoQuestPrompt;
     keyCommands;
+    questBox;
+    xVel;
+    yesOrNoQuestPrompt;
+    yVel;
     constructor(xPos, yPos, dialogueBox, questBox, yesOrNoQuestPrompt) {
         super(32, 32, './assets/img/testplayer.png', xPos, yPos, 5, 128);
         this.xVel = 3;
@@ -223,9 +223,6 @@ export default class Player extends GameItem {
         console.log(rightOrWrong);
         return rightOrWrong;
     }
-    getYesOrNoQuestPrompt() {
-        return this.yesOrNoQuestPrompt;
-    }
     talkToMonster(monster, talk) {
         if (this.collidesWith(monster)) {
             console.log('Touching the monster');
@@ -250,9 +247,8 @@ export default class Player extends GameItem {
             this.yesOrNoQuestPrompt.setDisplay(true);
         }
     }
-    increaseSpeed(size) {
-        this.xVel += size;
-        this.yVel += size;
+    getYesOrNoQuestPrompt() {
+        return this.yesOrNoQuestPrompt;
     }
     getDialogueBox() {
         return this.dialogueBox;

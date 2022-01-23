@@ -1,18 +1,18 @@
 import Game from './Game.js';
 import Sprite from './Sprite.js';
 export default class GameItem {
-    img;
-    xPos;
-    yPos;
-    widthCut;
-    heightCut;
-    currentAnimationFrameLimit;
-    sizeSprite;
-    sprite;
     canvas;
     currentAnimation;
-    yesOrNoOption;
+    currentAnimationFrameLimit;
+    heightCut;
+    img;
     questDialogue;
+    sizeSprite;
+    sprite;
+    widthCut;
+    xPos;
+    yesOrNoOption;
+    yPos;
     constructor(widthCut, heightCut, imageSrc, maxX, maxY, currentAnimationFrameLimit, sizeSprite) {
         this.img = Game.loadNewImage(imageSrc);
         this.xPos = maxX;

@@ -2,12 +2,12 @@ import Game from './Game.js';
 import GameItem from './GameItem.js';
 
 export default class FlyingDragonBaby extends GameItem {
-  private speed: number;
-
   private imagearray : string[];
 
+  private speed: number;
+
   /**
-   * The constructor with the basic variables for the Dragon baby
+   * Constructor for the various baby dragon images
    * that is supposed to fly over the village as decoration
    *
    * @param canvas the height of the canvas
@@ -21,7 +21,7 @@ export default class FlyingDragonBaby extends GameItem {
   }
 
   /**
-   * Method to move the dragon baby over the map
+   * Method to move the baby dragon over the map
    */
   public move(): void {
   // the current x position is changed each time a little
@@ -30,7 +30,7 @@ export default class FlyingDragonBaby extends GameItem {
   }
 
   /**
-   * Checks if Rocket is out of canvas
+   * Checks if baby dragon is out of canvas
    *
    * @param canvas the canvas
    */
@@ -46,7 +46,7 @@ export default class FlyingDragonBaby extends GameItem {
   }
 
   /**
-   * sets the image to a random image out of an array of image sources
+   * Sets the image to a random image out of an array of image sources
    *
    * @param imagearray is an array of image sources
    */

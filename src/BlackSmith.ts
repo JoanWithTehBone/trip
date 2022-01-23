@@ -18,7 +18,6 @@ export default class BlackSmith extends NPC {
     this.dialogueFactory();
     this.questDialogue = Game.loadNewImage('./assets/img/BlacksmithImages/BlacksmithQuest.png');
     this.yesOrNoOption = Game.loadNewImage('./assets/img/BlacksmithImages/BlacksmithYNPrompt.png');
-    // TO DO: Change the quest responses to fit their own quest
     this.questResponse = [
       Game.loadNewImage('./assets/img/BlacksmithImages/BlacksmithQWrong.png'),
       Game.loadNewImage('./assets/img/BlacksmithImages/BlacksmithQCorrect.png'),

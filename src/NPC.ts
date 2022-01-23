@@ -5,19 +5,19 @@ import QuestBox from './QuestBox.js';
 import UserData from './UserData.js';
 
 export default abstract class NPC extends GameItem {
-  protected name: string;
-
   protected completed: boolean;
 
-  protected rewardGiven: boolean;
+  protected dialogue: HTMLImageElement[];
+
+  protected name: string;
 
   protected progression: number;
-
-  protected dialogue: HTMLImageElement[];
 
   protected quest: boolean;
 
   protected questResponse: HTMLImageElement[];
+
+  protected rewardGiven: boolean;
 
   protected rightAnswer: string;
 
@@ -56,6 +56,7 @@ export default abstract class NPC extends GameItem {
   }
 
   /**
+   * Method to se the quest dialogue
    *
    * @param questBox box
    */
@@ -64,7 +65,7 @@ export default abstract class NPC extends GameItem {
   }
 
   /**
-   * Checks if the Hunter Quest is completed
+   * Checks if the NPC's Quest is completed
    *
    * @returns If quest is completed
    */
@@ -73,7 +74,14 @@ export default abstract class NPC extends GameItem {
   }
 
   /**
-   * Gets the progression of the NPC
+   * Whenever the dialogue progression needs to increase, call this function
+   */
+  public progressFurther(): void {
+    this.progression += 1;
+  }
+
+  /**
+   * Gets the current dialogue progression of the NPC
    *
    * @returns Progression of the child
    */
@@ -82,7 +90,7 @@ export default abstract class NPC extends GameItem {
   }
 
   /**
-   * sets the new progression value
+   * Sets the new dialogue progression value
    *
    * @param input Inut value to set the progression
    */
@@ -91,14 +99,7 @@ export default abstract class NPC extends GameItem {
   }
 
   /**
-   * Whenever the progression needs to go up, call this function
-   */
-  public progressFurther(): void {
-    this.progression += 1;
-  }
-
-  /**
-   * A getter for the Yes or No question
+   * Gets the dialogue box for when the player guesses right or wrong in a quest
    *
    * @returns the text of the Question that is in the constructor
    */
@@ -107,7 +108,7 @@ export default abstract class NPC extends GameItem {
   }
 
   /**
-   * Gets the progression of the NPC
+   * Gets the dialogue progression of the NPC
    *
    * @returns Progression of the child
    */

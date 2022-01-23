@@ -3,7 +3,7 @@ import Game from './Game.js';
 
 export default class QuestBoard extends GameItem {
   /**
-   * Constructor of the Questboard
+   * Constructor of the QuestBoard
    *
    * @param canvas the canvas to be drawn on
    */
@@ -16,7 +16,7 @@ export default class QuestBoard extends GameItem {
   }
 
   /**
-   * A getter for the Yes or No question
+   * A getter for the Yes or No prompt
    *
    * @returns the text of the Question that is in the constructor
    */

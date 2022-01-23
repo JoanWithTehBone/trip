@@ -1,8 +1,8 @@
 import Game from './Game.js';
 import GameItem from './GameItem.js';
 export default class FlyingDragonBaby extends GameItem {
-    speed;
     imagearray;
+    speed;
     constructor(canvas) {
         const yPosition = Game.randomNumber(0, canvas.height);
         super(null, null, './assets/img/flyingbabydragonpurple.png', 0, yPosition, null, null);

@@ -9,7 +9,7 @@ export default class LevelUp extends Scene {
   private keyboard: KeyListener;
 
   /**
-   * Creates a new instance of this class
+   * Constructor for the LevelUp class
    *
    * @param game the game object where this scene will be a part of
    */
@@ -51,16 +51,10 @@ export default class LevelUp extends Scene {
   }
 
   /**
-   * Draw the game so the player can see what happened
+   * Draw the game details to the canvas
    */
   public render(): void {
     // Clear the screen
     this.game.ctx.clearRect(0, 0, this.game.canvas.width, this.game.canvas.height);
-    // Show score
-    const centerX = this.game.canvas.width / 2;
-    const line1 = `Level ${this.game.getPlayerStats().getLevel()} Clear`;
-    this.game.writeTextToCanvas(line1, 128, centerX, 250, 'center', 'red');
-    this.game.writeTextToCanvas("Type 'p' to proceed to the next level", 48, centerX,
-      550, 'center', 'white');
   }
 }

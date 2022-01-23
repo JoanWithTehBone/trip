@@ -3,7 +3,7 @@ import GameOverScene from './GameOverScene.js';
 
 export default class GameWonTalk extends GameOverScene {
   /**
-   * Creates a new instance of this class
+   * Constructor for the GameWonTalk scene
    *
    * @param game the game object where this scene will be a part of
    */
@@ -12,7 +12,7 @@ export default class GameWonTalk extends GameOverScene {
   }
 
   /**
-   * Draw the game so the player can see what happened
+   * Draw the specific scene to the canvas
    */
   public render(): void {
     // Clear the screen

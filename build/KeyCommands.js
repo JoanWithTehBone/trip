@@ -16,6 +16,15 @@ export default class KeyCommands {
     isIgnoring() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_N);
     }
+    isFighting() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_F);
+    }
+    isResponding() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_Y);
+    }
+    openControls() {
+        return this.keyboard.isKeyTyped(KeyListener.KEY_M);
+    }
     answerQuestA() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_A);
     }
@@ -30,15 +39,6 @@ export default class KeyCommands {
     }
     answerQuestE() {
         return this.keyboard.isKeyTyped(KeyListener.KEY_E);
-    }
-    isFighting() {
-        return this.keyboard.isKeyTyped(KeyListener.KEY_F);
-    }
-    isResponding() {
-        return this.keyboard.isKeyTyped(KeyListener.KEY_Y);
-    }
-    openControls() {
-        return this.keyboard.isKeyTyped(KeyListener.KEY_M);
     }
 }
 //# sourceMappingURL=KeyCommands.js.map

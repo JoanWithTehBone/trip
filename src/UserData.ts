@@ -46,54 +46,54 @@ export default class UserData {
   }
 
   /**
-   * gethp
+   * Get the Player/Monster Health
    *
-   * @returns the hp
+   * @returns the health
    */
   public getHP(): number {
     return this.hp;
   }
 
   /**
-   * sethp
+   * Set the Player/Monster Health
    *
-   * @param hp the Hp to set
+   * @param hp the new health value
    */
   public setHP(hp: number): void {
     this.hp = hp;
   }
 
   /**
-   * getATK
+   * Get the Player/Monster Attack
    *
-   * @returns the atk
+   * @returns the attack
    */
   public getATK(): number {
     return this.atk;
   }
 
   /**
-   * setATK
+   * Set the Player/Monster Attack
    *
-   * @param atk the atk to set
+   * @param atk the new attack value
    */
   public setATK(atk: number): void {
     this.atk = atk;
   }
 
   /**
-   * getDEF
+   * Get the Player/Monster Defence
    *
-   * @returns the def
+   * @returns the defence
    */
   public getDEF(): number {
     return this.def;
   }
 
   /**
-   * setDEF
+   * Set the Player/Monster Defence
    *
-   * @param def the DEF to set
+   * @param def the new defence value
    */
   public setDEF(def: number): void {
     this.def = def;

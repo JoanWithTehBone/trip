@@ -19,8 +19,7 @@ export default abstract class DisplayItem extends GameItem {
   protected game: Game;
 
   /**
-   * The constructor of the DisplayItem abstract class That extends teh gameitem glass
-   * it is specifiet to fit basics for the display functions in the game
+   * Constructor for the DisplayItem abstract class
    *
    * @param imageSrc the string to lead to image source
    * @param game the game class
@@ -36,17 +35,9 @@ export default abstract class DisplayItem extends GameItem {
   /**
    * Method to draw the whole Box to the screen.
    *
-   * TODO => Create an custom version of the textbox:
-   *  - Add which NPC is talking
-   *  - Add Image to the left
-   *  - Change dimensions on the text to center it better
-   *  - Add continue prompt to show how to continue.
-   *
    * @param ctx CanvasRenderingContext
    */
   public abstract drawBox(ctx: CanvasRenderingContext2D): void;
-
-  // TODO can likely have the code here now since it's runnung the same image pattern per character
 
   /**
    * Sets the display to be shown or not to be shown
@@ -58,7 +49,7 @@ export default abstract class DisplayItem extends GameItem {
   }
 
   /**
-   * Get display state
+   * Get the display state
    *
    * @returns the display value [true or false]
    */

@@ -8,18 +8,18 @@ import YesorNoQuestPrompt from './YesorNoQuestPrompt.js';
 import Game from './Game.js';
 
 export default class Player extends GameItem {
-  private xVel: number;
-
-  private yVel: number;
-
   private dialogueBox: DialogueBox;
+
+  // Import the keyboard commands so the player can move
+  private keyCommands: KeyCommands;
 
   private questBox: QuestBox;
 
+  private xVel: number;
+
   private yesOrNoQuestPrompt: YesorNoQuestPrompt;
 
-  // KeyboardListener so the player can move
-  private keyCommands: KeyCommands;
+  private yVel: number;
 
   /**
    * Initialize Player
@@ -35,9 +35,7 @@ export default class Player extends GameItem {
     yPos: number,
     dialogueBox: DialogueBox,
     questBox: QuestBox,
-
     yesOrNoQuestPrompt: YesorNoQuestPrompt,
-
   ) {
     super(32, 32, './assets/img/testplayer.png', xPos, yPos, 5, 128);
 
@@ -116,6 +114,7 @@ export default class Player extends GameItem {
   }
 
   /**
+   * Method to check if the player is colliding with a GameItem object
    *
    * @param other the other GameItem
    * @returns true if this object collides with the specified other object
@@ -172,7 +171,7 @@ export default class Player extends GameItem {
   }
 
   /**
-   * Quest dialogue
+   * Method to load and progress through the Quest dialogue
    *
    * @param npcs the npc
    * @returns boolean
@@ -285,7 +284,7 @@ export default class Player extends GameItem {
   }
 
   /**
-   * Method that arranges the convo's after the quest has been completed
+   * Method that loads the dialogue after the quest has been completed
    *
    * @param npcs The list of NPCS that can be collided with
    * @param game The game that needs to be used for the rewards
@@ -327,15 +326,6 @@ export default class Player extends GameItem {
   }
 
   /**
-   * Get the Yes/No promt details
-   *
-   * @returns the Yes/Np prompt details
-   */
-  public getYesOrNoQuestPrompt(): YesorNoQuestPrompt {
-    return this.yesOrNoQuestPrompt;
-  }
-
-  /**
    * A method that lets you have a conversation with the monster
    *
    * @param monster the monster that needs to be talked with
@@ -374,17 +364,16 @@ export default class Player extends GameItem {
   }
 
   /**
-   * Increases the speed
+   * Get the Yes/No promt details
    *
-   * @param size the amount of speed to add
+   * @returns the Yes/No prompt details
    */
-  public increaseSpeed(size: number): void {
-    this.xVel += size;
-    this.yVel += size;
+  public getYesOrNoQuestPrompt(): YesorNoQuestPrompt {
+    return this.yesOrNoQuestPrompt;
   }
 
   /**
-   * Get the dialogue box details
+   * Get the Dialogue Box details
    *
    * @returns the dialogue box
    */
@@ -393,7 +382,7 @@ export default class Player extends GameItem {
   }
 
   /**
-   * Get the keyboard and key command details
+   * Get the Keyboard and Key Command details
    *
    * @returns the keyboard and key command interactions
    */

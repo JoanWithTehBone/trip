@@ -2,9 +2,9 @@ import Game from './Game.js';
 import NPC from './NPC.js';
 import UserData from './UserData.js';
 export default class Monster extends NPC {
-    monsterStats;
     baseXPos;
     baseYPos;
+    monsterStats;
     constructor(canvas) {
         super('./assets/img/MonsterImages/golem.png', canvas.width / 2, canvas.height / 2);
         this.progression = 0;
@@ -46,12 +46,6 @@ export default class Monster extends NPC {
     getMonsterStats() {
         return this.monsterStats;
     }
-    setBaseXPos(xPosition) {
-        this.baseXPos = xPosition;
-    }
-    setBaseYPos(yPosition) {
-        this.baseYPos = yPosition;
-    }
     giveReward() {
         const randomStatIncrease = Game.randomNumber(1, 3);
         if (randomStatIncrease === 1) {
@@ -63,6 +57,12 @@ export default class Monster extends NPC {
         else {
             this.monsterStats.setDEF(this.monsterStats.getDEF() + 1);
         }
+    }
+    setBaseXPos(xPosition) {
+        this.baseXPos = xPosition;
+    }
+    setBaseYPos(yPosition) {
+        this.baseYPos = yPosition;
     }
 }
 //# sourceMappingURL=Monster.js.map
