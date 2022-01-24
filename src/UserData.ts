@@ -1,6 +1,4 @@
 export default class UserData {
-  private level: number;
-
   // Variables for the player stats:
   private hp: number;
 
@@ -16,13 +14,6 @@ export default class UserData {
    * @param defense the character's defense value
    */
   public constructor(health: number, attack: number, defense: number) {
-    /**
-     * TODO
-     * If we want to increase the game difficulty we can use 'level' to increase the monster's
-     * stats in Monster.ts file
-     */
-    this.level = 1;
-
     // Initializing the variables
     this.hp = health;
     this.atk = attack;
