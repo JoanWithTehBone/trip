@@ -2,8 +2,8 @@ import KeyListener from './KeyListener.js';
 import Scene from './Scene.js';
 import Start from './Start.js';
 export default class GameOverScene extends Scene {
-    shouldStart;
     keyboard;
+    shouldStart;
     constructor(game) {
         super(game);
         this.keyboard = new KeyListener();

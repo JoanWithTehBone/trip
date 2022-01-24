@@ -3,11 +3,11 @@ import NPC from './NPC.js';
 import UserData from './UserData.js';
 
 export default class Monster extends NPC {
-  private monsterStats: UserData;
-
   private baseXPos: number;
 
   private baseYPos: number;
+
+  private monsterStats: UserData;
 
   /**
    * Constructor for the Monster Class
@@ -79,30 +79,12 @@ export default class Monster extends NPC {
   }
 
   /**
-   * Get the monster's stats
+   * Get the Monster's stats
    *
-   * @returns the monster's stats
+   * @returns the Monster's stats
    */
   public getMonsterStats(): UserData {
     return this.monsterStats;
-  }
-
-  /**
-   * Sets the base Y Position
-   *
-   * @param xPosition the x Position where the monster was standing
-   */
-  public setBaseXPos(xPosition: number): void {
-    this.baseXPos = xPosition;
-  }
-
-  /**
-   * Sets the base Y Position
-   *
-   * @param yPosition the y Position where the monster was standing
-   */
-  public setBaseYPos(yPosition: number): void {
-    this.baseYPos = yPosition;
   }
 
   /**
@@ -118,5 +100,23 @@ export default class Monster extends NPC {
     } else {
       this.monsterStats.setDEF(this.monsterStats.getDEF() + 1);
     }
+  }
+
+  /**
+   * Sets the Monster's base X Position
+   *
+   * @param xPosition the X Position where the monster was standing
+   */
+  public setBaseXPos(xPosition: number): void {
+    this.baseXPos = xPosition;
+  }
+
+  /**
+   * Sets the Monster's base Y Position
+   *
+   * @param yPosition the Y Position where the monster was standing
+   */
+  public setBaseYPos(yPosition: number): void {
+    this.baseYPos = yPosition;
   }
 }

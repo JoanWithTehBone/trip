@@ -3,16 +3,16 @@ import GameOverScene from './GameOverScene.js';
 
 export default class GameLose extends GameOverScene {
   /**
-   * Creates a new instance of this class
+   * Constructor for the GameLose scene
    *
-   * @param game the game object where this scene will be a part of
+   * @param game the game object which this scene will be a part of
    */
   public constructor(game: Game) {
     super(game);
   }
 
   /**
-   * Draw the game so the player can see what happened
+   * Draw the specific scene to the canvas
    */
   public render(): void {
     // Clear the screen

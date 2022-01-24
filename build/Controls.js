@@ -20,9 +20,6 @@ export default class Controls extends DisplayItem {
     setDisplay(active) {
         this.display = active;
     }
-    getDisplay() {
-        return this.display;
-    }
     getTextXPos() {
         return this.textXPos;
     }

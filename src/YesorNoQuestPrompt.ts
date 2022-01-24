@@ -5,7 +5,7 @@ export default class YesorNoQuestPrompt extends DisplayItem {
   private currentPrompt: HTMLImageElement;
 
   /**
-   * Constructing the dialogue box
+   * Constructor for the Yes/No prompt box
    *
    * @param game the game
    * @param xPos the x position
@@ -22,21 +22,13 @@ export default class YesorNoQuestPrompt extends DisplayItem {
   /**
    * Method to draw the whole Box to the screen.
    *
-   * TODO => Create an custom version of the textbox:
-   *  - Add which NPC is talking
-   *  - Add Image to the left
-   *  - Change dimensions on the text to center it better
-   *  - Add continue prompt to show how to continue.
-   *
    * @param ctx CanvasRenderingContext
    */
   public drawBox(ctx: CanvasRenderingContext2D): void {
     if (this.display) {
       ctx.clearRect(this.xPosition, this.yPosition, 600, 250);
       // Drawing a white rectangle on the canvas background
-      // ctx.fillRect(this.xPosition, this.yPosition, 600, 250);
       ctx.drawImage(this.currentPrompt, this.xPosition, this.yPosition);
-      // console.log(this.npc.getProgression());
     }
   }
 

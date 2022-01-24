@@ -19,19 +19,23 @@ import GameItem from './GameItem.js';
 
 export default class Level extends Scene {
   // Player
-  private player: Player;
-
-  private slime: Slime;
-
-  private fatcat: Fatcat;
+  private controls: Controls;
 
   private dialogueBox: DialogueBox;
 
+  private fatcat: Fatcat;
+
+  private keyCommands: KeyCommands;
+
+  private player: Player;
+
+  private questBoard: GameItem;
+
   private questBox: QuestBox;
 
-  private yesOrNoQuestPrompt: YesorNoQuestPrompt;
+  private slime: Slime;
 
-  private controls: Controls;
+  private yesOrNoQuestPrompt: YesorNoQuestPrompt;
 
   // NPCS
   private baker: Baker;
@@ -40,16 +44,12 @@ export default class Level extends Scene {
 
   private hunter: Hunter;
 
-  private npcs: NPC[];
-
   private flyingDragonBaby: FlyingDragonBaby;
 
-  private keyCommands: KeyCommands;
-
-  private questBoard: GameItem;
+  private npcs: NPC[];
 
   /**
-   * Creates a new instance of this class
+   * Constructor for the Level class
    *
    * @param game the game object where this scene will be a part of
    */
@@ -132,7 +132,6 @@ export default class Level extends Scene {
    *   current scene, just return `null`
    */
   public update(): Scene {
-    // this.player.onFrameStartListener();
     this.keyCommands.getKeys().onFrameStart();
     // moves the dragonbaby across the screen
     this.flyingDragonBaby.move();
@@ -145,11 +144,6 @@ export default class Level extends Scene {
       this.player.interactWithVillager(this.npcs);
       this.player.afterQuest(this.npcs, this.game);
       this.player.interactWithObject(this.questBoard);
-
-      // TODO: If we have the time, implement a prompt for both the cat and the slime. Until then,
-      // do not uncomment
-      // this.player.interactWithObject(this.fatcat);
-      // this.player.interactWithObject(this.slime);
     }
 
     // Checks if the player continues the conversation and gets rid of the dialogue box
@@ -163,7 +157,7 @@ export default class Level extends Scene {
       this.controls.setDisplay(true);
     }
 
-    // If you touch the questboard and press Y, go to the monster fight
+    // If you collide with the questboard and press Y, go to the monster fight
     if (this.keyCommands.isResponding()) {
       if (this.player.collidesWith(this.questBoard)) {
         return new MonsterFight(this.game, this.player, this.npcs);
@@ -181,23 +175,6 @@ export default class Level extends Scene {
       this.player.questAnswer(this.npcs);
     }
 
-    // Create an answer for the quest CHECK
-    // Create a function that returns the correct answer
-    // if (this.isRightAnswer()) {
-    //   this.dialogueBox.setDialogueList(this.baker.getQuestResponseText());
-    //   this.dialogueBox.setCurrentDialogue(1);
-    //   this.questBox.setDisplay(false);
-    //   this.dialogueBox.setDisplay(true);
-    // } else {
-    //   this.dialogueBox.setDialogueList(this.baker.getQuestResponseText());
-    //   this.dialogueBox.setCurrentDialogue(0);
-    //   this.questBox.setDisplay(false);
-    //   this.dialogueBox.setDisplay(true);
-    // }
-    // Then loop through all the answers and check if it was pressed.
-    // If answer is correct, continue
-    // If answer is wrong, redo the quest
-
     if (this.keyCommands.openControls()) {
       if (this.controls.getDisplay()) {
         this.controls.setDisplay(false);
@@ -205,15 +182,12 @@ export default class Level extends Scene {
         this.controls.setDisplay(true);
       }
     }
-    // if (this.controls.getDisplay() && (this.player.openControls())) {
-    //   this.controls.setDisplay(false);
-    // }
 
     return null;
   }
 
   /**
-   * Draw the game so the player can see what happened
+   * Draw the game to the canvas
    */
   public render(): void {
     // Clear the screen
@@ -224,12 +198,14 @@ export default class Level extends Scene {
     this.blacksmith.draw(this.game.ctx);
     this.hunter.draw(this.game.ctx);
 
+    // Draw the sprites/interactable objects to the canvas
     this.fatcat.getSprite().drawSprite(this.game.ctx, this.fatcat);
     this.slime.getSprite().drawSprite(this.game.ctx, this.slime);
     this.player.getSprite().drawSprite(this.game.ctx, this.player);
     this.flyingDragonBaby.draw(this.game.ctx);
     this.questBoard.draw(this.game.ctx);
 
+    // Draw the dialogue boxes to the canvas
     this.questBox.drawBox(this.game.ctx);
     this.dialogueBox.drawBox(this.game.ctx);
     this.yesOrNoQuestPrompt.drawBox(this.game.ctx);
@@ -237,9 +213,9 @@ export default class Level extends Scene {
   }
 
   /**
-   * Get the player details
+   * Get the Player's details
    *
-   * @returns the player details
+   * @returns the Player's details
    */
   public getPlayer(): Player {
     return this.player;

@@ -9,7 +9,7 @@ export default class Start extends Scene {
   private keyboard: KeyListener;
 
   /**
-   * Creates a new instance of this class
+   * Constructing the Start scene class
    *
    * @param game the game object where this scene will be a part of
    */
@@ -51,7 +51,7 @@ export default class Start extends Scene {
   }
 
   /**
-   * Draw the game so the player can see what happened
+   * Draw the game to the screen
    */
   public render(): void {
     // Clear the screen

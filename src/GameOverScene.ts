@@ -4,14 +4,14 @@ import Scene from './Scene.js';
 import Start from './Start.js';
 
 export default abstract class GameOverScene extends Scene {
-  private shouldStart: boolean;
-
   private keyboard: KeyListener;
 
+  private shouldStart: boolean;
+
   /**
-   * Creates a new instance of this class
+   * Constructor for the GameOverScene abstract class
    *
-   * @param game the game object where this scene will be a part of
+   * @param game the game object which this scene will be a part of
    */
   public constructor(game: Game) {
     super(game);
@@ -50,7 +50,7 @@ export default abstract class GameOverScene extends Scene {
   }
 
   /**
-   * Draw the game so the player can see what happened
+   * Draw the specific scene to the canvas
    */
   public abstract render(): void ;
 }

@@ -5,11 +5,11 @@ export default class QuestBox extends DisplayItem {
   private questList: HTMLImageElement;
 
   /**
-   * Constructing the dialogue box
+   * Constructing the Quest Box
    *
    * @param game the game
-   * @param xPos the x position
-   * @param yPos the y position
+   * @param xPos the X position
+   * @param yPos the Y position
    */
   constructor(game: Game, xPos: number, yPos: number) {
     super('./assets/img/questbox.png', game, xPos, yPos);
@@ -22,28 +22,19 @@ export default class QuestBox extends DisplayItem {
   /**
    * Method to draw the whole Box to the screen.
    *
-   * TODO => Create an custom version of the textbox:
-   *  - Add which NPC is talking
-   *  - Add Image to the left
-   *  - Change dimensions on the text to center it better
-   *  - Add continue prompt to show how to continue.
-   *
    * @param ctx CanvasRenderingContext
    */
   public drawBox(ctx: CanvasRenderingContext2D): void {
     if (this.display) {
       ctx.clearRect(this.xPosition, this.yPosition, 1000, 550);
       ctx.drawImage(this.questList, this.xPosition, this.yPosition);
-      // Drawing a white rectangle on the canvas background
-      // ctx.fillRect(this.xPosition, this.yPosition, 1000, 550);
-      // console.log(this.npc.getProgression());
     }
   }
 
   /**
-   * Gets the yPosition of the text inside of the textbox
+   * Gets the Y-position of the text inside of the textbox
    *
-   * @returns yPosition of the text inside of the textbox
+   * @returns Y-position of the text inside of the textbox
    */
   public getTextYPos(): number {
     return this.textYPos;

@@ -3,7 +3,7 @@ import NPC from './NPC.js';
 
 export default class Hunter extends NPC {
   /**
-   * Constructor for the hunter class
+   * Constructor for the Hunter class
    *
    * @param canvas the game canvas
    */

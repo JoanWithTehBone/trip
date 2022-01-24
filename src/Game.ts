@@ -13,10 +13,9 @@ export default class Game {
   private gameLoop: GameLoop;
 
   /**
-   * Initialize the game
+   * Constructor for the Game
    *
-   * @param canvas - The canvas element that the game
-   * should be rendered upon
+   * @param canvas - The game's canvas (the browser screen)
    */
   public constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -31,9 +30,9 @@ export default class Game {
   }
 
   /**
-   * getUser
+   * Get the player's user data
    *
-   * @returns the user data
+   * @returns the player's user data
    */
   public getPlayerStats(): UserData {
     return this.playerStats;
@@ -44,11 +43,11 @@ export default class Game {
    */
   public reset(): void {
     // Initialising the player's stats
-    this.playerStats = new UserData(1, 3, 2);
+    this.playerStats = new UserData(15, 3, 2);
   }
 
   /**
-   * Writes text to the canvas
+   * Method to write text to the canvas
    *
    * @param text - Text to write
    * @param fontSize - Font size in pixels
@@ -72,7 +71,7 @@ export default class Game {
   }
 
   /**
-   * Method to load an image
+   * Method to create an image element
    *
    * @param source the source
    * @returns HTMLImageElement - returns an image
@@ -84,7 +83,8 @@ export default class Game {
   }
 
   /**
-   * Returns a random number between min and max
+   * Random number genenrator to return a random number between the
+   * specified min and max values
    *
    * @param min - lower boundary
    * @param max - upper boundary

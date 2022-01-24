@@ -3,7 +3,7 @@ import Game from './Game.js';
 
 export default class Controls extends DisplayItem {
   /**
-   * Constructing the dialogue box
+   * Constructor for the dialogue box
    *
    * @param game the game
    * @param xPos the x position
@@ -32,7 +32,6 @@ export default class Controls extends DisplayItem {
       // Draw the controls prompt to the screen
       const controlImage = Game.loadNewImage('./assets/img/controls.png');
       ctx.drawImage(controlImage, this.xPosition, this.yPosition);
-      // console.log(this.npc.getProgression());
     }
   }
 
@@ -43,15 +42,6 @@ export default class Controls extends DisplayItem {
    */
   public setDisplay(active: boolean): void {
     this.display = active;
-  }
-
-  /**
-   * Get display state
-   *
-   * @returns the display value [true or false]
-   */
-  public getDisplay(): boolean {
-    return this.display;
   }
 
   /**

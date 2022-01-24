@@ -9,7 +9,7 @@ export default class Story extends Scene {
   private shouldStart: boolean;
 
   /**
-   * Creates a new instance of this class
+   * Construct the Story scene class
    *
    * @param game the game object where this scene will be a part of
    */
@@ -50,7 +50,7 @@ export default class Story extends Scene {
   }
 
   /**
-   * Draw the game so the player can see what happened
+   * Draw the game to the screen
    */
   public render(): void {
     // Clear the screen

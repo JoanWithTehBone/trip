@@ -1,12 +1,12 @@
 import GameItem from './GameItem.js';
 export default class NPC extends GameItem {
-    name;
     completed;
-    rewardGiven;
-    progression;
     dialogue;
+    name;
+    progression;
     quest;
     questResponse;
+    rewardGiven;
     rightAnswer;
     user;
     constructor(imageSrc, maxX, maxY) {
@@ -28,14 +28,14 @@ export default class NPC extends GameItem {
     questCompleted() {
         return this.completed;
     }
+    progressFurther() {
+        this.progression += 1;
+    }
     getProgression() {
         return this.progression;
     }
     setProgression(input) {
         this.progression = input;
-    }
-    progressFurther() {
-        this.progression += 1;
     }
     getQuestResponseImage() {
         return this.questResponse;

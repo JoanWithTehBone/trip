@@ -2,7 +2,6 @@ import DialogueBox from './DialogueBox.js';
 import Game from './Game.js';
 import GameLose from './GameLose.js';
 import GameWonFight from './GameWonFight.js';
-import GameWonTalk from './GameWonTalk.js';
 import KeyCommands from './KeyCommands.js';
 import Monster from './Monster.js';
 import NPC from './NPC.js';
@@ -11,27 +10,27 @@ import Scene from './Scene.js';
 import UserData from './UserData.js';
 
 export default class MonsterFight extends Scene {
-  private player: Player;
+  private dialogueBox: DialogueBox;
+
+  private keyCommands: KeyCommands;
 
   private monster: Monster;
-
-  private user: UserData;
-
-  private dialogueBox: DialogueBox;
 
   private newXPos: number;
 
   private newYPos: number;
 
+  private player: Player;
+
+  private user: UserData;
+
   // Variables for the chance of the monster talking
-
-  private talkChance: number;
-
-  private offChance: number;
 
   private doesMonsterTalk: boolean;
 
-  private keyCommands: KeyCommands;
+  private offChance: number;
+
+  private talkChance: number;
 
   /**
    * Constructor for the Monster Fight scene
@@ -77,7 +76,7 @@ export default class MonsterFight extends Scene {
   }
 
   /**
-   * Changes the position of the monster to fight.
+   * Method to move the Monster to a new location on the canvas after being hit
    */
   public changeMonsterPos(): void {
     this.newXPos = Game.randomNumber(
@@ -92,7 +91,7 @@ export default class MonsterFight extends Scene {
   }
 
   /**
-   * Method to calculate the player's damage to the monster
+   * Method to calculate the Player's damage to the Monster
    */
   public playerFights(): void {
     this.monster.getMonsterStats().setHP(this.monster.getMonsterStats().getHP()
@@ -101,7 +100,7 @@ export default class MonsterFight extends Scene {
   }
 
   /**
-   * Method to calculate the monster's damage to the player
+   * Method to calculate the Monster's damage to the Player
    */
   public monsterFights(): void {
     if (this.monster.getMonsterStats().getHP() > 0) {
@@ -129,11 +128,8 @@ export default class MonsterFight extends Scene {
    * @param yPos Yposition of the targeted spot
    */
   public animateMovement(xPos: number, yPos: number): void {
-    // Should monster move? Yes
     this.monster.move(xPos, yPos);
     this.monster.draw(this.game.ctx);
-
-    // If at it's new location, stop moving
   }
 
   /**
@@ -192,9 +188,6 @@ export default class MonsterFight extends Scene {
       console.log('Ok');
     }
 
-    if (this.monster.getProgression() >= 6) {
-      return new GameWonTalk(this.game);
-    }
     // Move to level clear screen
     if (this.hasWon()) {
       return new GameWonFight(this.game);
@@ -208,25 +201,24 @@ export default class MonsterFight extends Scene {
   }
 
   /**
-   * Check if the player has beaten the monster
+   * Check if the Player has beaten the Monster
    *
-   * @returns True/false
+   * @returns True/false if the monster is alive/dead
    */
   private hasWon(): boolean {
     return this.monster.getMonsterStats().getHP() <= 0;
   }
 
   /**
-   * Check if the monster has beaten the player
+   * Check if the Monster has beaten the Player
    *
-   * @returns True/false
+   * @returns True/false if the player is alive/dead
    */
   private hasLost(): boolean {
     return this.user.getHP() <= 0;
   }
 
   private showFightProgress() {
-    // const playerRect = this.game.ctx.fillRect(40, 15, 160, 200);
     this.game.ctx.fillStyle = 'white';
     this.game.ctx.fillRect(35, 15, 170, 200);
     // Show player stats
@@ -247,12 +239,11 @@ export default class MonsterFight extends Scene {
   }
 
   /**
-   * Draw the game so the player can see what happened
+   * Draw the game details to the canvas
    */
   public render(): void {
     this.game.ctx.clearRect(0, 0, this.game.canvas.width, this.game.canvas.height);
 
-    // this.monster.draw(this.game.ctx);
     this.animateMovement(this.newXPos, this.newYPos);
     this.player.getSprite().drawSprite(this.game.ctx, this.player);
 
