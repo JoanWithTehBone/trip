@@ -30,7 +30,7 @@ export default class UserData {
   }
 
   /**
-   * getLevel
+   * Get the current level
    *
    * @returns the current level
    */
@@ -39,7 +39,7 @@ export default class UserData {
   }
 
   /**
-   * increaseLevel
+   * Increase the level value
    */
   public increaseLevel(): void {
     this.level += 1;
