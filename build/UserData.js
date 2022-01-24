@@ -9,12 +9,6 @@ export default class UserData {
         this.atk = attack;
         this.def = defense;
     }
-    getLevel() {
-        return this.level;
-    }
-    increaseLevel() {
-        this.level += 1;
-    }
     getHP() {
         return this.hp;
     }

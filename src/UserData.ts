@@ -30,22 +30,6 @@ export default class UserData {
   }
 
   /**
-   * getLevel
-   *
-   * @returns the current level
-   */
-  public getLevel(): number {
-    return this.level;
-  }
-
-  /**
-   * increaseLevel
-   */
-  public increaseLevel(): void {
-    this.level += 1;
-  }
-
-  /**
    * Get the Player/Monster Health
    *
    * @returns the health
