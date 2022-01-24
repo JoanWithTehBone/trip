@@ -16,6 +16,7 @@ export default class LevelUp extends Scene {
     }
     update() {
         if (this.shouldStart) {
+            this.game.getPlayerStats().increaseLevel();
             return new Level(this.game);
         }
         return null;
